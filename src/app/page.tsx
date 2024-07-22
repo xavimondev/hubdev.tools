@@ -1,3 +1,5 @@
-export default function Home() {
-  return <main>Nice</main>
+import { Home } from '@/components/home'
+
+export default function MainPage() {
+  return <Home />
 }
