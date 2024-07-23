@@ -1,13 +1,17 @@
 import { SVGProps } from 'react'
 import Link from 'next/link'
-import { RESOURCES } from '@/resources'
-import { extractDomain } from '@/utils'
-import { Link2Icon, PictureInPicture } from 'lucide-react'
+import { PictureInPicture } from 'lucide-react'
 
-import { Badge } from '@/components/ui/badge'
+import { Resource } from '@/types/resource'
+
+import { ListResource } from '@/components/list-resource'
 import { Toolbar } from '@/components/toolbar'
 
-export function Home() {
+type HomeProps = {
+  data: Resource[]
+}
+
+export function Home({ data }: HomeProps) {
   return (
     <div className='flex flex-col min-h-screen container'>
       <header className='bg-background shadow-sm sticky top-0 z-40'>
@@ -42,42 +46,7 @@ export function Home() {
           </div>
         </div>
         <div className='bg-background rounded-lg shadow-sm border mt-4'>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6'>
-            {RESOURCES.map(({ id, title, url, summary, urlImage, category }) => {
-              return (
-                <Link
-                  className='rounded-lg shadow-sm overflow-hidden border border-neutral-900 bg-[#101010] hover:bg-[#191919] transition-colors duration-300 ease-in-out'
-                  key={id}
-                  href={url}
-                  target='_blank'
-                  prefetch={false}
-                >
-                  <img
-                    src='https://res.cloudinary.com/di19fkmzs/image/upload/v1721531374/nextui_r5rslj.webp'
-                    width={400}
-                    height={225}
-                    alt='Resource Image'
-                    className='w-full h-40 object-cover'
-                  />
-                  <div className='p-4'>
-                    <h3 className='text-lg font-semibold text-balance'>{title}</h3>
-                    <div className='flex items-center justify-between mt-1'>
-                      <span className='text-xs text-blue-200 font-semibold flex items-center'>
-                        <Link2Icon className='size-4 mr-2' />
-                        <span className=''>{extractDomain(url)}</span>
-                      </span>
-                      <Badge variant='secondary' className='text-xs'>
-                        {category}
-                      </Badge>
-                    </div>
-                    <p className='text-sm text-muted-foreground line-clamp-4 mt-2 text-pretty'>
-                      {summary}
-                    </p>
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
+          <ListResource data={data} />
         </div>
       </main>
       <Toolbar />
