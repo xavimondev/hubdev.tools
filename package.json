@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint -- --fix",
-    "prettier": "npx prettier . --write"
+    "prettier": "npx prettier . --write",
+    "supabase:pull": "npx supabase db pull"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "1.1.0",
@@ -17,6 +18,7 @@
     "@radix-ui/react-separator": "1.1.0",
     "@radix-ui/react-slot": "1.1.0",
     "@radix-ui/react-tooltip": "1.1.2",
+    "@supabase/supabase-js": "2.44.4",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
     "lucide-react": "0.412.0",
