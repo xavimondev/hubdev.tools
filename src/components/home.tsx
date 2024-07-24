@@ -1,17 +1,59 @@
-import { SVGProps } from 'react'
+'use client'
+
+import { SVGProps, useRef, useState } from 'react'
 import Link from 'next/link'
-import { PictureInPicture } from 'lucide-react'
+import { listResources } from '@/actions/resources/'
+import { PictureInPicture, RefreshCcwIcon } from 'lucide-react'
 
 import { Resource } from '@/types/resource'
 
+import { Button } from '@/components/ui/button'
 import { ListResource } from '@/components/list-resource'
 import { Toolbar } from '@/components/toolbar'
 
 type HomeProps = {
   data: Resource[]
 }
+const NUMBER_OF_GENERATIONS_TO_FETCH = 11
 
 export function Home({ data }: HomeProps) {
+  const [resources, setListResources] = useState<Resource[]>(data)
+  const isLastRequest = useRef(false)
+
+  // const [resources, setResources] = useUIState()
+  // const [aiState] = useAIState()
+  // const { submit } = useActions()
+  // const totalData = aiState.reduce((acc, curr) => acc + JSON.parse(curr.content).data.length, 0)
+  // console.log(totalData)
+
+  const loadMoreResources = async () => {
+    if (isLastRequest.current) return
+
+    const newResources = await listResources({
+      from: resources.length,
+      to: resources.length + NUMBER_OF_GENERATIONS_TO_FETCH
+    })
+
+    if (!newResources) return
+
+    if (newResources.length > 0) {
+      const formatedData: Resource[] = newResources.map((item) => {
+        const { categories, ...resource } = item
+        const { name } = categories ?? {}
+        return {
+          ...resource,
+          category: name ?? ''
+        }
+      })
+
+      setListResources((data) => [...data, ...formatedData])
+    }
+
+    if (newResources.length < NUMBER_OF_GENERATIONS_TO_FETCH + 1) {
+      isLastRequest.current = true
+    }
+  }
+
   return (
     <div className='flex flex-col min-h-screen container'>
       <header className='bg-background shadow-sm sticky top-0 z-40'>
@@ -46,7 +88,31 @@ export function Home({ data }: HomeProps) {
           </div>
         </div>
         <div className='bg-background rounded-lg shadow-sm border mt-4'>
-          <ListResource data={data} />
+          {/* {Array.isArray(resources) ? (
+            resources.map((resource: UIState) => <div key={resource.id}>{resource.display}</div>)
+          ) : (
+            <>{resources.display}</>
+          )} */}
+          <ListResource data={resources} setListResources={setListResources} />
+          <Button
+            className='mt-2 rounded-full mx-auto flex justify-center'
+            onClick={loadMoreResources}
+          >
+            <RefreshCcwIcon className='size-5 mr-2' />
+            <span>Load more resources</span>
+          </Button>
+          {/* <Button
+            className='mt-2 rounded-full mx-auto flex justify-center'
+            onClick={async () => {
+              const response = await submit(
+                `Load more resources from ${totalData} to ${totalData + NUMBER_OF_GENERATIONS_TO_FETCH}`
+              )
+              setResources((currentConversation: UIState[]) => [...currentConversation, response])
+            }}
+          >
+            <RefreshCcwIcon className='size-5 mr-2' />
+            <span>Load more resources</span>
+          </Button> */}
         </div>
       </main>
       <Toolbar />

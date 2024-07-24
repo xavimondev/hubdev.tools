@@ -1,16 +1,11 @@
-'use client'
-
-import { useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { extractDomain } from '@/utils'
-import { Link2Icon, RefreshCcwIcon } from 'lucide-react'
+import { Link2Icon } from 'lucide-react'
 
 import { Resource } from '@/types/resource'
 
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { listResources } from '@/app/actions/resources/resources-action'
 
 function ResourceItem({ id, title, url, summary, image, category }: Resource) {
   return (
@@ -47,46 +42,14 @@ function ResourceItem({ id, title, url, summary, image, category }: Resource) {
 
 type ListResourceProps = {
   data: Resource[]
+  setListResources: React.Dispatch<React.SetStateAction<Resource[]>>
 }
 
-const NUMBER_OF_GENERATIONS_TO_FETCH = 11
-
 export function ListResource({ data }: ListResourceProps) {
-  const isLastRequest = useRef(false)
-  const [resources, setResources] = useState<Resource[]>(data)
-
-  const loadMoreResources = async () => {
-    if (isLastRequest.current) return
-
-    const newResources = await listResources({
-      from: resources.length,
-      to: resources.length + NUMBER_OF_GENERATIONS_TO_FETCH
-    })
-
-    if (!newResources) return
-
-    if (newResources.length > 0) {
-      const formatedData: Resource[] = newResources.map((item) => {
-        const { categories, ...resource } = item
-        const { name } = categories ?? {}
-        return {
-          ...resource,
-          category: name ?? ''
-        }
-      })
-
-      setResources((data) => [...data, ...formatedData])
-    }
-
-    if (newResources.length < NUMBER_OF_GENERATIONS_TO_FETCH + 1) {
-      isLastRequest.current = true
-    }
-  }
-
   return (
     <>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6'>
-        {resources.map(({ id, title, url, summary, image, category }) => {
+        {data.map(({ id, title, url, summary, image, category }) => {
           return (
             <ResourceItem
               key={id}
@@ -100,10 +63,6 @@ export function ListResource({ data }: ListResourceProps) {
           )
         })}
       </div>
-      <Button className='mt-2 rounded-full mx-auto flex justify-center' onClick={loadMoreResources}>
-        <RefreshCcwIcon className='size-5 mr-2' />
-        <span>Load more resources</span>
-      </Button>
     </>
   )
 }
