@@ -3,6 +3,7 @@
 import { SVGProps, useRef, useState } from 'react'
 import Link from 'next/link'
 import { listResources } from '@/actions/resources/'
+import { useMicVAD, utils } from '@ricky0123/vad-react'
 import { PictureInPicture, RefreshCcwIcon } from 'lucide-react'
 
 import { Resource } from '@/types/resource'
@@ -14,17 +15,74 @@ import { Toolbar } from '@/components/toolbar'
 type HomeProps = {
   data: Resource[]
 }
+
 const NUMBER_OF_GENERATIONS_TO_FETCH = 11
 
 export function Home({ data }: HomeProps) {
   const [resources, setListResources] = useState<Resource[]>(data)
   const isLastRequest = useRef(false)
 
-  // const [resources, setResources] = useUIState()
-  // const [aiState] = useAIState()
-  // const { submit } = useActions()
-  // const totalData = aiState.reduce((acc, curr) => acc + JSON.parse(curr.content).data.length, 0)
-  // console.log(totalData)
+  const vad = useMicVAD({
+    startOnLoad: true,
+    onSpeechEnd: async (audio) => {
+      const wav = utils.encodeWAV(audio)
+      const blob = new Blob([wav], { type: 'audio/wav' })
+      const formData = new FormData()
+      formData.append('input', blob, 'audio.wav')
+      const response = await fetch('/api/search', {
+        method: 'POST',
+        body: formData
+      })
+      const data = await response.blob()
+      const auu = new Audio(URL.createObjectURL(data))
+      auu.play()
+
+      const transcript = decodeURIComponent(response.headers.get('X-Transcript') || '')
+      const results = decodeURIComponent(response.headers.get('X-Data') || '')
+
+      if (!response.ok || !transcript || !data || !response.body) {
+        if (response.status === 429) {
+          console.error('Too many requests. Please try again later.')
+        } else {
+          console.error((await response.text()) || 'An error occurred.')
+        }
+        return
+      }
+
+      const resourcesFromSearch = JSON.parse(results)
+      // TODO: maybe display a notification
+      if (resourcesFromSearch.length === 0) return
+
+      setListResources(resourcesFromSearch)
+      console.log(transcript)
+
+      // TODO: validate mozilla
+      // player.play(response.body, () => {
+      //   const isFirefox = navigator.userAgent.includes('Firefox')
+      //   if (isFirefox) vad.start()
+      // })
+
+      // const isFirefox = navigator.userAgent.includes('Firefox')
+      // if (isFirefox) vad.pause()
+    },
+    workletURL: '/vad.worklet.bundle.min.js',
+    modelURL: '/silero_vad.onnx',
+    positiveSpeechThreshold: 0.6,
+    minSpeechFrames: 4,
+    ortConfig(ort) {
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+
+      ort.env.wasm = {
+        wasmPaths: {
+          'ort-wasm-simd-threaded.wasm': '/ort-wasm-simd-threaded.wasm',
+          'ort-wasm-simd.wasm': '/ort-wasm-simd.wasm',
+          'ort-wasm.wasm': '/ort-wasm.wasm',
+          'ort-wasm-threaded.wasm': '/ort-wasm-threaded.wasm'
+        },
+        numThreads: isSafari ? 1 : 4
+      }
+    }
+  })
 
   const loadMoreResources = async () => {
     if (isLastRequest.current) return
