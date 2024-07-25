@@ -29,24 +29,26 @@ const AISchema = z.object({
 export async function POST(req: Request) {
   try {
     const formData = await req.formData()
-    const input = formData.get('input') as File
-    //   const { data, success } = schema.safeParse(formData)
-    //   console.log(`Data from client:`)
-    //   console.log(data)
-    //   if (!success) return new Response('Invalid request', { status: 400 })
+    const input = formData.get('input')
+    let requirement: string | null = ''
 
-    const requirement = await getTranscript(input)
-    if (!requirement) return new Response('Invalid audio', { status: 400 })
-    console.log(requirement)
+    if (typeof input === 'string') {
+      requirement = input
+    } else if (input instanceof File) {
+      requirement = await getTranscript(input)
+      if (!requirement) return new Response('Invalid audio', { status: 400 })
+    }
+
+    // console.log(requirement)
 
     const { text: language } = await generateText({
       model: groqModel('llama3-8b-8192'),
-      prompt: `Given the following script: "${requirement}"
-      Tell me the language.
-      Return only the language.`
+      prompt: `What language is this script written in: "${requirement}".
+      Please, return only the language.`
     })
     // console.log(`Language: ${language}`)
 
+    // TODO: think to change to groq- See https://sdk.vercel.ai/docs/guides/llama-3_1#generating-structured-data
     const ai = await generateObject({
       model: openai('gpt-4o-mini'),
       schema: AISchema,
@@ -59,8 +61,8 @@ export async function POST(req: Request) {
 
     1.Translate the developer's requirement to English, if it is in another language.
     2.Improve the clarity of the requirement to ensure it makes sense.
-    3.Determine the number of resources the user is asking for. If not specified set the limit to 10.
-    4.If the number of resources is greather than 15, set the limit to 10.
+    3.Determine the number of resources the user is asking for. If not specified set the limit to 12.
+    4.If the number of resources is greather than 12, set the limit to 12.
     5.The summary should be in 15 words or less.
     6.Don't start the summary with "the requirement", just go straight to the summary.
     7.You do not have access to up-to-date information, so you should not provide real-time data.
@@ -89,15 +91,13 @@ export async function POST(req: Request) {
 
     const { text: summaryFromAssistant } = await generateText({
       model: groqModel('llama3-8b-8192'),
-      prompt: `You are a friendly and engaging voice assistant. Your task is to narrate in ${language} the following summary of resources in a way that is informative yet conversational. 
-      Aim to make the narration sound like you are commenting on the resources found, rather than just reading them out. 
-      Make sure to mention the total number of resources at the beginning and keep the tone natural and approachable. 
+      prompt: `You are a friendly and engaging voice assistant. Your task is to narrate in ${language} the following summary of resources in a way that is informative yet conversational.
+      Aim to make the narration sound like you are commenting on the resources found, rather than just reading them out.
+      Make sure to mention the total number of resources at the beginning and keep the tone natural and approachable.
       Each description should be concise, with a maximum of 20 words.
       Additionally, the summary should be generated in the language the user has requested. Here is the summary of the resources:
       ${responseSummary}`
     })
-
-    // console.log(`Summary from groq: ${summaryFromAssistant}`)
 
     //TODO: THINK TO STREAM THE AUDIO
     const response = await fetch(
@@ -119,6 +119,11 @@ export async function POST(req: Request) {
         })
       }
     )
+    if (!response.ok) {
+      console.log(response.status)
+      console.log(response.statusText)
+      return new Response('Invalid audio', { status: 400 })
+    }
 
     const data = await response.blob()
 
@@ -129,7 +134,6 @@ export async function POST(req: Request) {
         'Content-Type': 'audio/mpeg'
       }
     })
-    // return NextResponse.json({ data: ['cool'] })
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })
