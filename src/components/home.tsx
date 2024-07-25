@@ -23,7 +23,7 @@ export function Home({ data }: HomeProps) {
   const isLastRequest = useRef(false)
 
   const vad = useMicVAD({
-    startOnLoad: true,
+    startOnLoad: false,
     onSpeechEnd: async (audio) => {
       const wav = utils.encodeWAV(audio)
       const blob = new Blob([wav], { type: 'audio/wav' })
@@ -34,8 +34,6 @@ export function Home({ data }: HomeProps) {
         body: formData
       })
       const data = await response.blob()
-      const auu = new Audio(URL.createObjectURL(data))
-      auu.play()
 
       const transcript = decodeURIComponent(response.headers.get('X-Transcript') || '')
       const results = decodeURIComponent(response.headers.get('X-Data') || '')
@@ -48,6 +46,9 @@ export function Home({ data }: HomeProps) {
         }
         return
       }
+
+      const auu = new Audio(URL.createObjectURL(data))
+      auu.play()
 
       const resourcesFromSearch = JSON.parse(results)
       // TODO: maybe display a notification
@@ -83,7 +84,8 @@ export function Home({ data }: HomeProps) {
       }
     }
   })
-
+  // TODO: check when user is talking and displays some UI effects: use vad.
+  // Besides, play the audio programatically
   const loadMoreResources = async () => {
     if (isLastRequest.current) return
 
@@ -146,11 +148,6 @@ export function Home({ data }: HomeProps) {
           </div>
         </div>
         <div className='bg-background rounded-lg shadow-sm border mt-4'>
-          {/* {Array.isArray(resources) ? (
-            resources.map((resource: UIState) => <div key={resource.id}>{resource.display}</div>)
-          ) : (
-            <>{resources.display}</>
-          )} */}
           <ListResource data={resources} setListResources={setListResources} />
           <Button
             className='mt-2 rounded-full mx-auto flex justify-center'
@@ -159,21 +156,9 @@ export function Home({ data }: HomeProps) {
             <RefreshCcwIcon className='size-5 mr-2' />
             <span>Load more resources</span>
           </Button>
-          {/* <Button
-            className='mt-2 rounded-full mx-auto flex justify-center'
-            onClick={async () => {
-              const response = await submit(
-                `Load more resources from ${totalData} to ${totalData + NUMBER_OF_GENERATIONS_TO_FETCH}`
-              )
-              setResources((currentConversation: UIState[]) => [...currentConversation, response])
-            }}
-          >
-            <RefreshCcwIcon className='size-5 mr-2' />
-            <span>Load more resources</span>
-          </Button> */}
         </div>
       </main>
-      <Toolbar />
+      <Toolbar setListResources={setListResources} />
       {/* <footer className='bg-background border-t shadow-sm fixed bottom-0 w-full'></footer> */}
     </div>
   )
