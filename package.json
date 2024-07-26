@@ -34,6 +34,7 @@
     "react": "18",
     "react-dom": "18",
     "tailwind-merge": "2.4.0",
+    "tailwind-scrollbar-hide": "1.1.7",
     "tailwindcss-animate": "1.0.7",
     "zod": "3.23.8",
     "zod-form-data": "2.0.2"

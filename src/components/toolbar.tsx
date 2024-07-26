@@ -1,8 +1,7 @@
 'use client'
 
 import { Dispatch, SetStateAction } from 'react'
-import { CATEGORIES } from '@/categories'
-import { ArrowRightIcon, BrainIcon, ListIcon, Mic2Icon } from 'lucide-react'
+import { ArrowRightIcon, BrainIcon, Mic2Icon } from 'lucide-react'
 
 import { Resource } from '@/types/resource'
 
@@ -10,12 +9,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components//ui/dropdown-menu'
 
 type ToolbarProps = {
   setListResources: Dispatch<SetStateAction<Resource[]>>
@@ -97,30 +90,6 @@ export function Toolbar({ setListResources }: ToolbarProps) {
             </Button>
           </div>
         </form>
-        <Separator orientation='vertical' className='h-8 !mx-2 border-r border-[#444]' />
-        <DropdownMenu>
-          <TooltipProvider delayDuration={200}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <DropdownMenuTrigger asChild>
-                  <Button variant='ghost' size='icon' className='bg-transparent rounded-full'>
-                    <ListIcon className='size-5 text-white' />
-                    <span className='sr-only'>Categories</span>
-                  </Button>
-                </DropdownMenuTrigger>
-              </TooltipTrigger>
-              <TooltipContent>Categories</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <DropdownMenuContent align='start'>
-            {CATEGORIES.map((category) => (
-              <DropdownMenuItem key={category.slug} className='flex items-center gap-3'>
-                <category.icon className='size-4' />
-                <span>{category.nombre}</span>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
     </div>
   )

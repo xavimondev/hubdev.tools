@@ -11,6 +11,7 @@ import { Resource } from '@/types/resource'
 
 import { Button } from '@/components/ui/button'
 import ListAlternative from '@/components/list-alternative'
+import { ListCategory } from '@/components/list-category'
 import { ListResource } from '@/components/list-resource'
 import { Toolbar } from '@/components/toolbar'
 
@@ -161,7 +162,7 @@ export function Home({ data }: HomeProps) {
   return (
     <div className='flex flex-col min-h-screen container'>
       <header className='bg-background shadow-sm sticky top-0 z-40'>
-        <div className='container flex items-center justify-between h-14 px-4 md:px-6'>
+        <div className='flex items-center justify-between h-14 px-4 md:px-6'>
           <div className='flex items-center justify-between w-full'>
             <Link href='/' className='flex items-center gap-2 font-semibold' prefetch={false}>
               <PictureInPicture className='size-6' />
@@ -179,30 +180,32 @@ export function Home({ data }: HomeProps) {
           </div>
         </div>
       </header>
-      <main className='flex-1 px-4 py-8 md:px-6 md:py-12'>
-        <div className='relative flex items-center h-56'>
-          <div className='absolute inset-0 bg-grid-white/10 bg-grid-16 [mask-image:linear-gradient(180deg,black,transparent)]'></div>
-          <div className='relative px-8 md:px-4'>
-            <h1 className='relative bg-gradient-to-br from-white to-white/50 bg-clip-text sm:text-xl text-2xl lg:text-5xl text-transparent text-balance font-bold'>
-              Resources
-            </h1>
-            <p className='mt-6 max-w-lg text-muted-foreground text-pretty text-base lg:text-xl'>
-              Discover an awesome list of resources for developers with cutting-edge AI features
-            </p>
+      <main className='flex-1 px-4 py-8 md:px-6 md:py-10'>
+        <ListCategory />
+        <div className='ml-0 md:ml-56'>
+          <div className='relative flex items-center h-56'>
+            <div className='absolute inset-0 bg-grid-white/10 bg-grid-16 [mask-image:linear-gradient(180deg,black,transparent)]'></div>
+            <div className='relative px-8 md:px-4'>
+              <h1 className='relative bg-gradient-to-br from-white to-white/50 bg-clip-text sm:text-xl text-2xl lg:text-5xl text-transparent text-balance font-bold'>
+                Resources
+              </h1>
+              <p className='mt-6 max-w-lg text-muted-foreground text-pretty text-base lg:text-xl'>
+                Discover an awesome list of resources for developers with cutting-edge AI features
+              </p>
+            </div>
           </div>
-        </div>
-
-        <div className='bg-background rounded-lg shadow-sm mt-4'>
-          <ListResource data={resources} setListResources={setListResources} />
-          {/* TODO: put this botton in the toolbar */}
-          <Button
-            className='mt-2 rounded-full mx-auto flex justify-center'
-            onClick={loadMoreResources}
-          >
-            <RefreshCcwIcon className='size-5 mr-2' />
-            <span>Load more resources</span>
-          </Button>
-          <ListAlternative alternatives={alternatives} isLoading={isLoadingAlternatives} />
+          <div className='bg-background rounded-lg shadow-sm mt-4'>
+            <ListResource data={resources} setListResources={setListResources} />
+            {/* TODO: put this botton in the toolbar */}
+            <Button
+              className='mt-2 rounded-full mx-auto flex justify-center'
+              onClick={loadMoreResources}
+            >
+              <RefreshCcwIcon className='size-5 mr-2' />
+              <span>Load more resources</span>
+            </Button>
+            <ListAlternative alternatives={alternatives} isLoading={isLoadingAlternatives} />
+          </div>
         </div>
       </main>
       <Toolbar setListResources={setListResources} />

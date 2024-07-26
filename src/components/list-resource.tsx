@@ -48,7 +48,7 @@ type ListResourceProps = {
 export function ListResource({ data }: ListResourceProps) {
   return (
     <>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6'>
         {data.map(({ id, title, url, summary, image, category }) => {
           return (
             <ResourceItem
