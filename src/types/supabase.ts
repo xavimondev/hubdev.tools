@@ -12,18 +12,24 @@ export type Database = {
       categories: {
         Row: {
           created_at: string
+          description: string | null
           id: number
           name: string
+          slug: string | null
         }
         Insert: {
           created_at?: string
+          description?: string | null
           id?: number
           name: string
+          slug?: string | null
         }
         Update: {
           created_at?: string
+          description?: string | null
           id?: number
           name?: string
+          slug?: string | null
         }
         Relationships: []
       }
@@ -86,16 +92,12 @@ export type Database = {
           match_count: number
         }
         Returns: {
-          created_at: string
-          description: string
-          embedding: string | null
           id: string
-          idCategory: number | null
-          image: string
-          slug: string
-          summary: string
           title: string
           url: string
+          summary: string
+          image: string
+          category: string
         }[]
       }
     }
