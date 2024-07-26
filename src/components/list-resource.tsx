@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 function ResourceItem({ id, title, url, summary, image, category }: Resource) {
   return (
     <Link
-      className='rounded-lg shadow-sm overflow-hidden border border-neutral-900 bg-[#101010] hover:bg-[#191919] transition-colors duration-300 ease-in-out'
+      className='rounded-lg shadow-sm overflow-hidden border border-neutral-900 bg-[#101010] hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'
       key={id}
       href={url}
       target='_blank'

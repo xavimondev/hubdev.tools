@@ -67,3 +67,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+@keyframes animate-in {
+ 0% { opacity: 0; transform: translateY(10%); }
+ 100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes animate-out {
+ 0% { opacity: 1; transform: translateY(0); }
+ 100% { opacity: 0; transform: translateY(-10%); }
+}
+
+@supports (animation-timeline: scroll()) {
+  .resource-item {
+     animation: animate-in linear forwards;
+     animation-timeline: view();
+     animation-range: entry;
+  }
+}
