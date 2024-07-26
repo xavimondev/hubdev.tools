@@ -1,9 +1,9 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { SLUG_ICONS } from '@/categories'
 import { ListIcon } from 'lucide-react'
+import { Link } from 'next-view-transitions'
 
 import { cn } from '@/utils/styles'
 
@@ -21,7 +21,7 @@ function CategoryLink({ name, slug, icon, isVisited }: CategoryProps) {
       <span
         className={cn(
           'text-neutral-400 text-[15px] leading-normal group-hover:text-yellow-300 transition-colors duration-200',
-          isVisited && 'text-yellow-300'
+          isVisited && 'text-yellow-300 category'
         )}
       >
         {name}
