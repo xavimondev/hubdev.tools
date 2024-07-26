@@ -25,6 +25,7 @@
     "ai": "3.2.36",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
+    "framer-motion": "11.3.17",
     "groq-sdk": "0.5.0",
     "lucide-react": "0.412.0",
     "mini-svg-data-uri": "1.4.4",

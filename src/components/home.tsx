@@ -6,9 +6,11 @@ import { listResources } from '@/actions/resources/'
 import { useMicVAD, utils } from '@ricky0123/vad-react'
 import { PictureInPicture, RefreshCcwIcon } from 'lucide-react'
 
+import { Alternative } from '@/types/alternative'
 import { Resource } from '@/types/resource'
 
 import { Button } from '@/components/ui/button'
+import ListAlternative from '@/components/list-alternative'
 import { ListResource } from '@/components/list-resource'
 import { Toolbar } from '@/components/toolbar'
 
@@ -20,7 +22,34 @@ const NUMBER_OF_GENERATIONS_TO_FETCH = 11
 
 export function Home({ data }: HomeProps) {
   const [resources, setListResources] = useState<Resource[]>(data)
+  const [alternatives, setListAlternatives] = useState<Alternative[]>([
+    {
+      name: "What's the best place or website to learn react.js? : r/reactjs - Reddit",
+      url: 'https://www.reddit.com/r/reactjs/comments/10xo017/whats_the_best_place_or_website_to_learn_reactjs/',
+      snippet:
+        'Apple, Inc. engages in the design, manufacture, and sale of smartphones, personal computers, tablets, wearables and accessories, and other varieties of ...'
+    },
+    {
+      name: 'How To Learn React As A Beginner In 2024 - DreamHost',
+      url: 'https://www.dreamhost.com/blog/learn-react/',
+      snippet:
+        'Get the latest Apple Inc (AAPL) real-time quote, historical performance, charts, and other financial information to help you make more informed trading and ...'
+    },
+    {
+      name: 'What is the easiest way to learn React.js? - Quora',
+      url: 'https://www.quora.com/What-is-the-easiest-way-to-learn-React-js',
+      snippet:
+        'Get the latest Apple Inc (AAPL) real-time quote, historical performance, charts, and other financial information to help you make more informed trading and ...'
+    },
+    {
+      name: 'Courses - React',
+      url: 'https://legacy.reactjs.org/community/courses.html',
+      snippet:
+        'Get the latest Apple Inc (AAPL) real-time quote, historical performance, charts, and other financial information to help you make more informed trading and ...'
+    }
+  ])
   const isLastRequest = useRef(false)
+  const [isLoadingAlternatives, setIsLoadingAlternatives] = useState(false)
 
   const vad = useMicVAD({
     startOnLoad: false,
@@ -55,7 +84,9 @@ export function Home({ data }: HomeProps) {
       if (resourcesFromSearch.length === 0) return
 
       setListResources(resourcesFromSearch)
-      console.log(transcript)
+
+      // console.log(transcript)
+      await getAlternatives({ transcript })
 
       // TODO: validate mozilla
       // player.play(response.body, () => {
@@ -84,6 +115,19 @@ export function Home({ data }: HomeProps) {
       }
     }
   })
+
+  const getAlternatives = async ({ transcript }: { transcript: string }) => {
+    setIsLoadingAlternatives(true)
+
+    const response = await fetch('/api/alternatives', {
+      method: 'POST',
+      body: JSON.stringify({ question: transcript })
+    })
+
+    const alternatives = await response.json()
+    setIsLoadingAlternatives(false)
+    setListAlternatives(alternatives)
+  }
   // TODO: check when user is talking and displays some UI effects: use vad.
   // Besides, play the audio programatically
   const loadMoreResources = async () => {
@@ -147,8 +191,10 @@ export function Home({ data }: HomeProps) {
             </p>
           </div>
         </div>
-        <div className='bg-background rounded-lg shadow-sm border mt-4'>
+
+        <div className='bg-background rounded-lg shadow-sm mt-4'>
           <ListResource data={resources} setListResources={setListResources} />
+          {/* TODO: put this botton in the toolbar */}
           <Button
             className='mt-2 rounded-full mx-auto flex justify-center'
             onClick={loadMoreResources}
@@ -156,6 +202,7 @@ export function Home({ data }: HomeProps) {
             <RefreshCcwIcon className='size-5 mr-2' />
             <span>Load more resources</span>
           </Button>
+          <ListAlternative alternatives={alternatives} isLoading={isLoadingAlternatives} />
         </div>
       </main>
       <Toolbar setListResources={setListResources} />
