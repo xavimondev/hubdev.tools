@@ -3,6 +3,8 @@ import { ViewTransitions } from 'next-view-transitions'
 
 import './globals.css'
 
+import { Toaster } from 'sonner'
+
 import { Header } from '@/components/header'
 import { Sidebar } from '@/components/sidebar'
 
@@ -22,6 +24,7 @@ export default function RootLayout({
             <Sidebar />
             {children}
           </div>
+          <Toaster theme='dark' />
         </body>
       </html>
     </ViewTransitions>

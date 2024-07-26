@@ -2,6 +2,7 @@
 
 import { Dispatch, SetStateAction } from 'react'
 import { ArrowRightIcon, BrainIcon, Mic2Icon } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { Resource } from '@/types/resource'
 
@@ -29,16 +30,19 @@ export function Toolbar({ setListResources }: ToolbarProps) {
 
     if (!response.ok || !transcript || !data || !response.body) {
       if (response.status === 429) {
-        console.error('Too many requests. Please try again later.')
+        toast.error('Too many requests. Please try again later.')
       } else {
-        console.error((await response.text()) || 'An error occurred.')
+        toast.error((await response.text()) || 'An error occurred.')
       }
       return
     }
 
     const resourcesFromSearch = JSON.parse(results) as Resource[]
-    // TODO: maybe display a notification
-    if (resourcesFromSearch.length === 0) return
+
+    if (resourcesFromSearch.length === 0) {
+      toast.info('No results were found')
+      return
+    }
 
     setListResources(resourcesFromSearch)
 
@@ -47,7 +51,7 @@ export function Toolbar({ setListResources }: ToolbarProps) {
   }
 
   return (
-    <div className='flex fixed left-1/2 bottom-8 z-10 px-2.5 py-1.5 bg-[#191919] rounded-full w-auto border -translate-x-1/2 translate-y-[20px]'>
+    <div className='flex fixed left-1/2 bottom-8 z-10 px-2.5 py-1.5 bg-[#1c1a1a] rounded-full w-auto border -translate-x-1/2 translate-y-[20px]'>
       <div className='flex items-center w-full'>
         <TooltipProvider delayDuration={200}>
           <Tooltip>

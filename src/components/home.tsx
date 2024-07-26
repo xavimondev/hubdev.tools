@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import { listResources } from '@/actions/resources/'
 import { useMicVAD, utils } from '@ricky0123/vad-react'
 import { RefreshCcwIcon } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { Alternative } from '@/types/alternative'
 import { Resource } from '@/types/resource'
@@ -69,9 +70,9 @@ export function Home({ data }: HomeProps) {
 
       if (!response.ok || !transcript || !data || !response.body) {
         if (response.status === 429) {
-          console.error('Too many requests. Please try again later.')
+          toast.error('Too many requests. Please try again later.')
         } else {
-          console.error((await response.text()) || 'An error occurred.')
+          toast.error((await response.text()) || 'An error occurred.')
         }
         return
       }
@@ -80,8 +81,11 @@ export function Home({ data }: HomeProps) {
       auu.play()
 
       const resourcesFromSearch = JSON.parse(results)
-      // TODO: maybe display a notification
-      if (resourcesFromSearch.length === 0) return
+
+      if (resourcesFromSearch.length === 0) {
+        toast.info('No results were found')
+        return
+      }
 
       setListResources(resourcesFromSearch)
 
