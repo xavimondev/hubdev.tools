@@ -11,7 +11,7 @@ export default function ListAlternative({
   isLoading: boolean
 }) {
   return (
-    <div className='h-auto w-full shrink-0 rounded-md p-6'>
+    <div className='h-auto w-full shrink-0 rounded-md py-6'>
       <div className='flex flex-col'>
         <div className='flex items-center gap-4'>
           <Cloud width={50} height={50} />
