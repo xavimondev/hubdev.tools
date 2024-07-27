@@ -2,9 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { listResources } from '@/actions/resources/'
-import { useMicVAD, utils } from '@ricky0123/vad-react'
 import { RefreshCcwIcon } from 'lucide-react'
-import { toast } from 'sonner'
 
 import { Alternative } from '@/types/alternative'
 import { Resource } from '@/types/resource'
@@ -13,7 +11,6 @@ import { Button } from '@/components/ui/button'
 import { Hero } from '@/components/hero'
 import ListAlternative from '@/components/list-alternative'
 import { ListResource } from '@/components/list-resource'
-import { Toolbar } from '@/components/toolbar'
 
 type HomeProps = {
   data: Resource[]
@@ -52,88 +49,7 @@ export function Home({ data }: HomeProps) {
   const isLastRequest = useRef(false)
   const [isLoadingAlternatives, setIsLoadingAlternatives] = useState(false)
 
-  const vad = useMicVAD({
-    startOnLoad: false,
-    onSpeechEnd: async (audio) => {
-      const wav = utils.encodeWAV(audio)
-      const blob = new Blob([wav], { type: 'audio/wav' })
-      const formData = new FormData()
-      formData.append('input', blob, 'audio.wav')
-      const response = await fetch('/api/search', {
-        method: 'POST',
-        body: formData
-      })
-      const data = await response.blob()
-
-      const transcript = decodeURIComponent(response.headers.get('X-Transcript') || '')
-      const results = decodeURIComponent(response.headers.get('X-Data') || '')
-
-      if (!response.ok || !transcript || !data || !response.body) {
-        if (response.status === 429) {
-          toast.error('Too many requests. Please try again later.')
-        } else {
-          toast.error((await response.text()) || 'An error occurred.')
-        }
-        return
-      }
-
-      const auu = new Audio(URL.createObjectURL(data))
-      auu.play()
-
-      const resourcesFromSearch = JSON.parse(results)
-
-      if (resourcesFromSearch.length === 0) {
-        toast.info('No results were found')
-        return
-      }
-
-      setListResources(resourcesFromSearch)
-
-      // console.log(transcript)
-      await getAlternatives({ transcript })
-
-      // TODO: validate mozilla
-      // player.play(response.body, () => {
-      //   const isFirefox = navigator.userAgent.includes('Firefox')
-      //   if (isFirefox) vad.start()
-      // })
-
-      // const isFirefox = navigator.userAgent.includes('Firefox')
-      // if (isFirefox) vad.pause()
-    },
-    workletURL: '/vad.worklet.bundle.min.js',
-    modelURL: '/silero_vad.onnx',
-    positiveSpeechThreshold: 0.6,
-    minSpeechFrames: 4,
-    ortConfig(ort) {
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-
-      ort.env.wasm = {
-        wasmPaths: {
-          'ort-wasm-simd-threaded.wasm': '/ort-wasm-simd-threaded.wasm',
-          'ort-wasm-simd.wasm': '/ort-wasm-simd.wasm',
-          'ort-wasm.wasm': '/ort-wasm.wasm',
-          'ort-wasm-threaded.wasm': '/ort-wasm-threaded.wasm'
-        },
-        numThreads: isSafari ? 1 : 4
-      }
-    }
-  })
-
-  const getAlternatives = async ({ transcript }: { transcript: string }) => {
-    setIsLoadingAlternatives(true)
-
-    const response = await fetch('/api/alternatives', {
-      method: 'POST',
-      body: JSON.stringify({ question: transcript })
-    })
-
-    const alternatives = await response.json()
-    setIsLoadingAlternatives(false)
-    setListAlternatives(alternatives)
-  }
   // TODO: check when user is talking and displays some UI effects: use vad.
-  // Besides, play the audio programatically
   const loadMoreResources = async () => {
     if (isLastRequest.current) return
 
@@ -184,7 +100,6 @@ export function Home({ data }: HomeProps) {
           </div>
         </div>
       </main>
-      <Toolbar setListResources={setListResources} />
     </>
   )
 }

@@ -5,6 +5,7 @@ import './globals.css'
 
 import { Toaster } from 'sonner'
 
+import { AISearch } from '@/components/ai-search'
 import { Header } from '@/components/header'
 import { Sidebar } from '@/components/sidebar'
 
@@ -23,6 +24,7 @@ export default function RootLayout({
           <div className='px-4 py-8 md:px-6 md:py-10'>
             <Sidebar />
             {children}
+            <AISearch />
           </div>
           <Toaster theme='dark' />
         </body>
