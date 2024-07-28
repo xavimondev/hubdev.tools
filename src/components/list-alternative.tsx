@@ -3,7 +3,7 @@ import { motion, useMotionTemplate, useMotionValue } from 'framer-motion'
 
 import { Cloud } from '@/components/illustrations'
 
-export default function ListAlternative({
+export function ListAlternative({
   alternatives,
   isLoading
 }: {
