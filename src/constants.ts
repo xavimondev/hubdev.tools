@@ -1,0 +1,1 @@
+export const NUMBER_OF_GENERATIONS_TO_FETCH = 11

@@ -1,8 +1,10 @@
 import { Metadata } from 'next'
 
 import { getCategoryDetails, getResourcesByCategorySlug } from '@/services/list'
+import { Container } from '@/components/container'
 import { Hero } from '@/components/hero'
 import { ListResource } from '@/components/list-resource'
+import { LoadMore } from '@/components/load-more'
 
 export async function generateMetadata({
   params
@@ -53,9 +55,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
   })
 
   return (
-    <div className='ml-0 md:ml-56'>
+    <Container>
       <Hero title={name} description={description!} />
       <ListResource data={formatedData} />
-    </div>
+      <LoadMore />
+    </Container>
   )
 }
