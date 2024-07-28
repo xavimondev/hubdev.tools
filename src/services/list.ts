@@ -64,7 +64,8 @@ export const getResourcesByCategorySlug = async ({
   const { data, error } = await supabase
     .from('resources')
     .select(
-      `id, 
+      `
+    id, 
     title, 
     url, 
     image, 
