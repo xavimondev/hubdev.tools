@@ -1,4 +1,4 @@
-export type Alternative = {
+export type Suggestion = {
   name: string
   url: string
   snippet: string

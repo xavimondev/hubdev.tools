@@ -1,7 +1,14 @@
 import { useMicVAD, utils } from '@ricky0123/vad-react'
 import { toast } from 'sonner'
 
+import { useAIStore } from '@/store'
+
 export function useAISearch() {
+  const setSuggestionsFromInternet = useAIStore((state) => state.setSuggestionsFromInternet)
+  const setResources = useAIStore((state) => state.setResources)
+  const setHasResources = useAIStore((state) => state.setHasResources)
+  const setIsLoadingSuggestions = useAIStore((state) => state.setIsLoadingSuggestions)
+
   const vad = useMicVAD({
     startOnLoad: false,
     onSpeechEnd: async (audio) => {
@@ -67,12 +74,14 @@ export function useAISearch() {
     const auu = new Audio(URL.createObjectURL(data))
     auu.play()
 
-    // setListResources(resourcesFromSearch)
-    await getAlternatives({ transcript })
+    setResources(resourcesFromSearch)
+    await getSuggestions({ transcript })
+    // hide button "load more resources" when semantic search is performed
+    setHasResources(false)
   }
 
-  const getAlternatives = async ({ transcript }: { transcript: string }) => {
-    // setIsLoadingAlternatives(true)
+  const getSuggestions = async ({ transcript }: { transcript: string }) => {
+    setIsLoadingSuggestions(true)
 
     const response = await fetch('/api/alternatives', {
       method: 'POST',
@@ -80,8 +89,8 @@ export function useAISearch() {
     })
 
     const alternatives = await response.json()
-    // setIsLoadingAlternatives(false)
-    // setListAlternatives(alternatives)
+    setSuggestionsFromInternet(alternatives)
+    setIsLoadingSuggestions(false)
   }
 
   const play = () => {

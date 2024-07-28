@@ -52,9 +52,11 @@ type ListResourceProps = {
 
 export function ListResource({ data }: ListResourceProps) {
   const resources = useAIStore((state) => state.resources)
+  const suggestionsFromInternet = useAIStore((state) => state.suggestionsFromInternet)
   const setResourcesFirstFetch = useAIStore((state) => state.setResourcesFirstFetch)
   const setResources = useAIStore((state) => state.setResources)
   const setHasResources = useAIStore((state) => state.setHasResources)
+  const setSuggestionsFromInternet = useAIStore((state) => state.setSuggestionsFromInternet)
   const listOfResources = resources.length === 0 ? data : resources
   const params = useParams<{ slug: string }>()
 
@@ -67,11 +69,16 @@ export function ListResource({ data }: ListResourceProps) {
 
     setResources([])
     setResourcesFirstFetch(data)
+
+    if (suggestionsFromInternet.length > 0) {
+      // Clear suggestions from internet when user goes to another page
+      setSuggestionsFromInternet([])
+    }
   }, [params.slug])
 
   return (
     <>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-6 mt-4'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-6'>
         {listOfResources.map(({ id, title, url, summary, image, category }) => {
           return (
             <ResourceItem

@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
 import { Resource } from '@/types/resource'
+import { Suggestion } from '@/types/suggestion'
 
 type AIState = {
   resources: Resource[]
@@ -10,6 +11,10 @@ type AIState = {
   setResources: (resources: Resource[]) => void
   hasResources: boolean
   setHasResources: (hasResources: boolean) => void
+  suggestionsFromInternet: Suggestion[]
+  setSuggestionsFromInternet: (suggestions: Suggestion[]) => void
+  isLoadingSuggestions: boolean
+  setIsLoadingSuggestions: (isLoadingSuggestions: boolean) => void
 }
 
 export const useAIStore = create<AIState>()((set) => ({
@@ -19,5 +24,9 @@ export const useAIStore = create<AIState>()((set) => ({
   setResourcesFirstFetch: (resources) => set({ resourcesFirstFetch: resources }),
   setResources: (resources) => set({ resources }),
   hasResources: false,
-  setHasResources: (hasResources) => set({ hasResources })
+  setHasResources: (hasResources) => set({ hasResources }),
+  suggestionsFromInternet: [],
+  setSuggestionsFromInternet: (suggestions) => set({ suggestionsFromInternet: suggestions }),
+  isLoadingSuggestions: false,
+  setIsLoadingSuggestions: (isLoadingSuggestions) => set({ isLoadingSuggestions })
 }))
