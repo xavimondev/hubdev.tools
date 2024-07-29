@@ -10,21 +10,12 @@ export function useAISearch() {
   const setIsLoadingSuggestions = useAIStore((state) => state.setIsLoadingSuggestions)
 
   const vad = useMicVAD({
-    startOnLoad: false,
     onSpeechEnd: async (audio) => {
       const wav = utils.encodeWAV(audio)
       const blob = new Blob([wav], { type: 'audio/wav' })
       const formData = new FormData()
       formData.append('input', blob, 'audio.wav')
-      await getResourcesFromSearch({ formData })
-      // TODO: validate mozilla
-      // player.play(response.body, () => {
-      //   const isFirefox = navigator.userAgent.includes('Firefox')
-      //   if (isFirefox) vad.start()
-      // })
-
-      // const isFirefox = navigator.userAgent.includes('Firefox')
-      // if (isFirefox) vad.pause()
+      // await getResourcesFromSearch({ formData })
     },
     workletURL: '/vad.worklet.bundle.min.js',
     modelURL: '/silero_vad.onnx',
@@ -32,7 +23,6 @@ export function useAISearch() {
     minSpeechFrames: 4,
     ortConfig(ort) {
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-
       ort.env.wasm = {
         wasmPaths: {
           'ort-wasm-simd-threaded.wasm': '/ort-wasm-simd-threaded.wasm',
@@ -50,8 +40,8 @@ export function useAISearch() {
       method: 'POST',
       body: formData
     })
-    const data = await response.blob()
-
+    const data = await response.json()
+    console.log(data)
     const transcript = decodeURIComponent(response.headers.get('X-Transcript') || '')
     const results = decodeURIComponent(response.headers.get('X-Data') || '')
 
@@ -93,12 +83,7 @@ export function useAISearch() {
     setIsLoadingSuggestions(false)
   }
 
-  const play = () => {
-    vad.start()
-  }
-
   return {
-    play,
     getResourcesFromSearch,
     isUserSpeaking: vad.userSpeaking
   }

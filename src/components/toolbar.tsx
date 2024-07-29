@@ -1,23 +1,45 @@
 'use client'
 
-import { BrainIcon, Mic2Icon } from 'lucide-react'
+import { BrainIcon } from 'lucide-react'
 
+import { useAISearch } from '@/hooks/useAISearch'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { FormSearch } from '@/components/form-search'
 
-type ToolbarProps = {
-  play: () => void
-  search: ({ formData }: { formData: FormData }) => Promise<void>
-}
+export function Toolbar() {
+  const { getResourcesFromSearch } = useAISearch()
 
-export function Toolbar({ play, search }: ToolbarProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    await search({ formData })
-    // console.log('formData', formData)
+    await getResourcesFromSearch({ formData })
+  }
+
+  const speakRight = async () => {
+    const response = await fetch('/api/tts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        input:
+          'Espero que estés bien. Soy un chatbot que puede ayudarte con tus preguntas. ¿Cómo puedo ayudarte hoy?'
+      })
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch the audio')
+    }
+
+    const audioData = await response.arrayBuffer()
+    const audioContext = new AudioContext()
+    const pollyBufferSourceNode = audioContext.createBufferSource()
+
+    pollyBufferSourceNode.buffer = await audioContext.decodeAudioData(audioData)
+    pollyBufferSourceNode.connect(audioContext.destination)
+    pollyBufferSourceNode.start()
   }
 
   return (
@@ -29,17 +51,9 @@ export function Toolbar({ play, search }: ToolbarProps) {
               <Button
                 variant='ghost'
                 size='icon'
-                className='bg-transparent mr-1 rounded-full'
-                onClick={play}
+                className='bg-transparent rounded-full'
+                onClick={speakRight}
               >
-                <Mic2Icon className='size-5' />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Microphone</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant='ghost' size='icon' className='bg-transparent rounded-full'>
                 <BrainIcon className='size-5' />
               </Button>
             </TooltipTrigger>
