@@ -14,7 +14,7 @@ export function FormSearch({ handleSubmit }: FormSearchProps) {
   const [isLoading, setIsLoading] = useState(false)
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    // e.preventDefault()
+    e.preventDefault()
     setIsLoading(true)
     await handleSubmit(e)
     setIsLoading(false)
