@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server'
 import { createOpenAI, openai } from '@ai-sdk/openai'
-import { generateObject, generateText } from 'ai'
+import { embed, generateObject, generateText } from 'ai'
 import Groq from 'groq-sdk'
 import { z } from 'zod'
 
 // import { zfd } from 'zod-form-data'
 
 import { Resource } from '@/types/resource'
+
+import { supabase } from '@/services/client'
 
 const groqModel = createOpenAI({
   baseURL: 'https://api.groq.com/openai/v1',
@@ -39,16 +41,13 @@ export async function POST(req: Request) {
       if (!requirement) return new Response('Invalid audio', { status: 400 })
     }
 
-    // console.log(requirement)
-
     const { text: language } = await generateText({
-      model: groqModel('llama3-8b-8192'),
+      model: groqModel('llama-3.1-8b-instant'),
       prompt: `What language is this script written in: "${requirement}".
       Please, return only the language.`
     })
     // console.log(`Language: ${language}`)
 
-    // TODO: think to change to groq- See https://sdk.vercel.ai/docs/guides/llama-3_1#generating-structured-data
     const ai = await generateObject({
       model: openai('gpt-4o-mini'),
       schema: AISchema,
@@ -61,7 +60,7 @@ export async function POST(req: Request) {
 
     1.Translate the developer's requirement to English, if it is in another language.
     2.Improve the clarity of the requirement to ensure it makes sense.
-    3.Determine the number of resources the user is asking for. If not specified set the limit to 12.
+    3.Determine the number of resources or options the user is asking for. If not specified set the limit to 12.
     4.If the number of resources is greather than 12, set the limit to 12.
     5.The summary should be in 15 words or less.
     6.Don't start the summary with "the requirement", just go straight to the summary.
@@ -69,19 +68,24 @@ export async function POST(req: Request) {
     8.You are not capable of performing actions other than responding to the user.`
     })
     const { summary, limit } = ai.object.requirement
-
-    const request = await fetch(`${process.env.SUPABASE_URL}/functions/v1/query-embedding`, {
-      method: 'POST',
-      body: JSON.stringify({
-        prompt: summary,
-        limit
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`
-      }
+    console.log(ai.object.requirement)
+    const { embedding } = await embed({
+      model: openai.embedding('text-embedding-3-small'),
+      value: summary
     })
-    const { result } = (await request.json()) as { result: Resource[] }
+
+    const request = await supabase.rpc('query_embeddings', {
+      // @ts-ignore
+      embed: embedding,
+      match_threshold: 0.45,
+      match_count: limit
+    })
+
+    if (request.status !== 200 || !request.data)
+      return new Response('Invalid response', { status: request.status })
+
+    const result = request.data as Resource[]
+    // console.log(result)
 
     const responseSummary = result.reduce((acc, resource) => {
       const { title, summary } = resource
