@@ -58,8 +58,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <Container>
       <Hero title={name} description={description!} />
-      <ListSuggestion />
       <ListResource data={formatedData} />
+      <ListSuggestion />
       <LoadMore />
     </Container>
   )

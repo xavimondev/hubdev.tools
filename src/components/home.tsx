@@ -18,8 +18,8 @@ export function Home({ data }: HomeProps) {
           title='Resources'
           description='Discover an awesome list of resources for developers with cutting-edge AI features'
         />
-        <ListSuggestion />
         <ListResource data={data} />
+        <ListSuggestion />
         <LoadMore />
       </Container>
     </>
