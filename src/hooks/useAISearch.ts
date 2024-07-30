@@ -11,6 +11,7 @@ export function useAISearch() {
   const setResources = useAIStore((state) => state.setResources)
   const setHasResources = useAIStore((state) => state.setHasResources)
   const setIsLoadingSuggestions = useAIStore((state) => state.setIsLoadingSuggestions)
+  const setSummary = useAIStore((state) => state.setSummary)
 
   const vad = useMicVAD({
     onSpeechEnd: async (audio) => {
@@ -46,12 +47,6 @@ export function useAISearch() {
       return
     }
 
-    // Looking for suggestions on the internet
-    await getSuggestions({ transcript: input })
-    setResources(result)
-    // hide button "load more resources" when semantic search is performed
-    setHasResources(false)
-
     //Generating summary
     const { output, error } = await summarize({ data: result, input })
     if (error || !output) {
@@ -60,9 +55,16 @@ export function useAISearch() {
     }
 
     for await (const delta of readStreamableValue(output)) {
-      console.log(delta)
-      //setGeneration(currentGeneration => `${currentGeneration}${delta}`);
+      if (delta) {
+        setSummary(delta)
+      }
     }
+
+    // Looking for suggestions on the internet
+    await getSuggestions({ transcript: input })
+    setResources(result)
+    // hide button "load more resources" when semantic search is performed
+    setHasResources(false)
   }
 
   const getSuggestions = async ({ transcript }: { transcript: string }) => {

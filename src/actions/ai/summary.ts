@@ -16,11 +16,11 @@ export async function summarize({ data, input }: { data: Resource[]; input: stri
 
   try {
     const { text: language } = await generateText({
-      model: groq('llama-3.1-70b-vessssrsatile'),
+      model: groq('llama-3.1-8b-instant'),
       prompt: `The following text ${input} is writen in English or Spanish?. Please return only Spanish or English.
     If you are not able to recognize, return English by default.`
     })
-    console.log(`Language: ${language}`)
+    // console.log(`Language: ${language}`)
 
     const responseSummary = data.reduce((acc, resource) => {
       const { title, summary } = resource
@@ -38,13 +38,12 @@ export async function summarize({ data, input }: { data: Resource[]; input: stri
     Additionally, the summary should be generated in the language the user has requested. Here is the summary of the resources:
     ${responseSummary}
     
-    Please keep your response under 300 words`
+    Please keep your response under 250 words. Use markdown syntax to format the response.`
       })
 
       for await (const delta of textStream) {
         stream.update(delta)
       }
-
       stream.done()
     })()
     return { output: stream.value }

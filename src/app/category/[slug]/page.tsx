@@ -6,6 +6,7 @@ import { Hero } from '@/components/hero'
 import { ListResource } from '@/components/list-resource'
 import { ListSuggestion } from '@/components/list-suggestion'
 import { LoadMore } from '@/components/load-more'
+import { Summary } from '@/components/summary'
 
 export async function generateMetadata({
   params
@@ -58,6 +59,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <Container>
       <Hero title={name} description={description!} />
+      <Summary />
       <ListResource data={formatedData} />
       <ListSuggestion />
       <LoadMore />

@@ -15,6 +15,8 @@ type AIState = {
   setSuggestionsFromInternet: (suggestions: Suggestion[]) => void
   isLoadingSuggestions: boolean
   setIsLoadingSuggestions: (isLoadingSuggestions: boolean) => void
+  summary: string
+  setSummary: (summary: string) => void
 }
 
 export const useAIStore = create<AIState>()((set) => ({
@@ -28,5 +30,7 @@ export const useAIStore = create<AIState>()((set) => ({
   suggestionsFromInternet: [],
   setSuggestionsFromInternet: (suggestions) => set({ suggestionsFromInternet: suggestions }),
   isLoadingSuggestions: false,
-  setIsLoadingSuggestions: (isLoadingSuggestions) => set({ isLoadingSuggestions })
+  setIsLoadingSuggestions: (isLoadingSuggestions) => set({ isLoadingSuggestions }),
+  summary: '',
+  setSummary: (chunk) => set((state) => ({ summary: state.summary + chunk }))
 }))
