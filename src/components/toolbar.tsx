@@ -11,10 +11,8 @@ import { FormSearch } from '@/components/form-search'
 export function Toolbar() {
   const { getResourcesFromSearch } = useAISearch()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    await getResourcesFromSearch({ formData })
+  const handleSubmit = async (input: string) => {
+    await getResourcesFromSearch({ input })
   }
 
   const speakRight = async () => {

@@ -1,3 +1,4 @@
+import { search } from '@/actions/ai/search'
 import { useMicVAD, utils } from '@ricky0123/vad-react'
 import { toast } from 'sonner'
 
@@ -35,37 +36,17 @@ export function useAISearch() {
     }
   })
 
-  const getResourcesFromSearch = async ({ formData }: { formData: FormData }) => {
-    const response = await fetch('/api/search', {
-      method: 'POST',
-      body: formData
-    })
-    const data = await response.json()
-    console.log(data)
-    const transcript = decodeURIComponent(response.headers.get('X-Transcript') || '')
-    const results = decodeURIComponent(response.headers.get('X-Data') || '')
+  const getResourcesFromSearch = async ({ input }: { input: string }) => {
+    const { data: result } = await search({ input })
 
-    if (!response.ok || !transcript || !data || !response.body) {
-      if (response.status === 429) {
-        toast.error('Too many requests. Please try again later.')
-      } else {
-        toast.error((await response.text()) || 'An error occurred.')
-      }
-      return
-    }
-
-    const resourcesFromSearch = JSON.parse(results)
-
-    if (resourcesFromSearch.length === 0) {
+    if (result.length === 0) {
       toast.info('No results were found')
       return
     }
 
-    const auu = new Audio(URL.createObjectURL(data))
-    auu.play()
-
-    setResources(resourcesFromSearch)
-    await getSuggestions({ transcript })
+    // Looking for suggestions on the internet
+    await getSuggestions({ transcript: input })
+    setResources(result)
     // hide button "load more resources" when semantic search is performed
     setHasResources(false)
   }

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 type FormSearchProps = {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>
+  handleSubmit: (input: string) => Promise<void>
 }
 
 export function FormSearch({ handleSubmit }: FormSearchProps) {
@@ -16,7 +16,8 @@ export function FormSearch({ handleSubmit }: FormSearchProps) {
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
-    await handleSubmit(e)
+    const input = e.currentTarget.input.value
+    await handleSubmit(input)
     setIsLoading(false)
   }
 
