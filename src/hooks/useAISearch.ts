@@ -1,5 +1,7 @@
 import { search } from '@/actions/ai/search'
+import { summarize } from '@/actions/ai/summary'
 import { useMicVAD, utils } from '@ricky0123/vad-react'
+import { readStreamableValue } from 'ai/rsc'
 import { toast } from 'sonner'
 
 import { useAIStore } from '@/store'
@@ -49,6 +51,18 @@ export function useAISearch() {
     setResources(result)
     // hide button "load more resources" when semantic search is performed
     setHasResources(false)
+
+    //Generating summary
+    const { output, error } = await summarize({ data: result, input })
+    if (error || !output) {
+      toast.error(error)
+      return
+    }
+
+    for await (const delta of readStreamableValue(output)) {
+      console.log(delta)
+      //setGeneration(currentGeneration => `${currentGeneration}${delta}`);
+    }
   }
 
   const getSuggestions = async ({ transcript }: { transcript: string }) => {
