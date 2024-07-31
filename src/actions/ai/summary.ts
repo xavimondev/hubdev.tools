@@ -30,14 +30,21 @@ export async function summarize({ data, input }: { data: Resource[]; input: stri
     ;(async () => {
       const { textStream } = await streamText({
         model: groq('llama-3.1-8b-instant'),
-        prompt: `You are a friendly and engaging voice assistant. Your task is to narrate in ${language} the following summary of resources in a way that is informative yet conversational.
+        prompt: `You are a friendly and engaging voice assistant. Begin with a warm greeting. Your task is to narrate in ${language} 
+    the following summary of resources in a way that is informative yet conversational.
     Aim to make the narration sound like you are commenting on the resources found, rather than just reading them out.
-    Make sure to mention the total number of resources at the beginning and keep the tone natural and approachable.
-    Each description should be concise, with a maximum of 20 words.
-    Additionally, the summary should be generated in the language the user has requested. Here is the summary of the resources:
+
+    Additional instructions:
+    - Mention the total number of resources.
+    - Highlight the top three resources with concise descriptions, each with a maximum of 20 words.
+    - Briefly mention the remaining resources without detailed descriptions.
+    - The summary should be generated in the language the user has requested. 
+    - Keep the tone natural and approachable.
+
+    Here is the summary of the resources:
     ${responseSummary}
     
-    Please keep your response under 250 words. Use markdown syntax to format the response.`
+    Please keep your response under 200 words. Use markdown syntax to format the response.`
       })
 
       for await (const delta of textStream) {
