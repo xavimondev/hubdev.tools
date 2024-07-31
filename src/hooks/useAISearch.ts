@@ -12,6 +12,7 @@ export function useAISearch() {
   const setHasResources = useAIStore((state) => state.setHasResources)
   const setIsLoadingSuggestions = useAIStore((state) => state.setIsLoadingSuggestions)
   const setSummary = useAIStore((state) => state.setSummary)
+  const clearSummary = useAIStore((state) => state.clearSummary)
   const setLanguage = useAIStore((state) => state.setLanguage)
 
   const vad = useMicVAD({
@@ -54,7 +55,7 @@ export function useAISearch() {
       toast.error(error)
       return
     }
-
+    clearSummary()
     for await (const delta of readStreamableValue(output)) {
       if (delta) {
         setSummary(delta)
