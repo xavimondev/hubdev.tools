@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { extractDomain } from '@/utils'
 import { Link2Icon } from 'lucide-react'
@@ -13,21 +12,31 @@ import { NUMBER_OF_GENERATIONS_TO_FETCH } from '@/constants'
 import { useAIStore } from '@/store'
 import { Badge } from '@/components/ui/badge'
 
-function ResourceItem({ id, title, url, summary, image, category }: Resource) {
+type ResourceItemProps = {
+  title: string
+  url: string
+  summary: string
+  image: string
+  category: string
+  order: number
+}
+
+function ResourceItem({ title, url, summary, image, category, order }: ResourceItemProps) {
   return (
-    <Link
+    <a
       className='rounded-lg shadow-sm overflow-hidden border border-neutral-900 bg-[#101010] hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'
-      key={id}
       href={url}
       target='_blank'
-      prefetch={false}
+      rel='noopener noreferrer'
     >
       <Image
+        loading={order < 4 ? 'eager' : 'lazy'}
         src={image}
         width={400}
         height={225}
-        alt='Resource Image'
-        className='w-full h-40 object-cover'
+        alt={`Picture of ${title}`}
+        className='w-full h-40 object-cover animate-reveal'
+        decoding='async'
       />
       <div className='p-4'>
         <h3 className='text-lg font-semibold text-balance'>{title}</h3>
@@ -42,7 +51,7 @@ function ResourceItem({ id, title, url, summary, image, category }: Resource) {
         </div>
         <p className='text-sm text-muted-foreground line-clamp-4 mt-2 text-pretty'>{summary}</p>
       </div>
-    </Link>
+    </a>
   )
 }
 
@@ -82,11 +91,11 @@ export function ListResource({ data }: ListResourceProps) {
   return (
     <>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-6'>
-        {listOfResources.map(({ id, title, url, summary, image, category }) => {
+        {listOfResources.map(({ id, title, url, summary, image, category }, index) => {
           return (
             <ResourceItem
+              order={index}
               key={id}
-              id={id}
               title={title}
               url={url}
               summary={summary}
