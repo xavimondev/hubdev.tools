@@ -1,6 +1,7 @@
+import { alternatives } from '@/actions/ai/alternatives'
 import { search } from '@/actions/ai/search'
 import { summarize } from '@/actions/ai/summary'
-import { useMicVAD, utils } from '@ricky0123/vad-react'
+// import { useMicVAD, utils } from '@ricky0123/vad-react'
 import { readStreamableValue } from 'ai/rsc'
 import { toast } from 'sonner'
 
@@ -10,46 +11,63 @@ export function useAISearch() {
   const setSuggestionsFromInternet = useAIStore((state) => state.setSuggestionsFromInternet)
   const setResources = useAIStore((state) => state.setResources)
   const setHasResources = useAIStore((state) => state.setHasResources)
+  const setIsLoadingResources = useAIStore((state) => state.setIsLoadingResources)
   const setIsLoadingSuggestions = useAIStore((state) => state.setIsLoadingSuggestions)
   const setSummary = useAIStore((state) => state.setSummary)
   const clearSummary = useAIStore((state) => state.clearSummary)
+  const setIsLoadingSummary = useAIStore((state) => state.setIsLoadingSummary)
   const setLanguage = useAIStore((state) => state.setLanguage)
 
-  const vad = useMicVAD({
-    onSpeechEnd: async (audio) => {
-      const wav = utils.encodeWAV(audio)
-      const blob = new Blob([wav], { type: 'audio/wav' })
-      const formData = new FormData()
-      formData.append('input', blob, 'audio.wav')
-      // await getResourcesFromSearch({ formData })
-    },
-    workletURL: '/vad.worklet.bundle.min.js',
-    modelURL: '/silero_vad.onnx',
-    positiveSpeechThreshold: 0.6,
-    minSpeechFrames: 4,
-    ortConfig(ort) {
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-      ort.env.wasm = {
-        wasmPaths: {
-          'ort-wasm-simd-threaded.wasm': '/ort-wasm-simd-threaded.wasm',
-          'ort-wasm-simd.wasm': '/ort-wasm-simd.wasm',
-          'ort-wasm.wasm': '/ort-wasm.wasm',
-          'ort-wasm-threaded.wasm': '/ort-wasm-threaded.wasm'
-        },
-        numThreads: isSafari ? 1 : 4
-      }
-    }
-  })
+  // const vad = useMicVAD({
+  //   onSpeechEnd: async (audio) => {
+  //     const wav = utils.encodeWAV(audio)
+  //     const blob = new Blob([wav], { type: 'audio/wav' })
+  //     const formData = new FormData()
+  //     formData.append('input', blob, 'audio.wav')
+  //     // await getResourcesFromSearch({ formData })
+  //   },
+  //   workletURL: '/vad.worklet.bundle.min.js',
+  //   modelURL: '/silero_vad.onnx',
+  //   positiveSpeechThreshold: 0.6,
+  //   minSpeechFrames: 4,
+  //   ortConfig(ort) {
+  //     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+  //     ort.env.wasm = {
+  //       wasmPaths: {
+  //         'ort-wasm-simd-threaded.wasm': '/ort-wasm-simd-threaded.wasm',
+  //         'ort-wasm-simd.wasm': '/ort-wasm-simd.wasm',
+  //         'ort-wasm.wasm': '/ort-wasm.wasm',
+  //         'ort-wasm-threaded.wasm': '/ort-wasm-threaded.wasm'
+  //       },
+  //       numThreads: isSafari ? 1 : 4
+  //     }
+  //   }
+  // })
 
   const getResourcesFromSearch = async ({ input }: { input: string }) => {
+    setIsLoadingResources(true)
+    setIsLoadingSummary(true)
+    setIsLoadingSuggestions(true)
+    setHasResources(false)
+
+    clearSummary()
+
     const { data: result, error: searchError } = await search({ input })
 
     if (searchError) {
+      setIsLoadingResources(false)
+      setIsLoadingSummary(false)
+      setIsLoadingSuggestions(false)
+
       toast.error(searchError)
       return
     }
 
     if (!result || result.length === 0) {
+      setIsLoadingResources(false)
+      setIsLoadingSummary(false)
+      setIsLoadingSuggestions(false)
+
       toast.info('No results were found')
       return
     }
@@ -57,10 +75,13 @@ export function useAISearch() {
     //Generating summary
     const { output, language, error } = await summarize({ data: result, input })
     if (error || !output) {
+      setIsLoadingSummary(false)
       toast.error(error)
       return
     }
-    clearSummary()
+
+    setIsLoadingSummary(false)
+
     for await (const delta of readStreamableValue(output)) {
       if (delta) {
         setSummary(delta)
@@ -70,26 +91,27 @@ export function useAISearch() {
 
     // Looking for suggestions on the internet
     await getSuggestions({ transcript: input })
+    setIsLoadingSuggestions(false)
+
+    setIsLoadingResources(false)
     setResources(result)
+
     // hide button "load more resources" when semantic search is performed
     setHasResources(false)
   }
 
   const getSuggestions = async ({ transcript }: { transcript: string }) => {
-    setIsLoadingSuggestions(true)
+    const { data, error } = await alternatives({ question: transcript })
 
-    const response = await fetch('/api/alternatives', {
-      method: 'POST',
-      body: JSON.stringify({ question: transcript })
-    })
-
-    const alternatives = await response.json()
-    setSuggestionsFromInternet(alternatives)
-    setIsLoadingSuggestions(false)
+    if (!data || error) {
+      toast.error(error)
+      return
+    }
+    setSuggestionsFromInternet(data)
   }
 
   return {
     getResourcesFromSearch,
-    isUserSpeaking: vad.userSpeaking
+    isUserSpeaking: false
   }
 }

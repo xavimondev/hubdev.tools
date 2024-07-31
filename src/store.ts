@@ -6,6 +6,8 @@ import { Suggestion } from '@/types/suggestion'
 type AIState = {
   resources: Resource[]
   addResources: (resources: Resource[]) => void
+  isLoadingResources: boolean
+  setIsLoadingResources: (isLoadingResources: boolean) => void
   resourcesFirstFetch: Resource[]
   setResourcesFirstFetch: (resources: Resource[]) => void
   setResources: (resources: Resource[]) => void
@@ -18,6 +20,8 @@ type AIState = {
   summary: string
   setSummary: (summary: string) => void
   clearSummary: () => void
+  isLoadingSummary: boolean
+  setIsLoadingSummary: (isLoadingSummary: boolean) => void
   language: string
   setLanguage: (lang: string) => void
 }
@@ -25,6 +29,8 @@ type AIState = {
 export const useAIStore = create<AIState>()((set) => ({
   resources: [],
   addResources: (resources) => set((state) => ({ resources: [...state.resources, ...resources] })),
+  isLoadingResources: false,
+  setIsLoadingResources: (isLoadingResources) => set({ isLoadingResources }),
   resourcesFirstFetch: [],
   setResourcesFirstFetch: (resources) => set({ resourcesFirstFetch: resources }),
   setResources: (resources) => set({ resources }),
@@ -37,6 +43,8 @@ export const useAIStore = create<AIState>()((set) => ({
   summary: '',
   setSummary: (chunk) => set((state) => ({ summary: state.summary + chunk })),
   clearSummary: () => set({ summary: '' }),
+  isLoadingSummary: false,
+  setIsLoadingSummary: (isLoadingSummary) => set({ isLoadingSummary }),
   language: '',
   setLanguage: (lang) => set({ language: lang })
 }))

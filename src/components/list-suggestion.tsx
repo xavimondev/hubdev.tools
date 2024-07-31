@@ -56,37 +56,36 @@ export function ListSuggestion() {
   const isLoadingSuggestions = useAIStore((state) => state.isLoadingSuggestions)
   const suggestionsFromInternet = useAIStore((state) => state.suggestionsFromInternet)
 
-  if (suggestionsFromInternet.length === 0) return null
-
   return (
-    <div className='h-auto w-full shrink-0 rounded-md py-6'>
-      <div className='flex flex-col'>
-        <div className='flex items-center gap-4'>
-          <Cloud width={50} height={50} />
-          <h2 className='relative bg-gradient-to-br from-white to-white/50 bg-clip-text sm:text-base text-xl lg:text-3xl text-transparent text-balance font-semibold'>
-            Suggestions
-          </h2>
+    <>
+      {isLoadingSuggestions ? (
+        <div className='grid-cols-3'>
+          <div className='h-[168px] w-full animate-pulse rounded-md bg-gray-500' />
         </div>
-        <p className='mt-6 max-w-lg text-muted-foreground text-pretty text-base lg:text-lg'>
-          Displaying the latest and most accurate web search results
-        </p>
-      </div>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
-        {isLoadingSuggestions ? (
-          <>
-            <div className='h-[168px] w-[290px] max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-[290px] max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-[290px] max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-[290px] max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-[290px] max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-[290px] max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-[290px] max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-[290px] max-w-sm animate-pulse rounded-md bg-gray-500' />
-          </>
-        ) : (
-          suggestionsFromInternet.map((sug) => <SuggestionCard suggestion={sug} key={sug.url} />)
-        )}
-      </div>
-    </div>
+      ) : (
+        <>
+          {suggestionsFromInternet.length > 0 ? (
+            <div className='h-auto w-full shrink-0 rounded-md py-6'>
+              <div className='flex flex-col'>
+                <div className='flex items-center gap-4'>
+                  <Cloud width={50} height={50} />
+                  <h2 className='relative bg-gradient-to-br from-white to-white/50 bg-clip-text sm:text-base text-xl lg:text-3xl text-transparent text-balance font-semibold'>
+                    Suggestions
+                  </h2>
+                </div>
+                <p className='mt-6 max-w-lg text-muted-foreground text-pretty text-base lg:text-lg'>
+                  Displaying the latest and most accurate web search results
+                </p>
+              </div>
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
+                {suggestionsFromInternet.map((sug) => (
+                  <SuggestionCard suggestion={sug} key={sug.url} />
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </>
+      )}
+    </>
   )
 }

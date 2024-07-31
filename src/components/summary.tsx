@@ -44,7 +44,7 @@ export function Summary() {
   const summary = useAIStore((state) => state.summary)
   const language = useAIStore((state) => state.language)
   const { speak, isPlaying, stop } = usePlayer()
-  if (!summary) return null
+  const isLoadingSummary = useAIStore((state) => state.isLoadingSummary)
 
   const html = snarkdown(summary)
 
@@ -59,24 +59,39 @@ export function Summary() {
   }
 
   return (
-    <div className='flex flex-col gap-2 rounded-lg border-2 border-yellow-500 bg-gradient-to-br from-slate-50 from-30% via-orange-100 to-yellow-200 p-4 shadow-sm'>
-      <div className='flex items-center justify-between mb-2'>
-        <div className='flex items-center gap-1 text-yellow-900'>
-          <SparkleIcon className='mr-2' />
-          <h3 className='text-2xl font-semibold'>Summary Results</h3>
-        </div>
-        <div>
-          <TooltipProvider delayDuration={300}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div>{isPlaying ? <StopButton stop={stop} /> : <PlayButton play={play} />}</div>
-              </TooltipTrigger>
-              <TooltipContent>{isPlaying ? 'Stop' : 'Play'} audio</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      </div>
-      <div className='text-base text-gray-700' dangerouslySetInnerHTML={{ __html: html }}></div>
-    </div>
+    <>
+      {isLoadingSummary ? (
+        <div className='h-[300px] w-full animate-pulse rounded-md bg-gray-500' />
+      ) : (
+        <>
+          {summary ? (
+            <div className='flex flex-col gap-2 rounded-lg border-2 border-yellow-500 bg-gradient-to-br from-slate-50 from-30% via-orange-100 to-yellow-200 p-4 shadow-sm'>
+              <div className='flex items-center justify-between mb-2'>
+                <div className='flex items-center gap-1 text-yellow-900'>
+                  <SparkleIcon className='mr-2' />
+                  <h3 className='text-2xl font-semibold'>Summary Results</h3>
+                </div>
+                <div>
+                  <TooltipProvider delayDuration={300}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div>
+                          {isPlaying ? <StopButton stop={stop} /> : <PlayButton play={play} />}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>{isPlaying ? 'Stop' : 'Play'} audio</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              </div>
+              <div
+                className='text-base text-gray-700'
+                dangerouslySetInnerHTML={{ __html: html }}
+              ></div>
+            </div>
+          ) : null}
+        </>
+      )}
+    </>
   )
 }

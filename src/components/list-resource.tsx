@@ -68,6 +68,7 @@ export function ListResource({ data }: ListResourceProps) {
   const clearSummary = useAIStore((state) => state.clearSummary)
   const setSuggestionsFromInternet = useAIStore((state) => state.setSuggestionsFromInternet)
   const listOfResources = resources.length === 0 ? data : resources
+  const isLoadingResources = useAIStore((state) => state.isLoadingResources)
   const params = useParams<{ slug: string }>()
 
   useEffect(() => {
@@ -91,19 +92,34 @@ export function ListResource({ data }: ListResourceProps) {
   return (
     <>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-6'>
-        {listOfResources.map(({ id, title, url, summary, image, category }, index) => {
-          return (
-            <ResourceItem
-              order={index}
-              key={id}
-              title={title}
-              url={url}
-              summary={summary}
-              image={image}
-              category={category}
-            />
-          )
-        })}
+        {isLoadingResources ? (
+          <>
+            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+          </>
+        ) : (
+          <>
+            {listOfResources.map(({ id, title, url, summary, image, category }, index) => {
+              return (
+                <ResourceItem
+                  order={index}
+                  key={id}
+                  title={title}
+                  url={url}
+                  summary={summary}
+                  image={image}
+                  category={category}
+                />
+              )
+            })}
+          </>
+        )}
       </div>
     </>
   )
