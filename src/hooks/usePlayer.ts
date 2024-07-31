@@ -15,7 +15,6 @@ export function usePlayer() {
     callback: () => void
   }) => {
     stop()
-    setIsPlaying(true)
 
     const response = await fetch('/api/tts', {
       method: 'POST',
@@ -31,6 +30,8 @@ export function usePlayer() {
     if (!response.ok) {
       throw new Error('Failed to fetch the audio')
     }
+
+    setIsPlaying(true)
 
     const audioData = await response.arrayBuffer()
     audioContext.current = new AudioContext()

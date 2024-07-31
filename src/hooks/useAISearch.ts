@@ -42,9 +42,14 @@ export function useAISearch() {
   })
 
   const getResourcesFromSearch = async ({ input }: { input: string }) => {
-    const { data: result } = await search({ input })
+    const { data: result, error: searchError } = await search({ input })
 
-    if (result.length === 0) {
+    if (searchError) {
+      toast.error(searchError)
+      return
+    }
+
+    if (!result || result.length === 0) {
       toast.info('No results were found')
       return
     }
