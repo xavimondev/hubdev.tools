@@ -2,11 +2,11 @@ import { tts } from '@/polly'
 import { LanguageCode, VoiceId } from '@aws-sdk/client-polly'
 
 const TTS: Record<string, { code: LanguageCode; voice: VoiceId }> = {
-  es_ES: {
+  Spanish: {
     code: LanguageCode.es_ES,
     voice: VoiceId.Mia
   },
-  en_US: {
+  English: {
     code: LanguageCode.en_US,
     voice: VoiceId.Ruth
   }
@@ -20,7 +20,6 @@ export async function POST(request: Request) {
     const response = await tts({ text: input, language: code, voice })
     const { AudioStream, $metadata } = response
     const audioBuffer = await AudioStream?.transformToByteArray()
-    // console.log({ requestCharacters: RequestCharacters, ContentType })
 
     if ($metadata.httpStatusCode !== 200) {
       return new Response('Voice synthesis failed', { status: 500 })

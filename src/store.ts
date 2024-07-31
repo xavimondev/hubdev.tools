@@ -17,6 +17,8 @@ type AIState = {
   setIsLoadingSuggestions: (isLoadingSuggestions: boolean) => void
   summary: string
   setSummary: (summary: string) => void
+  language: string
+  setLanguage: (lang: string) => void
 }
 
 export const useAIStore = create<AIState>()((set) => ({
@@ -32,5 +34,7 @@ export const useAIStore = create<AIState>()((set) => ({
   isLoadingSuggestions: false,
   setIsLoadingSuggestions: (isLoadingSuggestions) => set({ isLoadingSuggestions }),
   summary: '',
-  setSummary: (chunk) => set((state) => ({ summary: state.summary + chunk }))
+  setSummary: (chunk) => set((state) => ({ summary: state.summary + chunk })),
+  language: '',
+  setLanguage: (lang) => set({ language: lang })
 }))

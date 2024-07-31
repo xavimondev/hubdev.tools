@@ -12,6 +12,7 @@ export function useAISearch() {
   const setHasResources = useAIStore((state) => state.setHasResources)
   const setIsLoadingSuggestions = useAIStore((state) => state.setIsLoadingSuggestions)
   const setSummary = useAIStore((state) => state.setSummary)
+  const setLanguage = useAIStore((state) => state.setLanguage)
 
   const vad = useMicVAD({
     onSpeechEnd: async (audio) => {
@@ -48,7 +49,7 @@ export function useAISearch() {
     }
 
     //Generating summary
-    const { output, error } = await summarize({ data: result, input })
+    const { output, language, error } = await summarize({ data: result, input })
     if (error || !output) {
       toast.error(error)
       return
@@ -59,6 +60,7 @@ export function useAISearch() {
         setSummary(delta)
       }
     }
+    setLanguage(language)
 
     // Looking for suggestions on the internet
     await getSuggestions({ transcript: input })

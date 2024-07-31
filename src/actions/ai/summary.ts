@@ -18,9 +18,8 @@ export async function summarize({ data, input }: { data: Resource[]; input: stri
     const { text: language } = await generateText({
       model: groq('llama-3.1-8b-instant'),
       prompt: `The following text ${input} is writen in English or Spanish?. Please return only Spanish or English.
-    If you are not able to recognize, return English by default.`
+    If you are not able to recognize, return English by default. Don't add any other text or end the response with a period.`
     })
-    // console.log(`Language: ${language}`)
 
     const responseSummary = data.reduce((acc, resource) => {
       const { title, summary } = resource
@@ -46,7 +45,7 @@ export async function summarize({ data, input }: { data: Resource[]; input: stri
       }
       stream.done()
     })()
-    return { output: stream.value }
+    return { output: stream.value, language }
   } catch (error) {
     return { error: 'Something went wrong while generating the summary' }
   }
