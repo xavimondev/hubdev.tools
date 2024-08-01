@@ -1,9 +1,12 @@
 import { alternatives } from '@/actions/ai/alternatives'
+import { getCache, saveCache } from '@/actions/ai/cache'
 import { search } from '@/actions/ai/search'
 import { summarize } from '@/actions/ai/summary'
 // import { useMicVAD, utils } from '@ricky0123/vad-react'
 import { readStreamableValue } from 'ai/rsc'
 import { toast } from 'sonner'
+
+import { Suggestion } from '@/types/suggestion'
 
 import { useAIStore } from '@/store'
 
@@ -52,6 +55,19 @@ export function useAISearch() {
 
     clearSummary()
 
+    // Check if the query is already cached
+    const cached = await getCache({ input })
+    if (cached) {
+      const { resources, suggestions, summary } = cached.data
+      setResources(resources)
+      setSuggestionsFromInternet(suggestions)
+      setSummary(summary)
+      setIsLoadingResources(false)
+      setIsLoadingSummary(false)
+      setIsLoadingSuggestions(false)
+      return
+    }
+
     const { data: result, error: searchError } = await search({ input })
 
     if (searchError) {
@@ -82,22 +98,36 @@ export function useAISearch() {
 
     setIsLoadingSummary(false)
 
+    let summaryText = ''
     for await (const delta of readStreamableValue(output)) {
       if (delta) {
         setSummary(delta)
+        summaryText += delta
       }
     }
     setLanguage(language)
 
     // Looking for suggestions on the internet
-    await getSuggestions({ transcript: input })
-    setIsLoadingSuggestions(false)
+    const suggestions = await getSuggestions({ transcript: input })
 
+    setIsLoadingSuggestions(false)
     setIsLoadingResources(false)
     setResources(result)
 
     // hide button "load more resources" when semantic search is performed
     setHasResources(false)
+
+    // Save the query in the cache
+    const cache = {
+      input,
+      data: {
+        resources: result,
+        suggestions: suggestions as Suggestion[],
+        summary: summaryText
+      }
+    }
+
+    await saveCache({ cache })
   }
 
   const getSuggestions = async ({ transcript }: { transcript: string }) => {
@@ -108,6 +138,7 @@ export function useAISearch() {
       return
     }
     setSuggestionsFromInternet(data)
+    return data
   }
 
   return {
