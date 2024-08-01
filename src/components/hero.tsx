@@ -20,11 +20,11 @@ export function Hero({ title, description }: HeroProps) {
     <div className='relative flex items-center h-56'>
       <div className={cn('absolute top-0 z-[-2] h-full w-full bg-transparent', color)}></div>
       <div className='absolute inset-0 bg-grid-white/10 bg-grid-16 [mask-image:linear-gradient(180deg,black,transparent)]'></div>
-      <div className='relative px-8 md:px-4'>
-        <h1 className='relative bg-gradient-to-br from-white to-white/50 bg-clip-text sm:text-xl text-2xl lg:text-5xl text-transparent text-balance font-bold category'>
+      <div className='relative px-4'>
+        <h1 className='relative bg-gradient-to-br from-white to-white/50 bg-clip-text text-3xl md:text-4xl sm:text-5xl text-transparent text-balance font-bold category'>
           {title}
         </h1>
-        <p className='mt-6 max-w-lg text-muted-foreground text-pretty text-base lg:text-xl'>
+        <p className='mt-2 xl:mt-6 max-w-lg text-muted-foreground text-pretty text-base lg:text-xl'>
           {description}
         </p>
       </div>

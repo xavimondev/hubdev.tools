@@ -77,7 +77,7 @@ export function ListSuggestion() {
                   Displaying the latest and most accurate web search results
                 </p>
               </div>
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
                 {suggestionsFromInternet.map((sug) => (
                   <SuggestionCard suggestion={sug} key={sug.url} />
                 ))}

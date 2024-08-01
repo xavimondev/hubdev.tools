@@ -10,18 +10,16 @@ import { Resource } from '@/types/resource'
 
 import { NUMBER_OF_GENERATIONS_TO_FETCH } from '@/constants'
 import { useAIStore } from '@/store'
-import { Badge } from '@/components/ui/badge'
 
 type ResourceItemProps = {
   title: string
   url: string
   summary: string
   image: string
-  category: string
   order: number
 }
 
-function ResourceItem({ title, url, summary, image, category, order }: ResourceItemProps) {
+function ResourceItem({ title, url, summary, image, order }: ResourceItemProps) {
   return (
     <a
       className='rounded-lg shadow-sm overflow-hidden border border-neutral-900 bg-[#101010] hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'
@@ -39,15 +37,12 @@ function ResourceItem({ title, url, summary, image, category, order }: ResourceI
         decoding='async'
       />
       <div className='p-4'>
-        <h3 className='text-lg font-semibold text-balance'>{title}</h3>
+        <h3 className='text-base md:text-lg font-semibold text-balance'>{title}</h3>
         <div className='flex items-center justify-between mt-1'>
           <span className='text-xs text-blue-200 font-semibold flex items-center'>
             <Link2Icon className='size-4 mr-2' />
             <span className=''>{extractDomain(url)}</span>
           </span>
-          <Badge variant='secondary' className='text-xs'>
-            {category}
-          </Badge>
         </div>
         <p className='text-sm text-muted-foreground line-clamp-4 mt-2 text-pretty'>{summary}</p>
       </div>
@@ -91,7 +86,7 @@ export function ListResource({ data }: ListResourceProps) {
 
   return (
     <>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-6'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
         {isLoadingResources ? (
           <>
             <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
@@ -105,7 +100,7 @@ export function ListResource({ data }: ListResourceProps) {
           </>
         ) : (
           <>
-            {listOfResources.map(({ id, title, url, summary, image, category }, index) => {
+            {listOfResources.map(({ id, title, url, summary, image }, index) => {
               return (
                 <ResourceItem
                   order={index}
@@ -114,7 +109,6 @@ export function ListResource({ data }: ListResourceProps) {
                   url={url}
                   summary={summary}
                   image={image}
-                  category={category}
                 />
               )
             })}

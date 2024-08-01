@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import { useParams } from 'next/navigation'
 import { listResources, listResourcesBySlug } from '@/actions/resources/'
-import { RefreshCcwIcon } from 'lucide-react'
+import { ArrowDownToLineIcon } from 'lucide-react'
 
 import { Resource } from '@/types/resource'
 
@@ -78,8 +78,8 @@ export function LoadMore() {
           className='mt-2 rounded-full mx-auto flex justify-center'
           onClick={loadMoreResources}
         >
-          <RefreshCcwIcon className='size-5 mr-2' />
-          <span>Load more resources</span>
+          <ArrowDownToLineIcon className='size-4 md:size-5 mr-2' />
+          <span className='text-sm md:text-base'>Load more resources</span>
         </Button>
       ) : null}
     </>

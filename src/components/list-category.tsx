@@ -18,14 +18,14 @@ function CategoryLink({ name, slug, icon, isVisited }: CategoryProps) {
     <Link
       href={slug}
       className={cn(
-        'flex items-center gap-3 group hover:bg-neutral-500/30 p-1.5 rounded-md',
+        'flex items-center gap-1 md:gap-3 group hover:bg-neutral-500/30 p-1 md:p-1.5 rounded-md',
         isVisited && 'bg-neutral-500/30 hover:bg-none'
       )}
     >
       <span>{icon}</span>
       <span
         className={cn(
-          'text-neutral-500 text-[15px] leading-normal group-hover:text-white transition-colors duration-200',
+          'text-neutral-500 text-sm md:text-[15px] leading-normal group-hover:text-white transition-colors duration-200',
           isVisited && 'text-white category'
         )}
       >
@@ -56,8 +56,8 @@ type ListCategoryProps = {
 export function ListCategory({ data }: ListCategoryProps) {
   const pathname = usePathname()
   return (
-    <aside className='w-full md:fixed md:h-full md:w-56 overflow-y-auto scrollbar-hide'>
-      <nav className='flex gap-1 overflow-y-auto md:mb-32 md:flex-col md:overflow-y-visible pb-2 pt-1 md:pt-0'>
+    <aside className='w-full md:fixed md:h-full md:w-56 overflow-y-auto scrollbar-hide mb-8 md:mb-0'>
+      <nav className='flex gap-1 overflow-y-auto md:mb-32 md:flex-col md:overflow-y-visible md:pb-2 pt-0 px-0.5 md:px-0'>
         <CategoryAll />
         {data &&
           data.length > 0 &&
