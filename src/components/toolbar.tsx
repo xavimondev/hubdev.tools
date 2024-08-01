@@ -1,73 +1,47 @@
 'use client'
 
+import { useState } from 'react'
+
 import { useAISearch } from '@/hooks/useAISearch'
 import { FormSearch } from '@/components/form-search'
 
+const SUGGESTIONS_SEARCH = [
+  'books for learning TypeScript',
+  'how to build a blog using Next.js, Tailwind and markdown',
+  'platforms for sending emails',
+  'herramientas de testing para React',
+  'plataformas open source para analíticas',
+  'librerías para autenticación'
+]
+
 export function Toolbar() {
+  const [prompt, setPrompt] = useState('')
   const { getResourcesFromSearch } = useAISearch()
-  // const [outputFormat, setOutputFormat] = useState<'Text' | 'Audio'>('Audio')
+
   const handleSubmit = async (input: string) => {
     await getResourcesFromSearch({ input })
   }
 
   return (
-    <div className='flex fixed left-1/2 bottom-8 z-10 px-2.5 py-1.5 bg-[#1f1d1d] rounded-full w-auto border -translate-x-1/2 translate-y-[20px]'>
-      {/*      <div className='flex items-center w-full'>
- <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <div>
-              <TooltipProvider delayDuration={200}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant='ghost'
-                      size='icon'
-                      className='bg-transparent rounded-full'
-                      onClick={speakRight}
-                    >
-                      {outputFormat === 'Audio' ? (
-                        <AudioLinesIcon className='size-5' />
-                      ) : (
-                        <TextIcon className='size-5' />
-                      )}
-                      <span className='sr-only'>Open output settings</span>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>{outputFormat} Summary</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='center' className='w-[390px] bg-[#1f1d1d]'>
-            <DropdownMenuLabel>Select output format</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <div className='flex items-center' onClick={() => setOutputFormat('Audio')}>
-                <AudioLinesIcon className='mr-3 size-6' />
-                <div className='flex flex-col gap-1'>
-                  <span>Voice</span>
-                  <span className='text-muted-foreground text-sm'>
-                    Hear results aloud. Ideal for hands-free use or listening preference.
-                  </span>
-                </div>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className='flex items-center' onClick={() => setOutputFormat('Text')}>
-                <TextIcon className='mr-3 size-5' />
-                <div className='flex flex-col gap-1'>
-                  <span>Text</span>
-                  <span className='text-muted-foreground text-sm'>
-                    Display results in text. Perfect for quick reading or reference.
-                  </span>
-                </div>
-              </div>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <Separator orientation='vertical' className='h-8 !mx-2 border-r border-[#444]' /> 
-      </div>*/}
-      <FormSearch handleSubmit={handleSubmit} />
+    <div className='flex flex-col fixed left-1/2 top-0 z-50 rounded-full h-[50px] w-auto md:w-[400px] shadow-md bg-neutral-700/30 backdrop-blur-2xl backdrop-brightness-125 -translate-x-1/2 translate-y-[8px] group focus-within:w-[600px] focus-within:h-[230px] focus-within:rounded-xl transition-multiple duration-300'>
+      <FormSearch handleSubmit={handleSubmit} prompt={prompt} setPrompt={setPrompt} />
+      <div className='size-full hidden group-focus-within:block border-t border-t-neutral-700/40 overflow-y-auto scrollbar-hide'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-2 p-2'>
+          {SUGGESTIONS_SEARCH.map((suggestion) => (
+            <button
+              key={suggestion}
+              onClick={async () => {
+                setPrompt(suggestion)
+                await handleSubmit(suggestion)
+              }}
+              className='flex items-center bg-[#565656] hover:bg-[#070707] p-2 rounded-md cursor-pointer transition duration-300'
+            >
+              {/* <div className='rounded-full bg-yellow-700 size-2'></div> */}
+              <span className='text-white text-sm font-semibold text-left'>{suggestion}</span>
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }

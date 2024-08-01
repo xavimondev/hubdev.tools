@@ -1,16 +1,18 @@
 'use client'
 
-import { useState } from 'react'
-import { ArrowRightIcon, LoaderCircleIcon } from 'lucide-react'
+import { Dispatch, SetStateAction, useState } from 'react'
+import { LoaderCircleIcon, SearchIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 type FormSearchProps = {
+  prompt: string
+  setPrompt: Dispatch<SetStateAction<string>>
   handleSubmit: (input: string) => Promise<void>
 }
 
-export function FormSearch({ handleSubmit }: FormSearchProps) {
+export function FormSearch({ handleSubmit, prompt, setPrompt }: FormSearchProps) {
   const [isLoading, setIsLoading] = useState(false)
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +24,7 @@ export function FormSearch({ handleSubmit }: FormSearchProps) {
   }
 
   return (
-    <form className='w-96 !mx-0.5' onSubmit={submit}>
+    <form className='w-full px-2 py-1' onSubmit={submit}>
       <div className='relative w-full'>
         <label className='sr-only' htmlFor='input'>
           Prompt
@@ -31,8 +33,10 @@ export function FormSearch({ handleSubmit }: FormSearchProps) {
           type='input'
           id='input'
           name='input'
-          placeholder='Tell me about a stack to build a static site'
-          className='block w-full p-2 pr-10 text-sm text-foreground border-none bg-transparent rounded-md focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0'
+          placeholder='tell me about a stack to build a static site'
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          className='block w-full p-2 pr-10 text-sm border-none bg-transparent rounded-md focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-neutral-300 focus-within:placeholder:text-neutral-500'
         />
         <Button
           variant='ghost'
@@ -44,7 +48,7 @@ export function FormSearch({ handleSubmit }: FormSearchProps) {
           {isLoading ? (
             <LoaderCircleIcon className='size-5 text-muted-foreground animate-spin' />
           ) : (
-            <ArrowRightIcon className='size-5 text-muted-foreground' />
+            <SearchIcon className='size-5 text-muted-foreground' />
           )}
         </Button>
       </div>
