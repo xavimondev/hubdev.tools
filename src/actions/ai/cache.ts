@@ -23,5 +23,7 @@ export const getCache = async ({ input }: { input: string }) => {
 
 export const saveCache = async ({ cache }: { cache: CacheQuery }) => {
   const { input, data } = cache
-  await redis.set(`q:${input}`, JSON.stringify({ data }))
+  await redis.set(`q:${input}`, JSON.stringify({ data }), {
+    ex: 60 * 60 * 12 // 12 hours
+  })
 }
