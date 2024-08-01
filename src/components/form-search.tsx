@@ -44,6 +44,7 @@ export function FormSearch({ handleSubmit, prompt, setPrompt }: FormSearchProps)
           type='submit'
           className='absolute inset-y-0 right-0 flex items-center rounded-full'
           disabled={isLoading}
+          aria-label='Submit'
         >
           {isLoading ? (
             <LoaderCircleIcon className='size-5 text-muted-foreground animate-spin' />
