@@ -40,11 +40,15 @@ export async function summarize({ data, input }: { data: Resource[]; input: stri
     - Briefly mention the remaining resources without detailed descriptions.
     - The summary should be generated in the language the user has requested. 
     - Keep the tone natural and approachable.
-
+    - Use Markdown syntax with the following structure:
+        1.Use bullet points for listing resources.
+        2.Ensure there are spaces between different sections and list items.
+        3.Use headings for each section.
+    - Focus only the summary of the resources, don't add any other text.
     Here is the summary of the resources:
     ${responseSummary}
     
-    Please keep your response under 200 words. Use markdown syntax to format the response.`
+    Please keep your response under 250 words.`
       })
 
       for await (const delta of textStream) {
