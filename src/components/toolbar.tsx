@@ -31,6 +31,7 @@ export function Toolbar() {
         <div className='flex flex-wrap gap-2 items-center p-2 w-full'>
           {SUGGESTIONS_SEARCH.map((suggestion) => (
             <button
+              aria-label='Search for resources'
               key={suggestion}
               onClick={async () => {
                 setPrompt(suggestion)

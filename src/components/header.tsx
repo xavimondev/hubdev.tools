@@ -12,15 +12,15 @@ export function Header() {
             <Logo className='size-5 md:size-7' />
             <span className='hidden md:block text-sm md:text-base'>hubtools</span>
           </Link>
-          <Link
+          <a
             href='https://github.com/xavimondev/hubtools.dev'
             target='_blank'
             className='text-muted-foreground hover:text-foreground transition-colors duration-200'
-            prefetch={false}
-            rel='noreferrer'
+            rel='noreferrer noopener'
+            aria-label='GitHub repository'
           >
             <GitHubIc className='size-5 md:size-7' />
-          </Link>
+          </a>
         </div>
       </div>
     </header>

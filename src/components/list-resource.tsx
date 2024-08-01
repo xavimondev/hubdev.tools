@@ -37,7 +37,7 @@ function ResourceItem({ title, url, summary, image, order }: ResourceItemProps) 
         decoding='async'
       />
       <div className='p-4'>
-        <h3 className='text-base md:text-lg font-semibold text-balance'>{title}</h3>
+        <h2 className='text-base md:text-lg font-semibold text-balance'>{title}</h2>
         <div className='flex items-center justify-between mt-1'>
           <span className='text-xs text-blue-200 font-semibold flex items-center'>
             <Link2Icon className='size-4 mr-2' />

@@ -69,9 +69,9 @@ export function ListSuggestion() {
               <div className='flex flex-col'>
                 <div className='flex items-center gap-4'>
                   <Cloud width={50} height={50} />
-                  <h2 className='relative bg-gradient-to-br from-white to-white/50 bg-clip-text sm:text-base text-xl lg:text-3xl text-transparent text-balance font-semibold'>
+                  <h3 className='relative bg-gradient-to-br from-white to-white/50 bg-clip-text sm:text-base text-xl lg:text-3xl text-transparent text-balance font-semibold'>
                     Suggestions
-                  </h2>
+                  </h3>
                 </div>
                 <p className='mt-6 max-w-lg text-muted-foreground text-pretty text-base lg:text-lg'>
                   Displaying the latest and most accurate web search results

@@ -25,8 +25,8 @@ function CategoryLink({ name, slug, icon, isVisited }: CategoryProps) {
       <span>{icon}</span>
       <span
         className={cn(
-          'text-neutral-500 text-sm md:text-[15px] leading-normal group-hover:text-white transition-colors duration-200',
-          isVisited && 'text-white category'
+          'text-[#b9b9b9] text-sm md:text-[15px] leading-normal group-hover:text-yellow-300 transition-colors duration-200',
+          isVisited && 'text-yellow-300 category'
         )}
       >
         {name}
