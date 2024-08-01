@@ -1,6 +1,7 @@
 import { SVGProps } from 'react'
 import Link from 'next/link'
-import { Globe2Icon } from 'lucide-react'
+
+import { Logo } from '@/components/logo'
 
 export function Header() {
   return (
@@ -8,7 +9,7 @@ export function Header() {
       <div className='flex items-center justify-between h-14 px-4 md:px-6'>
         <div className='flex items-center justify-between w-full'>
           <Link href='/' className='flex items-center gap-2 font-semibold' prefetch={false}>
-            <Globe2Icon className='size-6' />
+            <Logo className='size-5 md:size-7' />
             <span className='hidden md:block text-sm md:text-base'>hubtools</span>
           </Link>
           <Link
@@ -18,7 +19,7 @@ export function Header() {
             prefetch={false}
             rel='noreferrer'
           >
-            <GitHubIc className='size-5' />
+            <GitHubIc className='size-5 md:size-7' />
           </Link>
         </div>
       </div>
