@@ -19,7 +19,7 @@ export function Header() {
             rel='noreferrer noopener'
             aria-label='GitHub repository'
           >
-            <GitHubIc className='size-5 md:size-7' />
+            <GitHubIc className='size-4 md:size-6' />
           </a>
         </div>
       </div>
