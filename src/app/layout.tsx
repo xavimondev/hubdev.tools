@@ -12,6 +12,8 @@ import { AISearch } from '@/components/ai-search'
 import { Header } from '@/components/header'
 import { Sidebar } from '@/components/sidebar'
 
+export const revalidate = 60 // revalidate every hour
+
 const inter = Inter({ subsets: ['latin'] })
 
 const title = 'hubtools.dev - Developer Tools and Resources | Find Everything Here'
