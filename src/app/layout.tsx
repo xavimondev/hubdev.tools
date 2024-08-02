@@ -4,6 +4,7 @@ import { ViewTransitions } from 'next-view-transitions'
 import './globals.css'
 
 import { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/react'
 import { Toaster } from 'sonner'
 
 import { APP_URL } from '@/constants'
@@ -72,6 +73,7 @@ export default function RootLayout({
             <AISearch />
           </div>
           <Toaster theme='dark' />
+          <Analytics />
         </body>
       </html>
     </ViewTransitions>
