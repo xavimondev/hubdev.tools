@@ -79,13 +79,17 @@ export function ListResource({ data }: ListResourceProps) {
   const setHasResources = useAIStore((state) => state.setHasResources)
   const clearSummary = useAIStore((state) => state.clearSummary)
   const setSuggestionsFromInternet = useAIStore((state) => state.setSuggestionsFromInternet)
-  const listOfResources = resources.length === 0 ? data : resources
+  const listOfResources = resources && resources.length === 0 ? data : resources
   const isLoadingResources = useAIStore((state) => state.isLoadingResources)
   const params = useParams<{ slug: string }>()
 
   useEffect(() => {
+    if (!listOfResources) {
+      setResources([])
+    }
+
     // FIXME: sometimes loadmore button shows up when there is no resources
-    if (listOfResources.length > NUMBER_OF_GENERATIONS_TO_FETCH) {
+    if (listOfResources && listOfResources.length > NUMBER_OF_GENERATIONS_TO_FETCH) {
       setHasResources(true)
     } else {
       setHasResources(false)
@@ -104,9 +108,7 @@ export function ListResource({ data }: ListResourceProps) {
   return (
     <>
       {isLoadingResources && <FallbackResources />}
-      {listOfResources.length === 0 ? (
-        <EmptyState />
-      ) : (
+      {listOfResources && listOfResources.length > 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
           {listOfResources.map(({ id, title, url, summary, image }, index) => {
             return (
@@ -121,6 +123,8 @@ export function ListResource({ data }: ListResourceProps) {
             )
           })}
         </div>
+      ) : (
+        <EmptyState />
       )}
     </>
   )

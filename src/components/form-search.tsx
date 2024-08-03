@@ -1,19 +1,19 @@
 'use client'
 
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 import { LoaderCircleIcon, SearchIcon } from 'lucide-react'
 
+import { useAIStore } from '@/store'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 type FormSearchProps = {
-  prompt: string
-  setPrompt: Dispatch<SetStateAction<string>>
   handleSubmit: (input: string) => Promise<void>
 }
 
-export function FormSearch({ handleSubmit, prompt, setPrompt }: FormSearchProps) {
+export function FormSearch({ handleSubmit }: FormSearchProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const { prompt } = useAIStore()
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -30,12 +30,12 @@ export function FormSearch({ handleSubmit, prompt, setPrompt }: FormSearchProps)
           Prompt
         </label>
         <Input
+          key={prompt}
           type='input'
           id='input'
           name='input'
           placeholder='tell me about a stack to build a static site'
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
+          defaultValue={prompt}
           className='block w-full p-2 pr-10 text-sm border-none bg-transparent rounded-md focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-neutral-300 focus-within:placeholder:text-neutral-500'
         />
         <Button

@@ -4,13 +4,13 @@ import { Resource } from '@/types/resource'
 import { Suggestion } from '@/types/suggestion'
 
 type AIState = {
-  resources: Resource[]
+  resources: Resource[] | undefined
   addResources: (resources: Resource[]) => void
   isLoadingResources: boolean
   setIsLoadingResources: (isLoadingResources: boolean) => void
   resourcesFirstFetch: Resource[]
   setResourcesFirstFetch: (resources: Resource[]) => void
-  setResources: (resources: Resource[]) => void
+  setResources: (resources: Resource[] | undefined) => void
   hasResources: boolean
   setHasResources: (hasResources: boolean) => void
   suggestionsFromInternet: Suggestion[]
@@ -24,11 +24,17 @@ type AIState = {
   setIsLoadingSummary: (isLoadingSummary: boolean) => void
   language: string
   setLanguage: (lang: string) => void
+  prompt: string
+  setPrompt: (prompt: string) => void
 }
 
 export const useAIStore = create<AIState>()((set) => ({
   resources: [],
-  addResources: (resources) => set((state) => ({ resources: [...state.resources, ...resources] })),
+  addResources: (resources) =>
+    set((state) => {
+      if (!state.resources) return { resources: [] }
+      return { resources: [...state.resources, ...resources] }
+    }),
   isLoadingResources: false,
   setIsLoadingResources: (isLoadingResources) => set({ isLoadingResources }),
   resourcesFirstFetch: [],
@@ -46,5 +52,7 @@ export const useAIStore = create<AIState>()((set) => ({
   isLoadingSummary: false,
   setIsLoadingSummary: (isLoadingSummary) => set({ isLoadingSummary }),
   language: '',
-  setLanguage: (lang) => set({ language: lang })
+  setLanguage: (lang) => set({ language: lang }),
+  prompt: '',
+  setPrompt: (prompt) => set({ prompt })
 }))

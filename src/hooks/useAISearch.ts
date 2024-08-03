@@ -76,6 +76,7 @@ export function useAISearch() {
       setIsLoadingSuggestions(false)
 
       toast.error(searchError)
+
       return
     }
 
@@ -84,7 +85,7 @@ export function useAISearch() {
       setIsLoadingSummary(false)
       setIsLoadingSuggestions(false)
 
-      toast.info('No results were found')
+      clearResults()
       return
     }
 
@@ -139,6 +140,12 @@ export function useAISearch() {
     }
     setSuggestionsFromInternet(data)
     return data
+  }
+
+  const clearResults = () => {
+    setResources(undefined)
+    setSuggestionsFromInternet([])
+    setSummary('')
   }
 
   return {

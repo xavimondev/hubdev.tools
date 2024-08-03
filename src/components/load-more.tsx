@@ -21,9 +21,8 @@ export function LoadMore() {
   const setResourcesFirstFetch = useAIStore((state) => state.setResourcesFirstFetch)
   const params = useParams<{ slug: string }>()
 
-  // TODO: check when user is talking and displays some UI effects: use vad.
   const loadMoreResources = async () => {
-    if (isLastRequest.current) return
+    if (isLastRequest.current || !resources) return
 
     let data: any = []
     const resourcesLength = resources.length === 0 ? resourcesFirstFetch.length : resources.length
