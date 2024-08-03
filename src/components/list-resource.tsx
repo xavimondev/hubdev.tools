@@ -48,6 +48,7 @@ function ResourceItem({ title, url, summary, image, order }: ResourceItemProps) 
         src={image}
         width={400}
         height={225}
+        priority={order === 0}
         alt={`Picture of ${title}`}
         className='w-full h-40 object-cover animate-reveal'
         decoding='async'
