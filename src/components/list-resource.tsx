@@ -10,6 +10,22 @@ import { Resource } from '@/types/resource'
 
 import { NUMBER_OF_GENERATIONS_TO_FETCH } from '@/constants'
 import { useAIStore } from '@/store'
+import { EmptyState } from '@/components/empty-state'
+
+function FallbackResources() {
+  return (
+    <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
+      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
+    </div>
+  )
+}
 
 type ResourceItemProps = {
   title: string
@@ -86,35 +102,25 @@ export function ListResource({ data }: ListResourceProps) {
 
   return (
     <>
-      <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
-        {isLoadingResources ? (
-          <>
-            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-            <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-          </>
-        ) : (
-          <>
-            {listOfResources.map(({ id, title, url, summary, image }, index) => {
-              return (
-                <ResourceItem
-                  order={index}
-                  key={id}
-                  title={title}
-                  url={url}
-                  summary={summary}
-                  image={image}
-                />
-              )
-            })}
-          </>
-        )}
-      </div>
+      {isLoadingResources && <FallbackResources />}
+      {listOfResources.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
+          {listOfResources.map(({ id, title, url, summary, image }, index) => {
+            return (
+              <ResourceItem
+                order={index}
+                key={id}
+                title={title}
+                url={url}
+                summary={summary}
+                image={image}
+              />
+            )
+          })}
+        </div>
+      )}
     </>
   )
 }
