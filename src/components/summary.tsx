@@ -1,7 +1,7 @@
 'use client'
 
 import { removeMarkdownFormatting } from '@/utils'
-import { SparkleIcon, StopCircleIcon, Volume2Icon } from 'lucide-react'
+import { LoaderCircleIcon, SparkleIcon, StopCircleIcon, Volume2Icon } from 'lucide-react'
 import snarkdown from 'snarkdown'
 
 import { useAIStore } from '@/store'
@@ -28,10 +28,18 @@ function StopButton({ stop }: { stop: VoidFunction }) {
   )
 }
 
+function LoadingAudio() {
+  return (
+    <span className='size-8 p-0.5 rounded-md bg-transparent text-yellow-800 inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50'>
+      <LoaderCircleIcon className='animate-spin size-5' />
+    </span>
+  )
+}
+
 export function Summary() {
   const summary = useAIStore((state) => state.summary)
   const language = useAIStore((state) => state.language)
-  const { speak, isPlaying, stop } = usePlayer()
+  const { speak, isPlaying, stop, isDownloading } = usePlayer()
   const isLoadingSummary = useAIStore((state) => state.isLoadingSummary)
 
   const html = snarkdown(summary)
@@ -41,8 +49,7 @@ export function Summary() {
       input: removeMarkdownFormatting({
         markdownText: summary
       }),
-      language: language || 'English',
-      callback: () => console.log('audiodone')
+      language: language || 'English'
     })
   }
 
@@ -64,7 +71,13 @@ export function Summary() {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div>
-                          {isPlaying ? <StopButton stop={stop} /> : <PlayButton play={play} />}
+                          {isDownloading ? (
+                            <LoadingAudio />
+                          ) : (
+                            <>
+                              {isPlaying ? <StopButton stop={stop} /> : <PlayButton play={play} />}
+                            </>
+                          )}
                         </div>
                       </TooltipTrigger>
                       <TooltipContent side='bottom'>

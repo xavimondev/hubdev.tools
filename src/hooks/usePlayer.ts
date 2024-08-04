@@ -4,18 +4,11 @@ export function usePlayer() {
   const [isPlaying, setIsPlaying] = useState(false)
   const audioContext = useRef<AudioContext | null>(null)
   const source = useRef<AudioBufferSourceNode | null>(null)
+  const [isDownloading, setIsDownloading] = useState(false)
 
-  const speak = async ({
-    input,
-    language,
-    callback
-  }: {
-    input: string
-    language: string
-    callback: () => void
-  }) => {
+  const speak = async ({ input, language }: { input: string; language: string }) => {
     stop()
-
+    setIsDownloading(true)
     const response = await fetch('/api/tts', {
       method: 'POST',
       headers: {
@@ -26,6 +19,8 @@ export function usePlayer() {
         language
       })
     })
+
+    setIsDownloading(false)
 
     if (!response.ok) {
       throw new Error('Failed to fetch the audio')
@@ -43,7 +38,6 @@ export function usePlayer() {
 
     source.current.onended = () => {
       stop()
-      callback()
     }
   }
 
@@ -56,6 +50,7 @@ export function usePlayer() {
   return {
     isPlaying,
     speak,
-    stop
+    stop,
+    isDownloading
   }
 }
