@@ -66,7 +66,7 @@ export function Summary() {
                   <SparkleIcon className='mr-2' />
                   <h3 className='text-xl md:text-2xl font-semibold'>Summary Results</h3>
                 </div>
-                <div className='flex items-center gap-1.5'>
+                <div className='flex items-center gap-1.5 border-yellow-500 bg-gradient-to-tr from-yellow-50 to-yellow-200 p-1 rounded-md border'>
                   <TooltipProvider delayDuration={300}>
                     <Tooltip>
                       <TooltipTrigger asChild>
