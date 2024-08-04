@@ -31,3 +31,7 @@ export const removeMarkdownFormatting = ({ markdownText }: { markdownText: strin
 
   return text
 }
+
+export const copyToClipboard = async ({ content }: { content: string }) => {
+  if (navigator.clipboard) navigator.clipboard.writeText(content)
+}

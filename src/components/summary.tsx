@@ -1,32 +1,20 @@
 'use client'
 
 import { removeMarkdownFormatting } from '@/utils'
-import { PlayCircleIcon, SparkleIcon, StopCircleIcon } from 'lucide-react'
+import { SparkleIcon, StopCircleIcon, Volume2Icon } from 'lucide-react'
 import snarkdown from 'snarkdown'
 
 import { useAIStore } from '@/store'
 import { usePlayer } from '@/hooks/usePlayer'
-import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-
-function ButtonSummary({ fn, children }: { fn: VoidFunction; children: React.ReactNode }) {
-  return (
-    <Button
-      variant='ghost'
-      size='icon'
-      className='rounded-md bg-transparent text-yellow-900 hover:text-yellow-950 hover:bg-transparent transition-colors duration-200'
-      onClick={fn}
-    >
-      {children}
-    </Button>
-  )
-}
+import { CopySummaryButton } from '@/components/copy-summary'
+import { ButtonSummary } from '@/components/summary-tools-button'
 
 function PlayButton({ play }: { play: VoidFunction }) {
   return (
     <ButtonSummary fn={play}>
-      <PlayCircleIcon className='size-8' />
-      <span className='sr-only'>Play script</span>
+      <Volume2Icon className='size-5' />
+      <span className='sr-only'>Read Aloud</span>
     </ButtonSummary>
   )
 }
@@ -34,7 +22,7 @@ function PlayButton({ play }: { play: VoidFunction }) {
 function StopButton({ stop }: { stop: VoidFunction }) {
   return (
     <ButtonSummary fn={stop}>
-      <StopCircleIcon className='size-8' />
+      <StopCircleIcon className='size-5' />
       <span className='sr-only'>Pause script</span>
     </ButtonSummary>
   )
@@ -71,7 +59,7 @@ export function Summary() {
                   <SparkleIcon className='mr-2' />
                   <h3 className='text-xl md:text-2xl font-semibold'>Summary Results</h3>
                 </div>
-                <div>
+                <div className='flex items-center gap-1.5'>
                   <TooltipProvider delayDuration={300}>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -79,7 +67,17 @@ export function Summary() {
                           {isPlaying ? <StopButton stop={stop} /> : <PlayButton play={play} />}
                         </div>
                       </TooltipTrigger>
-                      <TooltipContent>{isPlaying ? 'Stop' : 'Play'} audio</TooltipContent>
+                      <TooltipContent side='bottom'>
+                        {isPlaying ? 'Stop' : 'Read Aloud'}
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div>
+                          <CopySummaryButton />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent side='bottom'>Copy</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
