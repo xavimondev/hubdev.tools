@@ -1,6 +1,6 @@
 <p align="center">
   <a href=https://github.com/xavimondev/hubtools.dev target="_blank">
-    <img src='https://hubtools.dev/assets/banner.png' width="100%" alt="Banner" />
+    <img src='https://hubtools.vercel.app/assets/banner.png' width="100%" alt="Banner" />
   </a>
 </p>
 

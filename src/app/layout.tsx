@@ -45,12 +45,12 @@ export const metadata: Metadata = {
     title,
     description,
     url: '/',
-    siteName: 'vdbs',
+    siteName: 'hubtools',
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: '/banner.jpg',
+        url: '/og.jpg',
         width: 1835,
         height: 1000,
         type: 'image/jpeg'
