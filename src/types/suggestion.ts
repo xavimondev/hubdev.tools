@@ -1,5 +1,5 @@
 export type Suggestion = {
-  name: string
-  url: string
-  snippet: string
+  name?: string
+  url?: string
+  snippet?: string
 }

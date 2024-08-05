@@ -10,7 +10,7 @@ import { Cloud } from '@/components/illustrations'
 const SuggestionCard = ({
   suggestion
 }: {
-  suggestion: { name: string; url: string; snippet: string }
+  suggestion: { name?: string; url?: string; snippet?: string }
 }) => {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -36,16 +36,16 @@ const SuggestionCard = ({
       <div className='size-full flex flex-col gap-3 rounded-xl border border-white/10 px-4 py-5'>
         <Image
           unoptimized
-          src={`https://www.google.com/s2/favicons?domain=${suggestion.url}&sz=128`}
-          alt={suggestion.url}
+          src={`https://www.google.com/s2/favicons?domain=${suggestion?.url ?? 'https://www.google.com'}&sz=128`}
+          alt={`Logo for ${suggestion?.url ?? 'Google'}`}
           className='p-1 rounded-md'
           width={44}
           height={44}
         />
         <div className='flex flex-col size-full'>
-          <h6 className='text-sm font-semibold text-neutral-200'>{suggestion.name}</h6>
+          <h6 className='text-sm font-semibold text-neutral-200'>{suggestion?.name ?? 'Google'}</h6>
           <p className='text-xs text-muted-foreground line-clamp-2 mt-2 text-pretty'>
-            {suggestion.snippet}
+            {suggestion?.snippet ?? `${suggestion.name ?? 'Google'}`}
           </p>
         </div>
       </div>

@@ -2,21 +2,26 @@
 
 import { useSearchParams } from 'next/navigation'
 import { SearchIcon } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 type FormSearchProps = {
-  handleSearch: (term: string) => void
+  handleSearch: (term: string, save?: boolean) => void
 }
 
 export function FormSearch({ handleSearch }: FormSearchProps) {
   const searchParams = useSearchParams()
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const input = e.currentTarget.input.value
-    handleSearch(input)
+    const input = e.currentTarget.input.value as string
+    if (input.trim().length < 5) {
+      toast.error('Please enter a valid search term')
+      return
+    }
+    handleSearch(input, true)
   }
 
   return (

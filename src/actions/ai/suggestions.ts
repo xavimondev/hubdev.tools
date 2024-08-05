@@ -25,7 +25,13 @@ export async function getSuggestions({ question }: { question: string }) {
   const rawJSON = await response.json()
 
   const SerperJSONSchema = z.object({
-    organic: z.array(z.object({ title: z.string(), link: z.string(), snippet: z.string() }))
+    organic: z.array(
+      z.object({
+        title: z.string().optional(),
+        link: z.string().optional(),
+        snippet: z.string().optional()
+      })
+    )
   })
 
   const data = SerperJSONSchema.parse(rawJSON)

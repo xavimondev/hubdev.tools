@@ -22,13 +22,13 @@ export function EmptyState() {
         <div className='text-center'>
           <FrownIcon className='mx-auto size-36 text-primary' />
           <h3 className='mt-4 text-xl font-bold tracking-tight text-foreground sm:text-3xl'>
-            No Results Found For
+            No results found in database for
           </h3>
           <p className='mt-1 text-yellow-500 text-lg'>{searchParams.get('query')?.toString()}</p>
         </div>
       </div>
       <div className='grid gap-4 mt-5'>
-        <div className='text-[#b9b9b9]'>Here are some suggestions that might help:</div>
+        <span className='text-[#b9b9b9]'>However there are some suggestions that might help:</span>
         <ul className='grid gap-2 text-sm'>
           <li
             className='flex items-center border hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition duration-300'
@@ -75,6 +75,9 @@ export function EmptyState() {
             </span>
           </li>
         </ul>
+        <span className='text-[#b9b9b9] mt-2'>
+          Or you can explore internet suggestions from internet below
+        </span>
       </div>
     </div>
   )
