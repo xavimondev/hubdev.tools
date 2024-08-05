@@ -1,21 +1,24 @@
-import { getData } from '@/services/list'
+import { Suspense } from 'react'
+
+import { Container } from '@/components/container'
+import { Hero } from '@/components/hero'
 import { Home } from '@/components/home'
+import Loading from '@/components/loading'
 
-export default async function MainPage() {
-  const data = await getData({ from: 0, to: 11 })
-  if (!data) {
-    console.log('An error occurred')
-    return
-  }
+export default async function MainPage({ searchParams }: { searchParams: { query: string } }) {
+  const { query } = searchParams
 
-  const formatedData = data.map((item) => {
-    const { categories, ...resource } = item
-    const { name } = categories ?? {}
-    return {
-      ...resource,
-      category: name ?? ''
-    }
-  })
-
-  return <Home data={formatedData} />
+  return (
+    <>
+      <Container>
+        <Hero
+          title='Resources'
+          description='Discover an awesome list of resources for developers with cutting-edge AI features'
+        />
+        <Suspense fallback={<Loading />} key={query}>
+          <Home query={query} />
+        </Suspense>
+      </Container>
+    </>
+  )
 }

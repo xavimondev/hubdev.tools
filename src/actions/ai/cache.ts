@@ -12,6 +12,7 @@ type CacheQuery = {
     suggestions: Suggestion[]
     summary: string
   }
+  language: string
 }
 
 export const getCache = async ({ input }: { input: string }) => {
@@ -22,8 +23,8 @@ export const getCache = async ({ input }: { input: string }) => {
 }
 
 export const saveCache = async ({ cache }: { cache: CacheQuery }) => {
-  const { input, data } = cache
-  await redis.set(`q:${input}`, JSON.stringify({ data }), {
+  const { input, data, language } = cache
+  await redis.set(`q:${input}`, JSON.stringify({ data, language }), {
     ex: 60 * 60 * 12 // 12 hours
   })
 }

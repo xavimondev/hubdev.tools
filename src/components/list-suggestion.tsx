@@ -3,7 +3,8 @@
 import Image from 'next/image'
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion'
 
-import { useAIStore } from '@/store'
+import { Suggestion } from '@/types/suggestion'
+
 import { Cloud } from '@/components/illustrations'
 
 const SuggestionCard = ({
@@ -52,19 +53,14 @@ const SuggestionCard = ({
   )
 }
 
-export function ListSuggestion() {
-  const isLoadingSuggestions = useAIStore((state) => state.isLoadingSuggestions)
-  const suggestionsFromInternet = useAIStore((state) => state.suggestionsFromInternet)
-
+export function ListSuggestion({ suggestions }: { suggestions: Suggestion[] | undefined }) {
   return (
     <>
-      {isLoadingSuggestions ? (
-        <div className='grid-cols-3'>
-          <div className='h-[168px] w-full animate-pulse rounded-md bg-gray-500' />
-        </div>
+      {!suggestions ? (
+        <div className='grid-cols-3'>No suggestions found</div>
       ) : (
         <>
-          {suggestionsFromInternet.length > 0 ? (
+          {suggestions.length > 0 ? (
             <div className='h-auto w-full shrink-0 rounded-md py-6'>
               <div className='flex flex-col'>
                 <div className='flex items-center gap-4'>
@@ -78,7 +74,7 @@ export function ListSuggestion() {
                 </p>
               </div>
               <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
-                {suggestionsFromInternet.map((sug) => (
+                {suggestions.map((sug) => (
                   <SuggestionCard suggestion={sug} key={sug.url} />
                 ))}
               </div>

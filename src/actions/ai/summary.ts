@@ -1,8 +1,5 @@
-'use server'
-
 import { createOpenAI } from '@ai-sdk/openai'
-import { generateText, streamText } from 'ai'
-import { createStreamableValue } from 'ai/rsc'
+import { generateText } from 'ai'
 
 import { Resource } from '@/types/resource'
 
@@ -11,9 +8,7 @@ const groq = createOpenAI({
   apiKey: process.env.GROQ_API_KEY
 })
 
-export async function summarize({ data, input }: { data: Resource[]; input: string }) {
-  const stream = createStreamableValue('')
-
+export async function getSummary({ data, input }: { data: Resource[]; input: string }) {
   try {
     const { text: language } = await generateText({
       model: groq('llama-3.1-8b-instant'),
@@ -27,10 +22,9 @@ export async function summarize({ data, input }: { data: Resource[]; input: stri
       return res
     }, '')
 
-    ;(async () => {
-      const { textStream } = await streamText({
-        model: groq('llama-3.1-8b-instant'),
-        prompt: `You are a friendly and engaging voice assistant. Begin with a warm greeting. Your task is to narrate in ${language} 
+    const { text: summary } = await generateText({
+      model: groq('llama-3.1-8b-instant'),
+      prompt: `You are a friendly and engaging voice assistant. Begin with a warm greeting. Your task is to narrate in ${language} 
     the following summary of resources in a way that is informative yet conversational.
     Aim to make the narration sound like you are commenting on the resources found, rather than just reading them out.
 
@@ -49,14 +43,9 @@ export async function summarize({ data, input }: { data: Resource[]; input: stri
     ${responseSummary}
     
     Please keep your response under 250 words.`
-      })
+    })
 
-      for await (const delta of textStream) {
-        stream.update(delta)
-      }
-      stream.done()
-    })()
-    return { output: stream.value, language }
+    return { summary, language }
   } catch (error) {
     return { error: 'Something went wrong while generating the summary' }
   }

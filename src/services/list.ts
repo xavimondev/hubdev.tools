@@ -4,10 +4,8 @@ import { supabase } from './client'
 
 const resourcesWithCategoryQuery = supabase.from('resources').select(`
     id, 
-    slug, 
     title, 
     url, 
-    description, 
     image, 
     summary, 
     categories(

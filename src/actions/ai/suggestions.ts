@@ -1,8 +1,6 @@
-'use server'
-
 import { z } from 'zod'
 
-export async function alternatives({ question }: { question: string }) {
+export async function getSuggestions({ question }: { question: string }) {
   const SERPER_API_KEY = process.env.SERPER_API_KEY
 
   if (process.env.NODE_ENV === 'development' && !SERPER_API_KEY) {
