@@ -1,9 +1,8 @@
 import { search } from '@/actions/ai/search'
 
 import { ErrorState } from '@/components/error-state'
-import { ListResource } from '@/components/list-resource'
 import { ListSuggestion } from '@/components/list-suggestion'
-import { LoadMore } from '@/components/load-more'
+import { PanelResources } from '@/components/panel-resources'
 import { Summary } from '@/components/summary'
 
 type HomeProps = {
@@ -23,9 +22,8 @@ export async function Home({ query, slug }: HomeProps) {
   return (
     <>
       {hasResources && summary && <Summary summary={summary} language={language} />}
-      {<ListResource data={resources} />}
+      <PanelResources resources={resources} />
       {suggestions && <ListSuggestion suggestions={suggestions} />}
-      {!summary && !suggestions && <LoadMore />}
     </>
   )
 }

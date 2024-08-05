@@ -41,8 +41,7 @@
     "tailwind-merge": "2.4.0",
     "tailwind-scrollbar-hide": "1.1.7",
     "tailwindcss-animate": "1.0.7",
-    "zod": "3.23.8",
-    "zustand": "4.5.4"
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "@aws-sdk/types": "3.609.0",
