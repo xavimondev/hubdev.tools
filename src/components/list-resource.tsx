@@ -1,31 +1,10 @@
-'use client'
-
-import { useEffect } from 'react'
 import Image from 'next/image'
-import { useParams } from 'next/navigation'
 import { extractDomain } from '@/utils'
 import { Link2Icon } from 'lucide-react'
 
 import { Resource } from '@/types/resource'
 
-import { NUMBER_OF_GENERATIONS_TO_FETCH } from '@/constants'
-import { useAIStore } from '@/store'
 import { EmptyState } from '@/components/empty-state'
-
-function FallbackResources() {
-  return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
-      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-      <div className='h-[168px] w-full max-w-sm animate-pulse rounded-md bg-gray-500' />
-    </div>
-  )
-}
 
 type ResourceItemProps = {
   title: string
@@ -72,45 +51,11 @@ type ListResourceProps = {
 }
 
 export function ListResource({ data }: ListResourceProps) {
-  const resources = useAIStore((state) => state.resources)
-  const suggestionsFromInternet = useAIStore((state) => state.suggestionsFromInternet)
-  const setResourcesFirstFetch = useAIStore((state) => state.setResourcesFirstFetch)
-  const setResources = useAIStore((state) => state.setResources)
-  const setHasResources = useAIStore((state) => state.setHasResources)
-  const clearSummary = useAIStore((state) => state.clearSummary)
-  const setSuggestionsFromInternet = useAIStore((state) => state.setSuggestionsFromInternet)
-  const listOfResources = resources && resources.length === 0 ? data : resources
-  const isLoadingResources = useAIStore((state) => state.isLoadingResources)
-  const params = useParams<{ slug: string }>()
-
-  useEffect(() => {
-    if (!listOfResources) {
-      setResources([])
-    }
-
-    // FIXME: sometimes loadmore button shows up when there is no resources
-    if (listOfResources && listOfResources.length > NUMBER_OF_GENERATIONS_TO_FETCH) {
-      setHasResources(true)
-    } else {
-      setHasResources(false)
-    }
-
-    setResources([])
-    setResourcesFirstFetch(data)
-    clearSummary()
-
-    if (suggestionsFromInternet.length > 0) {
-      // Clear suggestions from internet when user goes to another page
-      setSuggestionsFromInternet([])
-    }
-  }, [params.slug])
-
   return (
     <>
-      {isLoadingResources && <FallbackResources />}
-      {listOfResources && listOfResources.length > 0 ? (
+      {data && data.length > 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
-          {listOfResources.map(({ id, title, url, summary, image }, index) => {
+          {data.map(({ id, title, url, summary, image }, index) => {
             return (
               <ResourceItem
                 order={index}

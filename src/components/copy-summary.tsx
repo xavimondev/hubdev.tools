@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react'
 import { copyToClipboard, removeMarkdownFormatting } from '@/utils'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 
-import { useAIStore } from '@/store'
 import { ButtonSummary } from '@/components/summary-tools-button'
 
-export function CopySummaryButton() {
+type CopySummaryButtonProps = {
+  summary: string
+}
+
+export function CopySummaryButton({ summary }: CopySummaryButtonProps) {
   const [clicked, setClicked] = useState(false)
-  const summary = useAIStore((state) => state.summary)
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>
@@ -24,7 +26,6 @@ export function CopySummaryButton() {
 
   return (
     <ButtonSummary
-      styles={clicked && ''}
       fn={async () => {
         setClicked(true)
         const content = removeMarkdownFormatting({

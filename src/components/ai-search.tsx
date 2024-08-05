@@ -1,5 +1,10 @@
+import { generateSearchSuggestionsAI, getHistory } from '@/actions/history'
+
 import { Toolbar } from '@/components/toolbar'
 
-export function AISearch() {
-  return <Toolbar />
+export async function AISearch() {
+  const history = await getHistory()
+  const searchSuggestions = await generateSearchSuggestionsAI()
+
+  return <Toolbar searchHistory={history} searchSuggestionsAI={searchSuggestions} />
 }

@@ -3,13 +3,14 @@
 import Image from 'next/image'
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion'
 
-import { useAIStore } from '@/store'
+import { Suggestion } from '@/types/suggestion'
+
 import { Cloud } from '@/components/illustrations'
 
 const SuggestionCard = ({
   suggestion
 }: {
-  suggestion: { name: string; url: string; snippet: string }
+  suggestion: { name?: string; url?: string; snippet?: string }
 }) => {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -35,16 +36,16 @@ const SuggestionCard = ({
       <div className='size-full flex flex-col gap-3 rounded-xl border border-white/10 px-4 py-5'>
         <Image
           unoptimized
-          src={`https://www.google.com/s2/favicons?domain=${suggestion.url}&sz=128`}
-          alt={suggestion.url}
+          src={`https://www.google.com/s2/favicons?domain=${suggestion?.url ?? 'https://www.google.com'}&sz=128`}
+          alt={`Logo for ${suggestion?.url ?? 'Google'}`}
           className='p-1 rounded-md'
           width={44}
           height={44}
         />
         <div className='flex flex-col size-full'>
-          <h6 className='text-sm font-semibold text-neutral-200'>{suggestion.name}</h6>
+          <h6 className='text-sm font-semibold text-neutral-200'>{suggestion?.name ?? 'Google'}</h6>
           <p className='text-xs text-muted-foreground line-clamp-2 mt-2 text-pretty'>
-            {suggestion.snippet}
+            {suggestion?.snippet ?? `${suggestion.name ?? 'Google'}`}
           </p>
         </div>
       </div>
@@ -52,19 +53,14 @@ const SuggestionCard = ({
   )
 }
 
-export function ListSuggestion() {
-  const isLoadingSuggestions = useAIStore((state) => state.isLoadingSuggestions)
-  const suggestionsFromInternet = useAIStore((state) => state.suggestionsFromInternet)
-
+export function ListSuggestion({ suggestions }: { suggestions: Suggestion[] | undefined }) {
   return (
     <>
-      {isLoadingSuggestions ? (
-        <div className='grid-cols-3'>
-          <div className='h-[168px] w-full animate-pulse rounded-md bg-gray-500' />
-        </div>
+      {!suggestions ? (
+        <div className='grid-cols-3'>No suggestions found</div>
       ) : (
         <>
-          {suggestionsFromInternet.length > 0 ? (
+          {suggestions.length > 0 ? (
             <div className='h-auto w-full shrink-0 rounded-md py-6'>
               <div className='flex flex-col'>
                 <div className='flex items-center gap-4'>
@@ -78,7 +74,7 @@ export function ListSuggestion() {
                 </p>
               </div>
               <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
-                {suggestionsFromInternet.map((sug) => (
+                {suggestions.map((sug) => (
                   <SuggestionCard suggestion={sug} key={sug.url} />
                 ))}
               </div>

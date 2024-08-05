@@ -1,75 +1,113 @@
-'use server'
-
-import { headers } from 'next/headers'
-import { uptash } from '@/ratelimit'
-import { openai } from '@ai-sdk/openai'
-import { embed, generateObject } from 'ai'
-import { z } from 'zod'
-
 import { Resource } from '@/types/resource'
+import { Suggestion } from '@/types/suggestion'
 
-import { supabase } from '@/services/client'
+import { getData, getResourcesByCategorySlug } from '@/services/list'
 
-const AISchema = z.object({
-  requirement: z.object({
-    summary: z.string(),
-    limit: z.number()
-  })
-})
+import { getCache, saveCache } from './cache'
+import { getEmbeddings } from './embeddings'
+import { getSuggestions } from './suggestions'
+import { getSummary } from './summary'
 
-const ratelimit =
-  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN ? uptash : false
+export type QueryData = {
+  resources: Resource[] | undefined
+  summary?: string
+  suggestions?: Suggestion[]
+  language?: string
+}
 
-export async function search({ input }: { input: string }) {
-  try {
-    if (process.env.NODE_ENV === 'production') {
-      if (ratelimit) {
-        const ip = headers().get('x-forwarded-for') ?? 'local'
+export async function search({
+  q,
+  slug
+}: {
+  q?: string
+  slug?: string
+}): Promise<QueryData | { error: string }> {
+  const query = q ?? 'all'
 
-        const { success } = await ratelimit.limit(ip)
-        if (!success) {
-          return { error: 'You have reached your request limit for the day.' }
+  if (query === 'all') {
+    let data: Resource[] = []
+
+    if (slug) {
+      const result = await getResourcesByCategorySlug({ from: 0, to: 11, slug })
+      if (!result) {
+        return { error: 'An error occured. Please try again later.' }
+      }
+      data = result.map((item) => {
+        const { categories, ...resource } = item
+        const { name } = categories ?? {}
+        return {
+          ...resource,
+          category: name ?? ''
         }
+      })
+    } else {
+      const result = await getData({ from: 0, to: 11 })
+      if (!result) {
+        return { error: 'An error occured. Please try again later.' }
+      }
+      data = result.map((item) => {
+        const { categories, ...resource } = item
+        const { name } = categories ?? {}
+        return {
+          ...resource,
+          category: name ?? ''
+        }
+      })
+    }
+
+    return {
+      resources: data
+    }
+  }
+
+  const cache = await getCache({ input: query })
+  if (!cache) {
+    const { data, error: errorSearch } = await getEmbeddings({ input: query })
+    if (!data || errorSearch) {
+      return {
+        resources: [],
+        error: errorSearch
       }
     }
 
-    const ai = await generateObject({
-      model: openai('gpt-4o-mini'),
-      schema: AISchema,
-      prompt: `You are a helpful assistant that helps developers clarify requirements.
+    const { summary, error: errorSummary, language } = await getSummary({ data, input: query })
+    if (!summary || errorSummary) {
+      return {
+        error: errorSearch ?? '"An error occured. Please try again later."'
+      }
+    }
 
-    Please analyze the following requirement:
-    ${input}
+    const { data: listSuggestions, error } = await getSuggestions({ question: query })
+    if (error || !listSuggestions) {
+      return {
+        error: errorSearch ?? '"An error occured. Please try again later."'
+      }
+    }
 
-    Your tasks are:
+    // Let's save the query in the cache
+    const cache = {
+      input: query,
+      data: {
+        summary,
+        resources: data,
+        suggestions: listSuggestions
+      },
+      language
+    }
 
-    1.Translate the developer's requirement to English, if it is in another language.
-    2.Improve the clarity of the requirement to ensure it makes sense.
-    3.Determine the number of resources or options the user is asking for. If not specified set the limit to 12.
-    4.If the number of resources is greather than 12, set the limit to 12.
-    5.The summary should be in 15 words or less.
-    6.Don't start the summary with "the requirement", just go straight to the summary.
-    7.You do not have access to up-to-date information, so you should not provide real-time data.
-    8.You are not capable of performing actions other than responding to the user.`
-    })
+    await saveCache({ cache })
 
-    const { summary, limit } = ai.object.requirement
-    // console.log(ai.object.requirement)
-    const { embedding } = await embed({
-      model: openai.embedding('text-embedding-3-small'),
-      value: summary
-    })
+    return {
+      summary,
+      resources: data,
+      suggestions: listSuggestions,
+      language
+    }
+  }
 
-    const request = await supabase.rpc('query_embeddings', {
-      // @ts-ignore
-      embed: embedding,
-      match_threshold: 0.46,
-      match_count: limit
-    })
+  const { data } = cache
 
-    const result = request.data as Resource[]
-    return { data: result }
-  } catch (error) {
-    return { error: 'An error occurred while searching for resources.' }
+  return {
+    ...data
   }
 }

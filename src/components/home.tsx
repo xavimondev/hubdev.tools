@@ -1,29 +1,29 @@
-import { Resource } from '@/types/resource'
+import { search } from '@/actions/ai/search'
 
-import { Container } from '@/components/container'
-import { Hero } from '@/components/hero'
-import { ListResource } from '@/components/list-resource'
+import { ErrorState } from '@/components/error-state'
 import { ListSuggestion } from '@/components/list-suggestion'
-import { LoadMore } from '@/components/load-more'
+import { PanelResources } from '@/components/panel-resources'
 import { Summary } from '@/components/summary'
 
 type HomeProps = {
-  data: Resource[]
+  query?: string
+  slug?: string
 }
 
-export function Home({ data }: HomeProps) {
+export async function Home({ query, slug }: HomeProps) {
+  const data = await search({ q: query, slug })
+  // @ts-ignore
+  const { resources, summary, suggestions, error, language } = data
+  if (error) {
+    return <ErrorState error={error ?? 'An error occured. Please try again later.'} />
+  }
+
+  const hasResources = resources && resources.length > 0
   return (
     <>
-      <Container>
-        <Hero
-          title='Resources'
-          description='Discover an awesome list of resources for developers with cutting-edge AI features'
-        />
-        <Summary />
-        <ListResource data={data} />
-        <ListSuggestion />
-        <LoadMore />
-      </Container>
+      {hasResources && summary && <Summary summary={summary} language={language} />}
+      <PanelResources resources={resources} />
+      {suggestions && <ListSuggestion suggestions={suggestions} />}
     </>
   )
 }

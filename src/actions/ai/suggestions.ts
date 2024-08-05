@@ -1,8 +1,6 @@
-'use server'
-
 import { z } from 'zod'
 
-export async function alternatives({ question }: { question: string }) {
+export async function getSuggestions({ question }: { question: string }) {
   const SERPER_API_KEY = process.env.SERPER_API_KEY
 
   if (process.env.NODE_ENV === 'development' && !SERPER_API_KEY) {
@@ -27,7 +25,13 @@ export async function alternatives({ question }: { question: string }) {
   const rawJSON = await response.json()
 
   const SerperJSONSchema = z.object({
-    organic: z.array(z.object({ title: z.string(), link: z.string(), snippet: z.string() }))
+    organic: z.array(
+      z.object({
+        title: z.string().optional(),
+        link: z.string().optional(),
+        snippet: z.string().optional()
+      })
+    )
   })
 
   const data = SerperJSONSchema.parse(rawJSON)

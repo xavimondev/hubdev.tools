@@ -1,26 +1,27 @@
 'use client'
 
-import { useState } from 'react'
-import { LoaderCircleIcon, SearchIcon } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
+import { SearchIcon } from 'lucide-react'
+import { toast } from 'sonner'
 
-import { useAIStore } from '@/store'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 type FormSearchProps = {
-  handleSubmit: (input: string) => Promise<void>
+  handleSearch: (term: string, save?: boolean) => void
 }
 
-export function FormSearch({ handleSubmit }: FormSearchProps) {
-  const [isLoading, setIsLoading] = useState(false)
-  const { prompt } = useAIStore()
+export function FormSearch({ handleSearch }: FormSearchProps) {
+  const searchParams = useSearchParams()
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsLoading(true)
-    const input = e.currentTarget.input.value
-    await handleSubmit(input)
-    setIsLoading(false)
+    const input = e.currentTarget.input.value as string
+    if (input.trim().length < 5) {
+      toast.error('Please enter a valid search term')
+      return
+    }
+    handleSearch(input, true)
   }
 
   return (
@@ -30,12 +31,12 @@ export function FormSearch({ handleSubmit }: FormSearchProps) {
           Prompt
         </label>
         <Input
-          key={prompt}
+          key={searchParams.get('query')?.toString()}
           type='input'
           id='input'
           name='input'
           placeholder='tell me about a stack to build a static site'
-          defaultValue={prompt}
+          defaultValue={searchParams.get('query')?.toString()}
           className='block w-full p-2 pr-10 text-sm border-none bg-transparent rounded-md focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-neutral-300 focus-within:placeholder:text-neutral-500'
         />
         <Button
@@ -43,14 +44,9 @@ export function FormSearch({ handleSubmit }: FormSearchProps) {
           size='icon'
           type='submit'
           className='absolute inset-y-0 right-0 flex items-center rounded-full'
-          disabled={isLoading}
           aria-label='Submit'
         >
-          {isLoading ? (
-            <LoaderCircleIcon className='size-5 text-muted-foreground animate-spin' />
-          ) : (
-            <SearchIcon className='size-5 text-muted-foreground' />
-          )}
+          <SearchIcon className='size-5 text-muted-foreground' />
         </Button>
       </div>
     </form>

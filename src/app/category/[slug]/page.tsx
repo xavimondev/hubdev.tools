@@ -1,11 +1,15 @@
+import { Suspense } from 'react'
 import { Metadata } from 'next'
 
 import { getCategoryDetails, getResourcesByCategorySlug } from '@/services/list'
 import { Container } from '@/components/container'
+import { ErrorState } from '@/components/error-state'
 import { Hero } from '@/components/hero'
+import { Home } from '@/components/home'
 import { ListResource } from '@/components/list-resource'
 import { ListSuggestion } from '@/components/list-suggestion'
 import { LoadMore } from '@/components/load-more'
+import Loading from '@/components/loading'
 import { Summary } from '@/components/summary'
 
 export async function generateMetadata({
@@ -31,38 +35,29 @@ export async function generateMetadata({
   }
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+  searchParams
+}: {
+  params: { slug: string }
+  searchParams: { query: string }
+}) {
   const { slug } = params
   const data = await getCategoryDetails({ slug })
-  if (!data) return
+  if (!data) return <ErrorState error='An error occurred. Please try again later.' />
 
   const category = data[0]
 
   const { name, description } = category
-  const resources = await getResourcesByCategorySlug({ from: 0, to: 11, slug })
 
-  if (!resources) {
-    console.log('An error occurred')
-    return
-  }
-
-  const formatedData = resources.map((item) => {
-    const { categories, ...resource } = item
-
-    const { name } = categories ?? {}
-    return {
-      ...resource,
-      category: name ?? ''
-    }
-  })
+  const { query } = searchParams
 
   return (
     <Container>
       <Hero title={name} description={description!} />
-      <Summary />
-      <ListResource data={formatedData} />
-      <ListSuggestion />
-      <LoadMore />
+      <Suspense fallback={<Loading />} key={query}>
+        <Home query={query} slug={slug} />
+      </Suspense>
     </Container>
   )
 }

@@ -1,7 +1,6 @@
 import { removeMarkdownFormatting } from '@/utils'
 import { LoaderCircleIcon, StopCircleIcon, Volume2Icon } from 'lucide-react'
 
-import { useAIStore } from '@/store'
 import { usePlayer } from '@/hooks/usePlayer'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { CopySummaryButton } from '@/components/copy-summary'
@@ -33,10 +32,7 @@ function LoadingAudio() {
   )
 }
 
-export function SummaryTools() {
-  const summary = useAIStore((state) => state.summary)
-  const language = useAIStore((state) => state.language)
-
+export function SummaryTools({ summary, language }: { summary: string; language: string }) {
   const { speak, isPlaying, stop, isDownloading } = usePlayer()
 
   const play = async () => {
@@ -66,7 +62,7 @@ export function SummaryTools() {
         <Tooltip>
           <TooltipTrigger asChild>
             <div>
-              <CopySummaryButton />
+              <CopySummaryButton summary={summary} />
             </div>
           </TooltipTrigger>
           <TooltipContent side='bottom'>Copy</TooltipContent>
