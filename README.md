@@ -1,29 +1,28 @@
-<p align="center">
-  <a href=https://github.com/xavimondev/hubdev.tools target="_blank">
-    <img src='https://hubdevtools.vercel.app/assets/banner.png' width="100%" alt="Banner" />
-  </a>
-</p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white" alt="Nextjs" />
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript"  />
-  <img src="https://img.shields.io/badge/Tailwind%20CSS-0F172A?logo=tailwind-css&logoColor=38BDF9" alt="TailwindCSS"  />
-  <img src="https://img.shields.io/github/contributors/xavimondev/hubdev.tools" alt="GitHub contributors" />
-  <img src="https://img.shields.io/github/issues-pr/xavimondev/hubdev.tools" alt="GitHub pull request" />
-  <img src="https://img.shields.io/github/license/xavimondev/hubdev.tools" alt="GitHub License" />
-</p>
+<div align="center">
 
+[![hubtools](https://res.cloudinary.com/marcomontalbano/image/upload/v1722961837/video_to_markdown/images/video--fb7c4a1fd967e644cf5aaf844f1874c4-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://res.cloudinary.com/di19fkmzs/video/upload/v1722961547/hubtoolsdev/demo/demohubtools.mp4 "hubtools")
+
+<p>Empowering Developers with Essential Tools and Seamless Semantic Search.</p> 
+<img src="https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white" alt="Nextjs" />
+<img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript"  />
+<img src="https://img.shields.io/badge/Tailwind%20CSS-0F172A?logo=tailwind-css&logoColor=38BDF9" alt="TailwindCSS"  />
+<img src="https://img.shields.io/github/contributors/xavimondev/hubdev.tools" alt="GitHub contributors" />
+<img src="https://img.shields.io/github/issues-pr/xavimondev/hubdev.tools" alt="GitHub pull request" />
+<img src="https://img.shields.io/github/license/xavimondev/hubdev.tools" alt="GitHub License" />
 <p><p>
 <p><p>
+</div>
 
 ## Overview
 
-A great collection of essential resources and tools for developers, thoughtfully categorized. Simplify your searches with powerful semantic search engine.
-It uses semantic search to find the right resources for your project. Powered by Vercel SDK, OpenAI, and Groq.
+A comprehensive collection of essential resources and tools for developers, thoughtfully categorized to streamline your development process. Utilize advanced semantic search, powered by Vercel SDK, OpenAI, and Supabase, to find exactly what you need. Effortlessly discover UI inspiration, books, courses, testing tools, icons, and much more with ease and efficiency.
 
 ## Table of Contents
 
 - [Features](#features)
+
+- [How was built](#how-was-built)
 
 - [Stack](#stack)
 
@@ -39,33 +38,72 @@ It uses semantic search to find the right resources for your project. Powered by
 
 ### AI Powered Semantic Search
 
-The AI-powered semantic search engine uses Vercel AI SDK to generate autocomplete suggestions based on user input. It uses the Groq API to generate text completions and the Serper API to search for relevant resources. The search engine also uses Upstash to rate limit requests and Supabase to store and retrieve resources and embeddings.
+Leverage the power of AI with a semantic search engine, which uses Supabase embeddings and OpenAI to deliver highly relevant resources based on user input. Ensure smooth performance and efficient query handling with Upstash, providing rate limiting and query caching.
 
 ### Voice Synthesis
 
-The voice synthesis feature uses the AWS Polly API to generate speech from text. It supports English and Spanish languages.
+Convert summary text to speech seamlessly with the voice synthesis feature, powered by the AWS Polly API. This feature supports both English and Spanish.
 
 ### Resources Summary
 
-The resources summary feature uses the Groq API to generate a summary of the selected resources. It supports English and Spanish languages.
+Provide a brief summary of the generated resources powered by `llama-3.1-8b-instant`. This feature offers concise summaries in both English and Spanish.
 
 ### Search Suggestions
 
-The search suggestions feature uses the OpenAI to generate autocomplete suggestions based on user search history and input.
+Improve the search experience with intelligent search suggestions based on your history, powered by `gpt-4o-mini`.
 
+## How was built
 
-## Building Proccess
+The construction of this project followed a systematic approach to ensure efficiency and accuracy in gathering and processing resources. Below is the detailed process:
+
+### Generating Links Array
+
+Initially, an array of links was created in the format: 
+
+```
+[{
+  url: 'https://linkresource.com'
+}]
+```
+
+### Scraping Metadata
+
+Using Cheerio, I scraped the meta tags: title, description, and image from each link.
+When it comes to handling images, I followed a specific approach:
+
+- OpenGraph Image: If an OpenGraph image was available, it was optimized and uploaded to Supabase.
+- No OpenGraph Image: If no OpenGraph image was found, [Playwright](https://playwright.dev/) was used to take a screenshot of the website.
+
+All the images were optimized using [Sharp](https://github.com/lovell/sharp), then uploaded to Supabase.
+
+### Generating Summaries
+
+The HTML of the initial page was obtained and sent to OpenAI to generate a summary of the website, providing a clearer understanding of its content. The model used was `gpt-4o-mini`.
+
+### Storing and Embedding Resources
+
+With the images stored in Supabase, along with the summary and description of each website, embeddings were generated for each resource. I've used the model `text-embedding-3-small`.
+All this information was then bulk inserted into Supabase.
+
+### Regular Updates
+
+The resources are updated every hour to ensure the information remains current.
+```
+export const revalidate = 60
+```
 
 ## Stack
 
-- [Vercel AI SDK](https://vercel.com/docs/concepts/functions/serverless-functions/ai): The Vercel AI SDK is the TypeScript toolkit designed to help developers build AI-powered applications.
+- [Vercel AI SDK](https://sdk.vercel.ai/): The Vercel AI SDK to help developers build AI-powered applications.
 - [Next](https://nextjs.org/): A framework for building server-rendered React applications.
-- [Uptash](https://upstash.com/): For rate limiting and queries caching.
+- [Uptash](https://upstash.com/): Rate limiting and queries caching.
 - [Supabase](supabase.com): For storing og images, resources and embeddings.
 - [Serper](https://serper.dev/): For searching suggestions from the internet.
+- [Polly](https://aws.amazon.com/polly): For generating speech from text.
 - [Shadcn/ui](https://ui.shadcn.com/): Provides beautifully designed components for UI.
 - [Tailwindcss](https://tailwindcss.com/): A utility-first CSS framework for rapid UI development.
 - [Zod](https://github.com/colinhacks/zod): TypeScript-first schema validation with static type inference
+- [Cheerio](https://cheerio.js.org/): A fast, flexible, and lean library for web scraping and parsing HTML.
 
 ## Project Summary
 
