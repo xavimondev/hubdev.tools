@@ -104,6 +104,8 @@ export const revalidate = 60
 - [Tailwindcss](https://tailwindcss.com/): A utility-first CSS framework for rapid UI development.
 - [Zod](https://github.com/colinhacks/zod): TypeScript-first schema validation with static type inference
 - [Cheerio](https://cheerio.js.org/): A fast, flexible, and lean library for web scraping and parsing HTML.
+- [Playwright](https://playwright.dev/): A framework for end-to-end testing and automation.
+- [Sharp](https://github.com/lovell/sharp): A Node.js library for manipulating images in a variety of ways.
 
 ## Project Summary
 
