@@ -45,8 +45,8 @@ export async function getEmbeddings({ input }: { input: string }) {
 
     1.Translate the developer's requirement to English, if it is in another language.
     2.Improve the clarity of the requirement to ensure it makes sense.
-    3.Determine the number of resources or options the user is asking for. If not specified set the limit to 12.
-    4.If the number of resources is greather than 12, set the limit to 12.
+    3.Determine the number of resources or options the user is asking for. If not specified set the limit to 11.
+    4.If the number of resources is greather than 11, set the limit to 11.
     5.The summary should be in 15 words or less.
     6.Don't start the summary with "the requirement", just go straight to the summary.
     7.You do not have access to up-to-date information, so you should not provide real-time data.
@@ -64,7 +64,7 @@ export async function getEmbeddings({ input }: { input: string }) {
       // @ts-ignore
       embed: embedding,
       match_threshold: 0.43,
-      match_count: limit
+      match_count: limit > 11 ? 11 : limit
     })
 
     const result = request.data as Resource[]
