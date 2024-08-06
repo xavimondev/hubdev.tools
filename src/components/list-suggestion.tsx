@@ -18,7 +18,7 @@ const SuggestionCard = ({
     <a
       target='_blank'
       rel='noopener noreferrer'
-      href={suggestion.url}
+      href={suggestion.url ?? 'https://www.google.com'}
       className='group relative size-full overflow-hidden rounded-xl bg-[#101010]'
       onMouseMove={(e) => {
         const { left, top } = e.currentTarget.getBoundingClientRect()
