@@ -1,3 +1,5 @@
+'use client'
+
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AsteriskIcon, FrownIcon } from 'lucide-react'
 
