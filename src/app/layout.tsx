@@ -16,7 +16,7 @@ export const revalidate = 60 // revalidate every hour
 
 const inter = Inter({ subsets: ['latin'] })
 
-const title = 'hubtools.dev - Developer Tools and Resources | Find Everything Here'
+const title = 'hubdev.tools - Developer Tools and Resources | Find Everything Here'
 const description =
   'A great collection of essential resources and tools for developers, thoughtfully categorized. Simplify your searches with our powerful semantic search engine. Discover UI inspiration, books, courses, testing tools, icons, and much more.'
 
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     title,
     description,
     url: '/',
-    siteName: 'hubtools',
+    siteName: 'hubdev',
     locale: 'en_US',
     type: 'website',
     images: [

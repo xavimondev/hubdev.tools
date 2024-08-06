@@ -1,5 +1,5 @@
 {
-  "name": "hubtools.dev",
+  "name": "hubdev.tools",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -19,8 +19,6 @@
     "@radix-ui/react-separator": "1.1.0",
     "@radix-ui/react-slot": "1.1.0",
     "@radix-ui/react-tooltip": "1.1.2",
-    "@ricky0123/vad-react": "0.0.24",
-    "@ricky0123/vad-web": "0.0.18",
     "@supabase/supabase-js": "2.44.4",
     "@upstash/ratelimit": "2.0.1",
     "@upstash/redis": "1.34.0",
@@ -33,7 +31,6 @@
     "mini-svg-data-uri": "1.4.4",
     "next": "14.2.5",
     "next-view-transitions": "0.2.0",
-    "onnxruntime-web": "1.18.0",
     "react": "18",
     "react-dom": "18",
     "snarkdown": "2.0.0",

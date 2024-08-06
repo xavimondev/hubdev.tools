@@ -10,10 +10,10 @@ export function Header() {
         <div className='flex items-center justify-between w-full'>
           <Link href='/' className='flex items-center gap-2 font-semibold' prefetch={false}>
             <Logo className='size-5 md:size-7' />
-            <span className='hidden md:block text-sm md:text-base'>hubtools</span>
+            <span className='hidden md:block text-sm md:text-base'>hubdev</span>
           </Link>
           <a
-            href='https://github.com/xavimondev/hubtools.dev'
+            href='https://github.com/xavimondev/hubdev.tools'
             target='_blank'
             className='text-muted-foreground hover:text-foreground transition-colors duration-200'
             rel='noreferrer noopener'

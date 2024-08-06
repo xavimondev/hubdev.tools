@@ -1,6 +1,6 @@
 <p align="center">
-  <a href=https://github.com/xavimondev/hubtools.dev target="_blank">
-    <img src='https://hubtools.vercel.app/assets/banner.png' width="100%" alt="Banner" />
+  <a href=https://github.com/xavimondev/hubdev.tools target="_blank">
+    <img src='https://hubdevtools.vercel.app/assets/banner.png' width="100%" alt="Banner" />
   </a>
 </p>
 
@@ -8,20 +8,20 @@
   <img src="https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white" alt="Nextjs" />
   <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript"  />
   <img src="https://img.shields.io/badge/Tailwind%20CSS-0F172A?logo=tailwind-css&logoColor=38BDF9" alt="TailwindCSS"  />
-  <img src="https://img.shields.io/github/contributors/xavimondev/hubtools.dev" alt="GitHub contributors" />
-  <img src="https://img.shields.io/github/issues-pr/xavimondev/hubtools.dev" alt="GitHub pull request" />
-  <img src="https://img.shields.io/github/license/xavimondev/hubtools.dev" alt="GitHub License" />
+  <img src="https://img.shields.io/github/contributors/xavimondev/hubdev.tools" alt="GitHub contributors" />
+  <img src="https://img.shields.io/github/issues-pr/xavimondev/hubdev.tools" alt="GitHub pull request" />
+  <img src="https://img.shields.io/github/license/xavimondev/hubdev.tools" alt="GitHub License" />
 </p>
 
 <p><p>
 <p><p>
 
-## 📌 Overview
+## Overview
 
-A great collection of essential resources and tools for developers, thoughtfully categorized. Simplify your searches with our powerful semantic search engine. Discover UI inspiration, books, courses, testing tools, icons, and much more.
+A great collection of essential resources and tools for developers, thoughtfully categorized. Simplify your searches with powerful semantic search engine.
 It uses semantic search to find the right resources for your project. Powered by Vercel SDK, OpenAI, and Groq.
 
-## 🔍 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 
@@ -37,15 +37,35 @@ It uses semantic search to find the right resources for your project. Powered by
 
 ## Features
 
+### AI Powered Semantic Search
+
+The AI-powered semantic search engine uses Vercel AI SDK to generate autocomplete suggestions based on user input. It uses the Groq API to generate text completions and the Serper API to search for relevant resources. The search engine also uses Upstash to rate limit requests and Supabase to store and retrieve resources and embeddings.
+
+### Voice Synthesis
+
+The voice synthesis feature uses the AWS Polly API to generate speech from text. It supports English and Spanish languages.
+
+### Resources Summary
+
+The resources summary feature uses the Groq API to generate a summary of the selected resources. It supports English and Spanish languages.
+
+### Search Suggestions
+
+The search suggestions feature uses the OpenAI to generate autocomplete suggestions based on user search history and input.
+
+
+## Building Proccess
+
 ## Stack
 
-- [next](https://nextjs.org/): A framework for building server-rendered React applications.
-- [typescript](https://www.typescriptlang.org/): A typed superset of JavaScript that compiles to plain JavaScript.
-- [shadcn/ui](https://ui.shadcn.com/): Provides beautifully designed components for UI.
-- [tailwindcss](https://tailwindcss.com/): A utility-first CSS framework for rapid UI development.
-- [sonner](https://github.com/emilkowalski/sonner): An opinionated toast component for React.
-- [lucide](https://lucide.dev/): Beautiful & consistent icons.
-- [zod](https://github.com/colinhacks/zod): TypeScript-first schema validation with static type inference
+- [Vercel AI SDK](https://vercel.com/docs/concepts/functions/serverless-functions/ai): The Vercel AI SDK is the TypeScript toolkit designed to help developers build AI-powered applications.
+- [Next](https://nextjs.org/): A framework for building server-rendered React applications.
+- [Uptash](https://upstash.com/): For rate limiting and queries caching.
+- [Supabase](supabase.com): For storing og images, resources and embeddings.
+- [Serper](https://serper.dev/): For searching suggestions from the internet.
+- [Shadcn/ui](https://ui.shadcn.com/): Provides beautifully designed components for UI.
+- [Tailwindcss](https://tailwindcss.com/): A utility-first CSS framework for rapid UI development.
+- [Zod](https://github.com/colinhacks/zod): TypeScript-first schema validation with static type inference
 
 ## Project Summary
 
@@ -97,10 +117,10 @@ It uses semantic search to find the right resources for your project. Powered by
 
 ## Run Locally
 
-1.Clone the hubtools.dev repository:
+1.Clone the hubdev.tools repository:
 
 ```sh
-git clone https://github.com/xavimondev/hubtools.dev
+git clone https://github.com/xavimondev/hubdev.tools
 ```
 
 2.Rename the `.env.example` to `.env`:
@@ -137,4 +157,4 @@ yarn dev
 
 ## License
 
-This project is licensed under the **MIT License** - see the [**MIT License**](https://github.com/xavimondev/hubtools.dev/blob/main/LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [**MIT License**](https://github.com/xavimondev/hubdev.tools/blob/main/LICENSE) file for details.
