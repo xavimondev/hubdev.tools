@@ -1,16 +1,14 @@
 import { Suspense } from 'react'
 import { Metadata } from 'next'
 
-import { getCategoryDetails, getResourcesByCategorySlug } from '@/services/list'
+import { getCategoryDetails } from '@/services/list'
 import { Container } from '@/components/container'
 import { ErrorState } from '@/components/error-state'
 import { Hero } from '@/components/hero'
 import { Home } from '@/components/home'
-import { ListResource } from '@/components/list-resource'
-import { ListSuggestion } from '@/components/list-suggestion'
-import { LoadMore } from '@/components/load-more'
 import Loading from '@/components/loading'
-import { Summary } from '@/components/summary'
+
+export const maxDuration = 60
 
 export async function generateMetadata({
   params

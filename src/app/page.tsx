@@ -5,6 +5,8 @@ import { Hero } from '@/components/hero'
 import { Home } from '@/components/home'
 import Loading from '@/components/loading'
 
+export const maxDuration = 60
+
 export default async function MainPage({ searchParams }: { searchParams: { query: string } }) {
   const { query } = searchParams
 
