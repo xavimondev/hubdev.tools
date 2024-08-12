@@ -8,7 +8,12 @@ export function Header() {
     <header className='bg-background shadow-sm sticky top-0 z-40'>
       <div className='flex items-center justify-between h-14 px-4 md:px-6'>
         <div className='flex items-center justify-between w-full'>
-          <Link href='/' className='flex items-center gap-2 font-semibold' prefetch={false}>
+          <Link
+            href='/'
+            className='flex items-center gap-2 font-semibold'
+            prefetch={false}
+            aria-label='Linkg to home page'
+          >
             <Logo className='size-6 md:size-7' />
             <span className='hidden md:block text-sm md:text-base'>hubdev</span>
           </Link>
