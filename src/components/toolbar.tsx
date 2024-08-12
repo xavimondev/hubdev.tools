@@ -33,7 +33,7 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
   }
 
   return (
-    <div className='flex flex-col fixed left-1/2 -translate-x-1/2 top-0 z-50 rounded-full h-[50px] w-[min(420px,calc(100%_-_150px))] shadow-md bg-gradient-to-br from-stone-800 to-neutral-900 translate-y-[8px] group focus-within:w-[calc(100%_-_8px)] focus-within:md:w-[600px] focus-within:h-[280px] focus-within:rounded-xl transition-multiple duration-300'>
+    <div className='flex flex-col fixed left-1/2 -translate-x-1/2 top-0 z-50 rounded-full h-[50px] w-[min(420px,calc(100%_-_110px))] shadow-md bg-gradient-to-br from-stone-800 to-neutral-900 translate-y-[8px] group focus-within:w-[calc(100%_-_8px)] focus-within:md:w-[600px] focus-within:h-[280px] focus-within:rounded-xl transition-multiple duration-300'>
       <FormSearch handleSearch={handleSearch} />
       <SearchSuggestions
         handleSearch={handleSearch}

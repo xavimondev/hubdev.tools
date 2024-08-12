@@ -67,7 +67,9 @@ export default function RootLayout({
   return (
     <ViewTransitions>
       <html lang='en'>
-        <body className={`${inter.className} dark flex flex-col min-h-screen container`}>
+        <body
+          className={`${inter.className} dark flex flex-col min-h-screen container px-1 !sm:px-2`}
+        >
           <Header />
           <div className='px-4 py-8 md:px-6 md:py-10'>
             <Sidebar />
