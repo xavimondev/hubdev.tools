@@ -1,4 +1,5 @@
-import { Inter } from 'next/font/google'
+// import { GeistMono } from 'geist/font/mono'
+import { GeistSans } from 'geist/font/sans'
 import { ViewTransitions } from 'next-view-transitions'
 
 import './globals.css'
@@ -13,8 +14,6 @@ import { Header } from '@/components/header'
 import { Sidebar } from '@/components/sidebar'
 
 export const revalidate = 60 // revalidate every hour
-
-const inter = Inter({ subsets: ['latin'] })
 
 const title = 'hubdev.tools - Developer Tools and Resources | Find Everything Here'
 const description =
@@ -66,10 +65,8 @@ export default function RootLayout({
 }>) {
   return (
     <ViewTransitions>
-      <html lang='en'>
-        <body
-          className={`${inter.className} dark flex flex-col min-h-screen container px-1 !sm:px-2`}
-        >
+      <html lang='en' className={`${GeistSans.variable}`}>
+        <body className={`dark flex flex-col min-h-screen container px-1 !sm:px-2`}>
           <Header />
           <div className='px-4 py-8 md:px-6 md:py-10'>
             <Sidebar />

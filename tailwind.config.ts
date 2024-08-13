@@ -84,6 +84,9 @@ const config = {
       },
       transitionProperty: {
         multiple: 'width, height'
+      },
+      fontFamily: {
+        sans: ['var(--font-geist-sans)']
       }
     }
   },
