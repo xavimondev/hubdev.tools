@@ -53,7 +53,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
         <div
           style={{
             backgroundSize: '70px 70px',
-            backgroundImage: `linear-gradient(to right,#1a1a1a 1px,transparent 1px),linear-gradient(to bottom,#1a1a1a 1px,transparent 1px)`,
+            backgroundImage: `linear-gradient(to right,#242424 1px,transparent 1px),linear-gradient(to bottom,#242424 1px,transparent 1px)`,
             width: '100%',
             height: '100%',
             position: 'absolute',
