@@ -37,30 +37,57 @@ export default async function Image({ params }: { params: { slug: string } }) {
 
   const { name, description } = details[0]
   const data = SLUG_ICONS.find((icon) => icon.slug === params.slug)
-  const icon = data?.icon
+  const ogColor = data?.ogColor
 
   return new ImageResponse(
     (
       <div
         style={{
-          background: '#100E0E',
+          background: '#151313',
           width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center'
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', margin: '10px' }}>
+        <div
+          style={{
+            backgroundSize: '70px 70px',
+            backgroundImage: `linear-gradient(to right,#1a1a1a 1px,transparent 1px),linear-gradient(to bottom,#1a1a1a 1px,transparent 1px)`,
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 0
+          }}
+        ></div>
+        <div
+          style={{
+            backgroundColor: 'transparent',
+            backgroundImage: `radial-gradient(ellipse 80% 35% at 65% -25%,${ogColor}, rgba(255, 255, 255, 0))`,
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            top: '0'
+          }}
+        ></div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            margin: '35px'
+          }}
+        >
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '12px',
               color: '#fde047',
-              fontSize: '7rem'
+              fontSize: '6rem'
             }}
           >
-            {icon}
             <span>{name}</span>
           </div>
           <p style={{ color: '#B9B9B9', fontSize: '3rem' }}>{description}</p>
