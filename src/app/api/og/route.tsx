@@ -4,20 +4,18 @@ import { APP_URL } from '@/constants'
 
 export const runtime = 'edge'
 
-export const alt = 'Open Graph Image'
-export const size = {
-  width: 1200,
-  height: 630
-}
-
-export const contentType = 'image/png'
-
 export async function GET(request: Request) {
+  const size = {
+    width: 1200,
+    height: 630
+  }
+  const contentType = 'image/png'
+
   const { searchParams } = new URL(request.url)
   const hasQuery = searchParams.has('query')
 
   if (!hasQuery) {
-    const logoSrc = await fetch(new URL(`${APP_URL}/assets/og.jpg`, import.meta.url)).then((res) =>
+    const ogSrc = await fetch(new URL(`${APP_URL}/assets/og.jpg`, import.meta.url)).then((res) =>
       res.arrayBuffer()
     )
 
@@ -31,15 +29,18 @@ export async function GET(request: Request) {
             background: '#151313'
           }}
         >
-          {/* @ts-ignore */}
-          <img src={logoSrc} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          <img
+            // @ts-ignore
+            src={ogSrc}
+            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            alt='logo'
+          />
         </div>
       )
     )
   }
 
   const query = searchParams.get('query')
-  console.log(query)
 
   const iconSrc = await fetch(new URL(`${APP_URL}/assets/icon.png`, import.meta.url)).then((res) =>
     res.arrayBuffer()
@@ -84,7 +85,7 @@ export async function GET(request: Request) {
             }}
           >
             {/* @ts-ignore */}
-            <img src={iconSrc} style={{ width: '40px', height: '40px' }} />
+            <img src={iconSrc} style={{ width: '40px', height: '40px' }} alt='Icon' />
             <p style={{ color: '#B9B9B9', fontSize: '2rem' }}>hubdev</p>
           </div>
         </div>
