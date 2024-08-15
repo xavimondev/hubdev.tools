@@ -14,11 +14,12 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { query } = searchParams
 
-  const previousImages = (await parent).openGraph?.images || []
-
-  const images = [...previousImages]
+  const images = []
   if (query) {
     images.push(`/api/og?query=${query}`)
+  } else {
+    const previousImages = (await parent).openGraph?.images || []
+    images.push(...previousImages)
   }
 
   return {

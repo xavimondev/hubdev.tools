@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { SLUG_ICONS } from '@/categories'
 
+import { APP_URL } from '@/constants'
 import { getCategoryDetails } from '@/services/list'
 
 export const runtime = 'edge'
@@ -39,6 +40,10 @@ export default async function Image({ params }: { params: { slug: string } }) {
   const data = SLUG_ICONS.find((icon) => icon.slug === params.slug)
   const ogColor = data?.ogColor
 
+  const iconSrc = await fetch(new URL(`${APP_URL}/assets/icon.png`, import.meta.url)).then((res) =>
+    res.arrayBuffer()
+  )
+
   return new ImageResponse(
     (
       <div
@@ -61,6 +66,27 @@ export default async function Image({ params }: { params: { slug: string } }) {
             left: 0
           }}
         ></div>
+        <div
+          style={{
+            display: 'flex',
+            position: 'absolute',
+            top: '0'
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '10px',
+              margin: '35px'
+            }}
+          >
+            {/* @ts-ignore */}
+            <img src={iconSrc} style={{ width: '40px', height: '40px' }} alt='Icon' />
+            <p style={{ color: '#B9B9B9', fontSize: '2rem' }}>hubdev</p>
+          </div>
+        </div>
         <div
           style={{
             backgroundColor: 'transparent',
@@ -91,6 +117,25 @@ export default async function Image({ params }: { params: { slug: string } }) {
             <span>{name}</span>
           </div>
           <p style={{ color: '#B9B9B9', fontSize: '3rem' }}>{description}</p>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            position: 'absolute',
+            bottom: '0'
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '10px',
+              margin: '35px'
+            }}
+          >
+            <p style={{ color: '#c5c5c5', fontSize: '1.2rem' }}>Learn more at 👉 {APP_URL}</p>
+          </div>
         </div>
       </div>
     ),
