@@ -133,7 +133,7 @@ export const SLUG_ICONS = [
   },
   {
     slug: 'productivity',
-    icon: '⚙️',
+    icon: '😁',
     bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(46,139,87,0.2),rgba(255,255,255,0))]',
     ogColor: 'rgba(46,139,87,0.2)'
   },
@@ -178,5 +178,29 @@ export const SLUG_ICONS = [
     icon: '🎓',
     bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(0,255,255,0.2),rgba(255,255,255,0))]',
     ogColor: 'rgba(0,255,255,0.2)'
+  },
+  {
+    slug: 'forms',
+    icon: '📝',
+    bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(124,200,220,0.2),rgba(255,255,255,0))]',
+    ogColor: 'rgba(124,200,220,0.2)'
+  },
+  {
+    slug: 'apis',
+    icon: '⚙️',
+    bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(105,105,105,0.2),rgba(255,255,255,0))]',
+    ogColor: 'rgba(105,105,105,0.2)'
+  },
+  {
+    slug: 'challenges',
+    icon: '🧠',
+    bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(0,191,255,0.2),rgba(255,255,255,0))]',
+    ogColor: 'rgba(0,191,255,0.2)'
+  },
+  {
+    slug: 'frameworks',
+    icon: '🪄',
+    bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(180,110,210,0.2),rgba(255,255,255,0))]',
+    ogColor: 'rgba(180,110,210,0.2)'
   }
 ]
