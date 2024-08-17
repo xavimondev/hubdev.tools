@@ -24,7 +24,7 @@ export async function addSearch({ input }: { input: string }) {
   }
 
   if (!data.includes(input)) {
-    const newHistory = [...data, input]
+    const newHistory = [input, ...data]
     cookies().set('history', JSON.stringify(newHistory), { secure: true })
   }
 }
