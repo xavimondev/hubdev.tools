@@ -40,6 +40,10 @@ A comprehensive collection of essential resources and tools for developers, thou
 
 Leverage the power of AI with a semantic search engine, which uses Supabase embeddings and OpenAI to deliver highly relevant resources based on user input. Ensure smooth performance and efficient query handling with Upstash, providing rate limiting and query caching.
 
+### Auto-Suggestions
+
+Automatically suggest relevant resources based on the user's input, powered by Groq.
+
 ### Voice Synthesis
 
 Convert summary text to speech seamlessly with the voice synthesis feature, powered by the AWS Polly API. This feature supports both English and Spanish.
@@ -80,7 +84,7 @@ All the images were optimized using [Sharp](https://github.com/lovell/sharp), th
 
 The HTML of the initial page was obtained and sent to OpenAI to generate a summary of the website, providing a clearer understanding of its content. The model used was `gpt-4o-mini`.
 
-### Storing and Embedding Resources
+### Storing and Embedding Resources
 
 With the images stored in Supabase, along with the summary and description of each website, embeddings were generated for each resource. I've used the model `text-embedding-3-small`.
 All this information was then bulk inserted into Supabase.
