@@ -3,9 +3,9 @@ import { Suggestion } from '@/types/suggestion'
 
 import { getData, getResourcesByCategorySlug } from '@/services/list'
 
+import { getSuggestions } from './browser-suggestions'
 import { getCache, saveCache } from './cache'
 import { getEmbeddings } from './embeddings'
-import { getSuggestions } from './suggestions'
 import { getSummary } from './summary'
 
 export type QueryData = {
