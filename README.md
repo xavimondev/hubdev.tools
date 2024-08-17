@@ -58,6 +58,8 @@ Improve the search experience with intelligent search suggestions based on your 
 
 ## How was built
 
+The code is found [here](./scrapping/).
+
 The construction of this project followed a systematic approach to ensure efficiency and accuracy in gathering and processing resources. Below is the detailed process:
 
 ### Generating Links Array
