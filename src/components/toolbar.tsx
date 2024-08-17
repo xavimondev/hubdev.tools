@@ -1,9 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { addSearch } from '@/actions/history'
 
-import { FormSearch } from '@/components/form-search'
+import { cn } from '@/utils/styles'
+import { AIFormSearch } from '@/components/ai-form-search'
 import { SearchSuggestions } from '@/components/search-suggestions'
 
 type ToolbarProps = {
@@ -15,6 +17,7 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter()
+  const [showSuggestions, setShowSuggestions] = useState(false)
 
   function handleSearch(term: string, save?: boolean) {
     const params = new URLSearchParams(searchParams)
@@ -33,13 +36,21 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
   }
 
   return (
-    <div className='flex flex-col fixed left-1/2 -translate-x-1/2 top-0 z-50 rounded-full h-[50px] w-[min(420px,calc(100%_-_110px))] shadow-md bg-gradient-to-br from-stone-800 to-neutral-900 translate-y-[8px] group focus-within:w-[calc(100%_-_8px)] focus-within:md:w-[600px] focus-within:h-[280px] focus-within:rounded-xl transition-multiple duration-300'>
-      <FormSearch handleSearch={handleSearch} />
-      <SearchSuggestions
-        handleSearch={handleSearch}
-        searchHistory={searchHistory}
-        searchSuggestionsAI={searchSuggestionsAI}
-      />
+    <div
+      className={cn(
+        'flex flex-col fixed left-1/2 -translate-x-1/2 top-0 z-50 rounded-full h-[50px] w-[min(420px,calc(100%_-_110px))] shadow-md bg-gradient-to-br from-stone-800 to-neutral-900 translate-y-[8px] transition-multiple duration-300',
+        showSuggestions && 'w-[calc(100%_-_8px)] md:w-[600px] h-[280px] rounded-xl'
+      )}
+      onClick={() => setShowSuggestions(true)}
+    >
+      <AIFormSearch handleSearch={handleSearch} setShowSuggestions={setShowSuggestions} />
+      {showSuggestions && (
+        <SearchSuggestions
+          handleSearch={handleSearch}
+          searchHistory={searchHistory}
+          searchSuggestionsAI={searchSuggestionsAI}
+        />
+      )}
     </div>
   )
 }
