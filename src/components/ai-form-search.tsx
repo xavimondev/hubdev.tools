@@ -43,12 +43,34 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
   const [showHint, setShowHint] = useState(false)
   const editorRef = useRef<HTMLDivElement>(null)
   const firstTimeAutoSuggestion = useRef(true)
-  const isWindowsClosed = useRef(false)
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false)
+  const debounced = useDebouncedCallback(async (input: string) => {
+    if (input.length === 0) return
+    // console.log('input', input)
+    const { suggestion, error } = await generateAutoSuggestion({ input })
+    // isWindowsClosed.current ||
+    if (error || !suggestion) return
+
+    const portion = suggestion.slice(input.length)
+    // console.log({ portion, suggestion, input })
+
+    if (editorRef.current) {
+      // TODO: improve this
+      editorRef.current.scrollLeft = 300
+    }
+
+    setInlineSuggestion(portion)
+    setIsFetchingSuggestions(false)
+
+    // Just show the hint once
+    if (firstTimeAutoSuggestion.current) {
+      setShowHint(true)
+      firstTimeAutoSuggestion.current = false
+    }
+  }, 500)
 
   useOnClickOutside(editorRef, () => {
-    clearHintsSuggestions()
-    isWindowsClosed.current = true
+    cancelSuggestionsGeneration()
   })
 
   useEditable(editorRef, (text) => {
@@ -84,7 +106,6 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
       // prevents the editor from jump to add new line
       editorRef.current.contentEditable = 'true'
     }
-    isWindowsClosed.current = false
   })
 
   useEffect(() => {
@@ -93,36 +114,13 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
     }
   }, [query])
 
-  const clearHintsSuggestions = () => {
+  const cancelSuggestionsGeneration = () => {
     setInlineSuggestion('')
     setShowHint(false)
     setShowSuggestions(false)
     setIsFetchingSuggestions(false)
+    debounced.cancel()
   }
-
-  const debounced = useDebouncedCallback(async (input: string) => {
-    if (input.length === 0) return
-    // console.log('input', input)
-    const { suggestion, error } = await generateAutoSuggestion({ input })
-    if (isWindowsClosed.current || error || !suggestion) return
-
-    const portion = suggestion.slice(input.length)
-    // console.log({ portion, suggestion, input })
-
-    if (editorRef.current) {
-      // TODO: improve this
-      editorRef.current.scrollLeft = 300
-    }
-
-    setInlineSuggestion(portion)
-    setIsFetchingSuggestions(false)
-
-    // Just show the hint once
-    if (firstTimeAutoSuggestion.current) {
-      setShowHint(true)
-      firstTimeAutoSuggestion.current = false
-    }
-  }, 500)
 
   const submit = useCallback((input: string) => {
     if (input.trim().length < 5) {
@@ -138,9 +136,8 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
       if (e.key === 'Enter') {
         e.preventDefault()
         const inputText = e.currentTarget.innerText.replaceAll('\n', '')
-        // console.log({ inputText, currentInput: e.currentTarget.innerText.replaceAll('\n', '') })
         submit(inputText || '')
-        clearHintsSuggestions()
+        cancelSuggestionsGeneration()
       } else if (e.key === 'Tab') {
         e.preventDefault()
         if (!inlineSuggestion || inlineSuggestion.trim().length === 0) return
