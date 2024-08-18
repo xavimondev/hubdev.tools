@@ -11,27 +11,12 @@ import React, {
 } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { generateAutoSuggestion } from '@/actions/ai/auto-suggestions'
+import { LoaderCircleIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { useDebouncedCallback } from 'use-debounce'
 import { useEditable } from 'use-editable'
 
 import { useOnClickOutside } from '@/hooks/useClickOutside'
-
-// function getPartialSuggestion({
-//   longString,
-//   shortString
-// }: {
-//   longString: string
-//   shortString: string
-// }) {
-//   let portion = ''
-//   if (shortString.endsWith(' ')) {
-//     portion = longString.slice(shortString.length)
-//   } else {
-//     portion = longString.slice(shortString.length - 1)
-//   }
-//   return portion
-// }
 
 function deletePortion({ input, short }: { input: string; short: string }) {
   if (input.endsWith(short)) {
@@ -59,6 +44,7 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
   const editorRef = useRef<HTMLDivElement>(null)
   const firstTimeAutoSuggestion = useRef(true)
   const isWindowsClosed = useRef(false)
+  const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false)
 
   useOnClickOutside(editorRef, () => {
     clearHintsSuggestions()
@@ -86,6 +72,10 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
 
     // console.log({ text, inlineSuggestion, content })
     setInputText(deleteExtraTrailingSpace({ text: content }))
+    if (!isFetchingSuggestions) {
+      setIsFetchingSuggestions(true)
+    }
+
     debounced(deleteExtraTrailingSpace({ text: content }))
   })
 
@@ -93,7 +83,6 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
     if (editorRef.current) {
       // prevents the editor from jump to add new line
       editorRef.current.contentEditable = 'true'
-      // editorRef.current.textContent = query as string
     }
     isWindowsClosed.current = false
   })
@@ -108,6 +97,7 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
     setInlineSuggestion('')
     setShowHint(false)
     setShowSuggestions(false)
+    setIsFetchingSuggestions(false)
   }
 
   const debounced = useDebouncedCallback(async (input: string) => {
@@ -125,6 +115,7 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
     }
 
     setInlineSuggestion(portion)
+    setIsFetchingSuggestions(false)
 
     // Just show the hint once
     if (firstTimeAutoSuggestion.current) {
@@ -152,7 +143,7 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
         clearHintsSuggestions()
       } else if (e.key === 'Tab') {
         e.preventDefault()
-        if (!inlineSuggestion || inlineSuggestion.length === 0) return
+        if (!inlineSuggestion || inlineSuggestion.trim().length === 0) return
 
         setInputText((prev) => prev + inlineSuggestion)
         // Adding cursor position after adding inline suggestion
@@ -205,11 +196,10 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
           </span>
         )}
       </div>
-      {showHint && (
-        <span className='absolute hidden sm:block text-yellow-200 text-xs top-[16px] right-4'>
-          press [TAB]
-        </span>
-      )}
+      <span className='absolute hidden sm:block text-yellow-200 text-xs top-[16px] right-4'>
+        {showHint ? 'press [TAB]' : ''}
+        {isFetchingSuggestions && <LoaderCircleIcon className='animate-spin size-5 ml-1' />}
+      </span>
     </div>
   )
 }
