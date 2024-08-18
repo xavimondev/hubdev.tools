@@ -1,7 +1,7 @@
 
 <div align="center">
 
-[![hubtools](https://res.cloudinary.com/marcomontalbano/image/upload/v1722961837/video_to_markdown/images/video--fb7c4a1fd967e644cf5aaf844f1874c4-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://res.cloudinary.com/di19fkmzs/video/upload/v1722961547/hubtoolsdev/demo/demohubtools.mp4 "hubtools")
+[![hubdev](https://res.cloudinary.com/marcomontalbano/image/upload/v1723954225/video_to_markdown/images/video--4b6ff47aa62838d99e0725f3024fdc2a-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://res.cloudinary.com/di19fkmzs/video/upload/v1723953989/hubtoolsdev/demo/demov2.mp4 "hubdev")
 
 <p>Empowering Developers with Essential Tools and Seamless Semantic Search.</p> 
 <img src="https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white" alt="Nextjs" />
