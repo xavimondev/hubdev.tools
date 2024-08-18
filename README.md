@@ -42,7 +42,7 @@ Leverage the power of AI with a semantic search engine, which uses Supabase embe
 
 ### Auto-Suggestions
 
-Automatically suggest relevant resources based on the user's input, powered by Groq.
+Automatically suggest relevant resources based on the user's input, powered by `llama-3.1-70b-versatile`.
 
 ### Voice Synthesis
 
