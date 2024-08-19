@@ -77,9 +77,6 @@ export function EmptyState() {
             </span>
           </li>
         </ul>
-        <span className='text-[#b9b9b9] mt-2'>
-          Or you can explore internet suggestions from internet below
-        </span>
       </div>
     </div>
   )
