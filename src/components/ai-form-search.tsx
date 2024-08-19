@@ -11,6 +11,7 @@ import React, {
 } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { generateAutoSuggestion } from '@/actions/ai/auto-suggestions'
+import { queryClassify } from '@/actions/ai/query-classify'
 import { LoaderCircleIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { useDebouncedCallback } from 'use-debounce'
@@ -46,13 +47,13 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false)
   const debounced = useDebouncedCallback(async (input: string) => {
     if (input.length === 0) return
-    // console.log('input', input)
+
     const { suggestion, error } = await generateAutoSuggestion({ input })
-    // isWindowsClosed.current ||
+    setIsFetchingSuggestions(false)
+
     if (error || !suggestion) return
 
     const portion = suggestion.slice(input.length)
-    // console.log({ portion, suggestion, input })
 
     if (editorRef.current) {
       // TODO: improve this
@@ -60,7 +61,6 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
     }
 
     setInlineSuggestion(portion)
-    setIsFetchingSuggestions(false)
 
     // Just show the hint once
     if (firstTimeAutoSuggestion.current) {
@@ -122,11 +122,34 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
     debounced.cancel()
   }
 
-  const submit = useCallback((input: string) => {
+  const submit = useCallback(async (input: string) => {
     if (input.trim().length < 5) {
       toast.error('Please enter a valid search term')
       return
     }
+
+    // TODO: I think toast.promise would be better
+
+    toast.loading('Classifying query...')
+
+    const { category, error } = await queryClassify({ input })
+    toast.dismiss()
+
+    if (error || !category) {
+      toast.error(`Something went wrong while classifying the query: ${input}`)
+      return
+    }
+
+    if (category === 'non-technical') {
+      toast.error(
+        `Sorry, but we don't have resources for non-technical queries yet. Please try a different one.`,
+        {
+          duration: 4000
+        }
+      )
+      return
+    }
+
     handleSearch(input, true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
