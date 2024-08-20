@@ -191,14 +191,14 @@ export function AIFormSearch({ handleSearch, setShowSuggestions }: FormSearchPro
         ref={editorRef}
         key={query}
         suppressContentEditableWarning={true}
-        className='relative flex h-10 w-full p-2 pr-10 border-none bg-transparent border border-input px-3 py-2 text-sm 
+        className='relative flex h-10 w-full p-2 pr-10 border-none bg-transparent border border-input 
         focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 items-center 
         [&[contenteditable=true]]:empty:before:text-neutral-400 
         [&[contenteditable=true]]:empty:before:content-[attr(data-placeholder)] 
         [&[contenteditable=true]]:empty:before:absolute 
         [&[contenteditable=true]]:empty:before:pointer-events-none 
         [&[contenteditable=true]]:empty:before:left-3 
-        [&[contenteditable=true]]:empty:before:top-2.5
+        [&[contenteditable=true]]:empty:before:top-2.5 
         [&[contenteditable=true]]:empty:before:block !whitespace-nowrap overflow-hidden'
         contentEditable='true'
         role='textbox'
