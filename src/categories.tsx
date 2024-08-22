@@ -202,5 +202,11 @@ export const SLUG_ICONS = [
     icon: '🪄',
     bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(180,110,210,0.2),rgba(255,255,255,0))]',
     ogColor: 'rgba(180,110,210,0.2)'
+  },
+  {
+    slug: 'extensions',
+    icon: '💫',
+    bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(255,140,0,0.2),rgba(255,255,255,0))]',
+    ogColor: 'rgba(255,140,0,0.2)'
   }
 ]
