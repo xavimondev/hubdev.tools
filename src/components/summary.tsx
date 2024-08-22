@@ -5,7 +5,7 @@ import snarkdown from 'snarkdown'
 
 import { SummaryTools } from '@/components/summary-tools'
 
-export function Summary({ summary, language }: { summary: string; language: string }) {
+export function Summary({ summary }: { summary: string }) {
   const html = snarkdown(summary)
 
   return (
@@ -16,7 +16,7 @@ export function Summary({ summary, language }: { summary: string; language: stri
             <SparkleIcon className='size-6' />
             <h3 className='text-xl md:text-2xl font-semibold'>Summary Results</h3>
           </div>
-          <SummaryTools summary={summary} language={language} />
+          <SummaryTools summary={summary} />
         </div>
         <div
           className='text-sm md:text-base text-gray-700'

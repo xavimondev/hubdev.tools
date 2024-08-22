@@ -44,9 +44,6 @@ Leverage the power of AI with a semantic search engine, which uses Supabase embe
 
 Automatically suggest relevant resources based on the user's input, powered by `llama-3.1-70b-versatile`.
 
-### Voice Synthesis
-
-Convert summary text to speech seamlessly with the voice synthesis feature, powered by the AWS Polly API. This feature supports both English and Spanish.
 
 ### Resources Summary
 
@@ -105,7 +102,6 @@ export const revalidate = 60
 - [Uptash](https://upstash.com/): Rate limiting and queries caching.
 - [Supabase](supabase.com): For storing og images, resources and embeddings.
 - [Serper](https://serper.dev/): For searching suggestions from the internet.
-- [Polly](https://aws.amazon.com/polly): For generating speech from text.
 - [Shadcn/ui](https://ui.shadcn.com/): Provides beautifully designed components for UI.
 - [Tailwindcss](https://tailwindcss.com/): A utility-first CSS framework for rapid UI development.
 - [Zod](https://github.com/colinhacks/zod): TypeScript-first schema validation with static type inference
