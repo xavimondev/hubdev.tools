@@ -13,14 +13,14 @@ type HomeProps = {
 export async function Home({ query, slug }: HomeProps) {
   const data = await search({ q: query, slug })
   // @ts-ignore
-  const { resources, summary, suggestions, error, language } = data
+  const { resources, summary, suggestions, error } = data
   if (error) {
     return <ErrorState error={error ?? 'An error occured. Please try again later.'} />
   }
 
   return (
     <>
-      {summary && <Summary summary={summary} language={language} />}
+      {summary && <Summary summary={summary} />}
       <PanelResources resources={resources} />
       {suggestions && <ListSuggestion suggestions={suggestions} />}
     </>
