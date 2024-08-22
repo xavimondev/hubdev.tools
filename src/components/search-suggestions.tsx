@@ -82,7 +82,7 @@ export function SearchSuggestions({
   searchSuggestionsAI
 }: SearchSuggestionsProps) {
   return (
-    <div className='size-full hidden group-focus-within:block border-t border-t-neutral-700/40 overflow-y-auto scrollbar-hide'>
+    <div className='size-full border-t border-t-neutral-700/40 overflow-y-auto scrollbar-hide'>
       <>
         {searchHistory.length === 0 && searchSuggestionsAI.length === 0 ? (
           <div className='flex flex-wrap gap-2 items-center p-2 w-full'>

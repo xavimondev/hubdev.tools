@@ -7,8 +7,8 @@ const nextConfig = {
         hostname: 'dbueuofxjmmgwozundjk.supabase.co',
       },
     ]
-
-  }
+  },
+  transpilePackages: ['geist'],
 }
 
 export default nextConfig

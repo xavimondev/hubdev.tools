@@ -1,7 +1,7 @@
 
 <div align="center">
 
-[![hubtools](https://res.cloudinary.com/marcomontalbano/image/upload/v1722961837/video_to_markdown/images/video--fb7c4a1fd967e644cf5aaf844f1874c4-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://res.cloudinary.com/di19fkmzs/video/upload/v1722961547/hubtoolsdev/demo/demohubtools.mp4 "hubtools")
+[![hubdev](https://res.cloudinary.com/marcomontalbano/image/upload/v1723954225/video_to_markdown/images/video--4b6ff47aa62838d99e0725f3024fdc2a-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://res.cloudinary.com/di19fkmzs/video/upload/v1723953989/hubtoolsdev/demo/demov2.mp4 "hubdev")
 
 <p>Empowering Developers with Essential Tools and Seamless Semantic Search.</p> 
 <img src="https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white" alt="Nextjs" />
@@ -40,6 +40,10 @@ A comprehensive collection of essential resources and tools for developers, thou
 
 Leverage the power of AI with a semantic search engine, which uses Supabase embeddings and OpenAI to deliver highly relevant resources based on user input. Ensure smooth performance and efficient query handling with Upstash, providing rate limiting and query caching.
 
+### Auto-Suggestions
+
+Automatically suggest relevant resources based on the user's input, powered by `llama-3.1-70b-versatile`.
+
 ### Voice Synthesis
 
 Convert summary text to speech seamlessly with the voice synthesis feature, powered by the AWS Polly API. This feature supports both English and Spanish.
@@ -53,6 +57,8 @@ Provide a brief summary of the generated resources powered by `llama-3.1-8b-inst
 Improve the search experience with intelligent search suggestions based on your history, powered by `gpt-4o-mini`.
 
 ## How was built
+
+The code is found [here](./scrapping/).
 
 The construction of this project followed a systematic approach to ensure efficiency and accuracy in gathering and processing resources. Below is the detailed process:
 
@@ -80,7 +86,7 @@ All the images were optimized using [Sharp](https://github.com/lovell/sharp), th
 
 The HTML of the initial page was obtained and sent to OpenAI to generate a summary of the website, providing a clearer understanding of its content. The model used was `gpt-4o-mini`.
 
-### Storing and Embedding Resources
+### Storing and Embedding Resources
 
 With the images stored in Supabase, along with the summary and description of each website, embeddings were generated for each resource. I've used the model `text-embedding-3-small`.
 All this information was then bulk inserted into Supabase.

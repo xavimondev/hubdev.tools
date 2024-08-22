@@ -28,8 +28,14 @@ export async function generateMetadata({
   const { name, description } = category
 
   return {
-    title: name,
-    description: description
+    title: `${name} - ${description}`,
+    description,
+    openGraph: {
+      images: [`/api/og/${slug}`]
+    },
+    twitter: {
+      images: [`/api/og/${slug}`]
+    }
   }
 }
 

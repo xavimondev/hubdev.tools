@@ -63,7 +63,7 @@ export async function getEmbeddings({ input }: { input: string }) {
     const request = await supabase.rpc('query_embeddings', {
       // @ts-ignore
       embed: embedding,
-      match_threshold: 0.43,
+      match_threshold: 0.4,
       match_count: limit > 11 ? 11 : limit
     })
 

@@ -3,9 +3,9 @@ import { Suggestion } from '@/types/suggestion'
 
 import { getData, getResourcesByCategorySlug } from '@/services/list'
 
+import { getSuggestions } from './browser-suggestions'
 import { getCache, saveCache } from './cache'
 import { getEmbeddings } from './embeddings'
-import { getSuggestions } from './suggestions'
 import { getSummary } from './summary'
 
 export type QueryData = {
@@ -63,7 +63,7 @@ export async function search({
   const cache = await getCache({ input: query })
   if (!cache) {
     const { data, error: errorSearch } = await getEmbeddings({ input: query })
-    if (!data || errorSearch) {
+    if (errorSearch || !data || data.length === 0) {
       return {
         resources: [],
         error: errorSearch

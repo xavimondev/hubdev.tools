@@ -18,10 +18,9 @@ export async function Home({ query, slug }: HomeProps) {
     return <ErrorState error={error ?? 'An error occured. Please try again later.'} />
   }
 
-  const hasResources = resources && resources.length > 0
   return (
     <>
-      {hasResources && summary && <Summary summary={summary} language={language} />}
+      {summary && <Summary summary={summary} language={language} />}
       <PanelResources resources={resources} />
       {suggestions && <ListSuggestion suggestions={suggestions} />}
     </>

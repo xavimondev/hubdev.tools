@@ -35,12 +35,12 @@ function ResourceItem({ title, url, summary, image, order }: ResourceItemProps) 
       <div className='p-4'>
         <h2 className='text-base md:text-lg font-semibold text-balance'>{title}</h2>
         <div className='flex items-center justify-between mt-1'>
-          <span className='text-xs text-blue-200 font-semibold flex items-center'>
+          <span className='text-xs text-[#80B4F5] font-semibold flex items-center'>
             <Link2Icon className='size-4 mr-2' />
             <span className=''>{extractDomain(url)}</span>
           </span>
         </div>
-        <p className='text-sm text-muted-foreground line-clamp-4 mt-2 text-pretty'>{summary}</p>
+        <p className='text-sm text-[#b9b9b9] line-clamp-4 mt-2 text-pretty'>{summary}</p>
       </div>
     </a>
   )
