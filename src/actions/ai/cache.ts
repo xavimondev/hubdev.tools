@@ -3,13 +3,11 @@
 import { redis } from '@/ratelimit/redis'
 
 import { Resource } from '@/types/resource'
-import { Suggestion } from '@/types/suggestion'
 
 type CacheQuery = {
   input: string
   data: {
     resources: Resource[]
-    suggestions: Suggestion[]
     summary: string
   }
   language: string
