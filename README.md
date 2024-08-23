@@ -101,7 +101,6 @@ export const revalidate = 60
 - [Next](https://nextjs.org/): A framework for building server-rendered React applications.
 - [Uptash](https://upstash.com/): Rate limiting and queries caching.
 - [Supabase](supabase.com): For storing og images, resources and embeddings.
-- [Serper](https://serper.dev/): For searching suggestions from the internet.
 - [Shadcn/ui](https://ui.shadcn.com/): Provides beautifully designed components for UI.
 - [Tailwindcss](https://tailwindcss.com/): A utility-first CSS framework for rapid UI development.
 - [Zod](https://github.com/colinhacks/zod): TypeScript-first schema validation with static type inference
@@ -144,12 +143,6 @@ export const revalidate = 60
 - Go to the "Project Settings" menu.
 - Under "API" section, copy the "URL" and "Service Role Key".
 
-### SERPER_API_KEY
-
-- Go to the [Serper website](https://serper.dev).
-- Sign in to your account or create a new one.
-- Go to the "API Key" menu.
-- Generate a new API key.
 
 ### GROQ_API_KEY
 

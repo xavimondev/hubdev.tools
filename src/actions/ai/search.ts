@@ -1,9 +1,7 @@
 import { Resource } from '@/types/resource'
-import { Suggestion } from '@/types/suggestion'
 
 import { getData, getResourcesByCategorySlug } from '@/services/list'
 
-import { getSuggestions } from './browser-suggestions'
 import { getCache, saveCache } from './cache'
 import { getEmbeddings } from './embeddings'
 import { getSummary } from './summary'
@@ -11,7 +9,6 @@ import { getSummary } from './summary'
 export type QueryData = {
   resources: Resource[] | undefined
   summary?: string
-  suggestions?: Suggestion[]
   language?: string
 }
 
@@ -77,20 +74,12 @@ export async function search({
       }
     }
 
-    const { data: listSuggestions, error } = await getSuggestions({ question: query })
-    if (error || !listSuggestions) {
-      return {
-        error: errorSearch ?? '"An error occured. Please try again later."'
-      }
-    }
-
     // Let's save the query in the cache
     const cache = {
       input: query,
       data: {
         summary,
-        resources: data,
-        suggestions: listSuggestions
+        resources: data
       },
       language
     }
@@ -100,7 +89,6 @@ export async function search({
     return {
       summary,
       resources: data,
-      suggestions: listSuggestions,
       language
     }
   }
