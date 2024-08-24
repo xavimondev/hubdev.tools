@@ -1,12 +1,12 @@
 'use server'
 
-import { openai } from '@ai-sdk/openai'
+import { createOpenAI } from '@ai-sdk/openai'
 import { generateText } from 'ai'
 
-// const groq = createOpenAI({
-//   baseURL: 'https://api.groq.com/openai/v1',
-//   apiKey: process.env.GROQ_API_KEY
-// })
+const groq = createOpenAI({
+  baseURL: 'https://api.groq.com/openai/v1',
+  apiKey: process.env.GROQ_API_KEY
+})
 
 export async function generateAutoSuggestion({ input }: { input: string }) {
   try {
@@ -17,7 +17,7 @@ export async function generateAutoSuggestion({ input }: { input: string }) {
 
     const { text: suggestion } = await generateText({
       temperature: 0.2,
-      model: openai('gpt-4o-mini'), //groq('llama-3.1-70b-versatile'),
+      model: groq('llama-3.1-70b-versatile'),
       prompt: `You are a smart and efficient auto-completion assistant designed to help users quickly complete their tech-related queries. 
       
       Your job is to complete the user's input only if it meets the following conditions:
