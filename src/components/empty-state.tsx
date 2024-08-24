@@ -30,7 +30,7 @@ export function EmptyState() {
         </div>
       </div>
       <div className='grid gap-4 mt-5'>
-        <span className='text-[#b9b9b9]'>However there are some suggestions that might help:</span>
+        <span className='text-link'>However there are some suggestions that might help:</span>
         <ul className='grid gap-2 text-sm'>
           <li
             className='flex items-center border hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition duration-300'
