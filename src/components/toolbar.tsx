@@ -38,8 +38,8 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
   return (
     <div
       className={cn(
-        'flex flex-col fixed left-1/2 -translate-x-1/2 top-0 z-50 rounded-full h-[50px] w-[min(420px,calc(100%_-_110px))] shadow-md bg-gradient-to-br from-stone-800 to-neutral-900 translate-y-[8px] transition-multiple duration-300',
-        showSuggestions && 'w-[calc(100%_-_8px)] md:w-[600px] h-[280px] rounded-xl'
+        'flex flex-col fixed left-1/2 -translate-x-1/2 top-0 z-50 rounded-xl h-[50px] w-[min(420px,calc(100%_-_110px))] shadow-sm bg-gradient-to-br from-stone-800 to-neutral-900 translate-y-[8px] transition-multiple duration-300',
+        showSuggestions && 'w-[calc(100%_-_8px)] md:w-[600px] h-[280px]'
       )}
       onClick={() => setShowSuggestions(true)}
     >

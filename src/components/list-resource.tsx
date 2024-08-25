@@ -40,7 +40,7 @@ function ResourceItem({ title, url, summary, image, order }: ResourceItemProps) 
             <span className=''>{extractDomain(url)}</span>
           </span>
         </div>
-        <p className='text-sm text-[#b9b9b9] line-clamp-4 mt-2 text-pretty'>{summary}</p>
+        <p className='text-sm text-link line-clamp-4 mt-2 text-pretty'>{summary}</p>
       </div>
     </a>
   )
