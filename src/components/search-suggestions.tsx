@@ -28,8 +28,8 @@ function SearchSuggestionsAI({
             }}
             className='group flex items-center border border-neutral-600/50 bg-neutral-800 hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
           >
-            <SparklesIcon className='mr-2 text-yellow-400 size-4' />
-            <span className='text-gray-300 group-hover:text-white text-sm font-semibold text-left'>
+            <SparklesIcon className='mr-2 text-yellow-300 size-4' />
+            <span className='text-gray-300 group-hover:text-white text-sm text-left'>
               {suggestion}
             </span>
           </button>
@@ -59,8 +59,8 @@ function SearchHistory({
             }}
             className='group flex items-center border border-neutral-600/50 bg-neutral-800 hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
           >
-            <HistoryIcon className='mr-2 text-yellow-400 size-4' />
-            <span className='text-gray-300 group-hover:text-white text-sm font-semibold text-left'>
+            <HistoryIcon className='mr-2 text-yellow-300 size-4' />
+            <span className='text-gray-300 group-hover:text-white text-sm text-left'>
               {suggestion}
             </span>
           </button>
@@ -95,8 +95,8 @@ export function SearchSuggestions({
                 }}
                 className='groupflex items-center border border-neutral-600/50 bg-neutral-800 hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
               >
-                <AsteriskIcon className='mr-2 text-yellow-400 size-4' />
-                <span className='text-gray-300 group-hover:text-white text-sm font-semibold text-left'>
+                <AsteriskIcon className='mr-2 text-yellow-300 size-4' />
+                <span className='text-gray-300 group-hover:text-white text-sm text-left'>
                   {suggestion}
                 </span>
               </button>
