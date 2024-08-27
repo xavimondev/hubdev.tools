@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation'
 import { generateAutoSuggestion } from '@/actions/ai/auto-suggestions'
 import { queryClassify } from '@/actions/ai/query-classify'
 import { LoaderCircleIcon } from 'lucide-react'
+import { isMobile } from 'react-device-detect'
 import { toast } from 'sonner'
 import { useDebouncedCallback } from 'use-debounce'
 
@@ -136,6 +137,13 @@ export function FormSearch({ handleSearch, setShowSuggestions }: FormSearchProps
         // console.log(inputText)
         submit(inputText)
         cancelSuggestionsGeneration()
+      } else if (isMobile && event.code === 'Space') {
+        // event.preventDefault()
+        // console.log('space', content, suggestion)
+        if (!suggestion) return
+        setContent((prevContent) => prevContent + suggestion)
+        moveCursorToEnd(`${content}${suggestion}`)
+        setSuggestion('')
       }
     },
     [suggestion]

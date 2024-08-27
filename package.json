@@ -32,6 +32,7 @@
     "next": "14.2.5",
     "next-view-transitions": "0.2.0",
     "react": "18",
+    "react-device-detect": "2.2.3",
     "react-dom": "18",
     "snarkdown": "2.0.0",
     "sonner": "1.5.0",
