@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { addSearch } from '@/actions/history'
 
 import { cn } from '@/utils/styles'
-import { AIFormSearch } from '@/components/ai-form-search'
+import { FormSearch } from '@/components/form-search'
 import { SearchSuggestions } from '@/components/search-suggestions'
 
 type ToolbarProps = {
@@ -43,7 +43,7 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
       )}
       onClick={() => setShowSuggestions(true)}
     >
-      <AIFormSearch handleSearch={handleSearch} setShowSuggestions={setShowSuggestions} />
+      <FormSearch handleSearch={handleSearch} setShowSuggestions={setShowSuggestions} />
       {showSuggestions && (
         <SearchSuggestions
           handleSearch={handleSearch}
