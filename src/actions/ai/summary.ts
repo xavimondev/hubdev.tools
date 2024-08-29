@@ -1,5 +1,6 @@
 import { createOpenAI } from '@ai-sdk/openai'
-import { generateText } from 'ai'
+import { generateObject, generateText } from 'ai'
+import { z } from 'zod'
 
 import { Resource } from '@/types/resource'
 
@@ -10,11 +11,15 @@ const groq = createOpenAI({
 
 export async function getSummary({ data, input }: { data: Resource[]; input: string }) {
   try {
-    const { text: language } = await generateText({
+    const result = await generateObject({
       model: groq('llama-3.1-8b-instant'),
-      prompt: `The following text ${input} is writen in English or Spanish?. Please return only Spanish or English.
-    If you are not able to recognize, return English by default. Don't add any other text or end the response with a period.`
+      schema: z.object({
+        language: z.enum(['English', 'Spanish'])
+      }),
+      prompt: `The following text ${input} is writen in English or Spanish?. If you are not able to recognize, return English by default.`
     })
+
+    const language = result.object.language
 
     const responseSummary = data.reduce((acc, resource) => {
       const { title, summary } = resource
@@ -24,25 +29,21 @@ export async function getSummary({ data, input }: { data: Resource[]; input: str
 
     const { text: summary } = await generateText({
       model: groq('llama-3.1-8b-instant'),
-      prompt: `You are a friendly and engaging voice assistant. Begin with a warm greeting. Your task is to narrate in ${language} 
-    the following summary of resources in a way that is informative yet conversational.
-    Aim to make the narration sound like you are commenting on the resources found, rather than just reading them out.
+      prompt: `You are a friendly assistant. Your task is to narrate in ${language} 
+    the following summary of resources in a way that is informative.
 
     Additional instructions:
-    - Mention the total number of resources.
-    - Highlight the top three resources with concise descriptions, each with a maximum of 20 words.
-    - Briefly mention the remaining resources without detailed descriptions.
+    - Mention the total number of resources. There are ${data.length - 1} resources.
+    - Keep the summary of each resource under 40 words.
     - The summary should be generated in the language the user has requested. 
-    - Keep the tone natural and approachable.
     - Use Markdown syntax with the following structure:
-        1.Use bullet points for listing resources.
+        1.Use bullet points for listing resources. The format should be: [Title]: [Summary]
         2.Ensure there are spaces between different sections and list items.
         3.Use headings for each section.
-    - Focus only the summary of the resources, don't add any other text.
+        4.Use bold for the title of each resource. 
+    - Please, focus only the summary of the resources, don't add any unknown resources.
     Here is the summary of the resources:
-    ${responseSummary}
-    
-    Please keep your response under 250 words.`
+    ${responseSummary}`
     })
 
     return { summary, language }
