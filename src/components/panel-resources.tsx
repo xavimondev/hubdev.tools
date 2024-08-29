@@ -16,6 +16,7 @@ export function PanelResources({ resources }: { resources: Resource[] }) {
   const [hasResources, setHasResources] = useState(
     resources.length > NUMBER_OF_GENERATIONS_TO_FETCH
   )
+  const [isLoading, setIsLoading] = useState(false)
   const params = useParams<{ slug: string }>()
 
   const loadMoreResources = async () => {
@@ -24,6 +25,8 @@ export function PanelResources({ resources }: { resources: Resource[] }) {
     let results: any = []
     const from = data.length
     const to = data.length + NUMBER_OF_GENERATIONS_TO_FETCH
+
+    setIsLoading(true)
 
     if (Object.keys(params).length === 0) {
       results = await listResources({
@@ -38,6 +41,8 @@ export function PanelResources({ resources }: { resources: Resource[] }) {
         slug
       })
     }
+
+    setIsLoading(false)
 
     if (!results) return
 
@@ -63,7 +68,7 @@ export function PanelResources({ resources }: { resources: Resource[] }) {
   return (
     <>
       <ListResource data={data} />
-      {hasResources && <LoadMore loadMoreResources={loadMoreResources} />}
+      {hasResources && <LoadMore loadMoreResources={loadMoreResources} isLoading={isLoading} />}
     </>
   )
 }
