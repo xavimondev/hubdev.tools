@@ -31,8 +31,8 @@ export async function generateAutoSuggestion({ input }: { input: string }) {
       1. Add between 2 to 4 additional words that naturally complete the user's query. 
       These words should be relevant to technology or programming and help the user find what they are looking for.
       2. If the user's input is in a language other than English, generate the suggestion in that language.
-      3. If there are any typos, misspellings, or extra spaces in the user's input, 
-      do not correct them—generate the suggestion as is.
+      3. If there are any typos, misspellings, or extra spaces in the user's input, do not correct them—generate the suggestion as is.
+      4. Don't generate SQL queries or other code snippets.
       
       Focus strictly on technology and programming topics. Do not generate suggestions related to non-tech subjects.
 
