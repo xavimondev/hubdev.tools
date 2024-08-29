@@ -32,6 +32,7 @@
     "next": "14.2.5",
     "next-view-transitions": "0.2.0",
     "react": "18",
+    "react-device-detect": "2.2.3",
     "react-dom": "18",
     "snarkdown": "2.0.0",
     "sonner": "1.5.0",
@@ -39,7 +40,6 @@
     "tailwind-scrollbar-hide": "1.1.7",
     "tailwindcss-animate": "1.0.7",
     "use-debounce": "10.0.2",
-    "use-editable": "2.3.3",
     "zod": "3.23.8"
   },
   "devDependencies": {
