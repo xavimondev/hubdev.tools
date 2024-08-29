@@ -170,10 +170,11 @@ export function FormSearch({
       <div className='relative w-full sm:w-[calc(100%_-_62px)] overflow-hidden'>
         <div
           ref={contentEditableRef}
-          contentEditable
+          contentEditable={!isClassifying}
           suppressContentEditableWarning
           onInput={handleInput}
           onKeyDown={handleKeyDown}
+          onPaste={(event) => event.preventDefault()}
           className='relative flex h-10 w-full p-2 border-none bg-transparent border border-input 
         focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 items-center 
         [&[contenteditable=true]]:empty:before:text-neutral-400 
@@ -188,6 +189,7 @@ export function FormSearch({
           data-placeholder='typescript books'
           spellCheck='false'
           role='textbox'
+          aria-label='Search'
         >
           {query}
         </div>
