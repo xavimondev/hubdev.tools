@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useCallback, useRef, useState } from '
 import { useSearchParams } from 'next/navigation'
 import { generateAutoSuggestion } from '@/actions/ai/auto-suggestions'
 import { queryClassify } from '@/actions/ai/query-classify'
-import { AlertCircleIcon, LoaderCircleIcon } from 'lucide-react'
+import { AlertCircleIcon, ArrowRightIcon, LoaderCircleIcon } from 'lucide-react'
 import { isMobile } from 'react-device-detect'
 import { toast } from 'sonner'
 import { useDebouncedCallback } from 'use-debounce'
@@ -167,7 +167,7 @@ export function FormSearch({
 
   return (
     <div className='flex w-full relative px-2 py-1'>
-      <div className='relative w-full sm:w-[calc(100%_-_62px)] overflow-hidden'>
+      <div className='relative w-full sm:w-[calc(100%_-_58px)] overflow-hidden'>
         <div
           ref={contentEditableRef}
           contentEditable={!isClassifying}
@@ -200,14 +200,26 @@ export function FormSearch({
           </div>
         )}
       </div>
-      <div className='absolute text-yellow-200 text-xs right-0 pr-3 top-[16px]'>
-        <span className='text-xs'>{showHint && !isMobile ? 'press [TAB]' : ''}</span>
-        {(isFetchingSuggestions || isClassifying) && (
-          <LoaderCircleIcon className='animate-spin size-4 ml-1' />
-        )}
-        {promptEvaluationResult && !isMobile && (
-          <ToolTipError promptEvaluationResult={promptEvaluationResult} />
-        )}
+      <div className='absolute right-0 pr-3 top-[14px]'>
+        <div className='flex items-center gap-1'>
+          <div className='text-yellow-200'>
+            <span className='text-xs'>{showHint && !isMobile ? 'press [TAB]' : ''}</span>
+            {(isFetchingSuggestions || isClassifying) && (
+              <LoaderCircleIcon className='animate-spin size-5' />
+            )}
+            {promptEvaluationResult && !isMobile && (
+              <ToolTipError promptEvaluationResult={promptEvaluationResult} />
+            )}
+          </div>
+          <Button
+            size='icon'
+            disabled={isClassifying || content.trim().length <= 1}
+            className='bg-transparent border-none hover:bg-transparent size-5 text-white disabled:opacity-50'
+            onClick={() => submit(content)}
+          >
+            <ArrowRightIcon className='size-5' />
+          </Button>
+        </div>
       </div>
     </div>
   )
@@ -222,9 +234,9 @@ function ToolTipError({ promptEvaluationResult }: { promptEvaluationResult: stri
             <Button
               variant='outline'
               size='icon'
-              className='bg-transparent border-none hover:bg-transparent size-4'
+              className='bg-transparent border-none hover:bg-transparent size-5'
             >
-              <AlertCircleIcon className='text-red-400 size-4' />
+              <AlertCircleIcon className='text-red-400 size-5' />
             </Button>
           </div>
         </TooltipTrigger>
