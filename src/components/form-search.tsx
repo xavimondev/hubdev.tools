@@ -2,25 +2,39 @@ import React, { Dispatch, SetStateAction, useCallback, useRef, useState } from '
 import { useSearchParams } from 'next/navigation'
 import { generateAutoSuggestion } from '@/actions/ai/auto-suggestions'
 import { queryClassify } from '@/actions/ai/query-classify'
-import { LoaderCircleIcon } from 'lucide-react'
+import { AlertCircleIcon, LoaderCircleIcon } from 'lucide-react'
 import { isMobile } from 'react-device-detect'
 import { toast } from 'sonner'
 import { useDebouncedCallback } from 'use-debounce'
 
+import { ClassifyStatus } from '@/types/classify'
+
 import { useOnClickOutside } from '@/hooks/useClickOutside'
+import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 type FormSearchProps = {
   handleSearch: (term: string, save?: boolean) => void
   setShowSuggestions: Dispatch<SetStateAction<boolean>>
+  setStatusForm: Dispatch<SetStateAction<ClassifyStatus>>
+  setPromptEvaluationResult: Dispatch<SetStateAction<string | undefined>>
+  promptEvaluationResult: string | undefined
 }
 
-export function FormSearch({ handleSearch, setShowSuggestions }: FormSearchProps) {
+export function FormSearch({
+  handleSearch,
+  setShowSuggestions,
+  setStatusForm,
+  setPromptEvaluationResult,
+  promptEvaluationResult
+}: FormSearchProps) {
   const searchParams = useSearchParams()
   const query = searchParams.get('query')?.toString() ?? ''
   const [showHint, setShowHint] = useState(false)
   const [content, setContent] = useState('')
   const [suggestion, setSuggestion] = useState('')
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false)
+  const [isClassifying, setIsClassifying] = useState(false)
   const contentEditableRef = useRef<HTMLDivElement>(null)
   const firstTimeAutoSuggestion = useRef(true)
   const isCancelled = useRef(false)
@@ -76,6 +90,10 @@ export function FormSearch({ handleSearch, setShowSuggestions }: FormSearchProps
       setShowHint(false)
     }
 
+    if (promptEvaluationResult) {
+      setPromptEvaluationResult(undefined)
+    }
+
     debounced(input)
   }
 
@@ -97,11 +115,11 @@ export function FormSearch({ handleSearch, setShowSuggestions }: FormSearchProps
       toast.error('Please enter a valid search term')
       return
     }
-
-    toast.loading('Classifying query...')
+    setIsClassifying(true)
 
     const { category, error } = await queryClassify({ input })
-    toast.dismiss()
+
+    setIsClassifying(false)
 
     if (error || !category) {
       toast.error(`Something went wrong while classifying the query: ${input}`)
@@ -109,14 +127,12 @@ export function FormSearch({ handleSearch, setShowSuggestions }: FormSearchProps
     }
 
     if (category === 'non-technical') {
-      toast.error(
-        `Sorry, but we don't have resources for non-technical queries yet. Please try a different one.`,
-        {
-          duration: 4000
-        }
-      )
+      setStatusForm('error')
+      setPromptEvaluationResult(`No resources for non-technical queries.`)
       return
     }
+
+    setStatusForm('success')
 
     handleSearch(input, true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,15 +166,15 @@ export function FormSearch({ handleSearch, setShowSuggestions }: FormSearchProps
   )
 
   return (
-    <div className='w-full px-2 py-1 relative'>
-      <div className='relative w-full overflow-hidden'>
+    <div className='flex w-full relative px-2 py-1'>
+      <div className='relative w-full sm:w-[calc(100%_-_62px)] overflow-hidden'>
         <div
           ref={contentEditableRef}
           contentEditable
           suppressContentEditableWarning
           onInput={handleInput}
           onKeyDown={handleKeyDown}
-          className='relative flex h-10 w-full p-2 pr-10 border-none bg-transparent border border-input 
+          className='relative flex h-10 w-full p-2 border-none bg-transparent border border-input 
         focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 items-center 
         [&[contenteditable=true]]:empty:before:text-neutral-400 
         [&[contenteditable=true]]:empty:before:content-[attr(data-placeholder)] 
@@ -182,10 +198,38 @@ export function FormSearch({ handleSearch, setShowSuggestions }: FormSearchProps
           </div>
         )}
       </div>
-      <span className='absolute hidden sm:block text-yellow-200 text-xs top-[16px] right-4'>
-        {showHint ? 'press [TAB]' : ''}
-        {isFetchingSuggestions && <LoaderCircleIcon className='animate-spin size-4 ml-1' />}
-      </span>
+      <div className='absolute text-yellow-200 text-xs right-0 pr-3 top-[16px]'>
+        <span className='text-xs'>{showHint && !isMobile ? 'press [TAB]' : ''}</span>
+        {(isFetchingSuggestions || isClassifying) && (
+          <LoaderCircleIcon className='animate-spin size-4 ml-1' />
+        )}
+        {promptEvaluationResult && !isMobile && (
+          <ToolTipError promptEvaluationResult={promptEvaluationResult} />
+        )}
+      </div>
     </div>
+  )
+}
+
+function ToolTipError({ promptEvaluationResult }: { promptEvaluationResult: string }) {
+  return (
+    <TooltipProvider delayDuration={100}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div>
+            <Button
+              variant='outline'
+              size='icon'
+              className='bg-transparent border-none hover:bg-transparent size-4'
+            >
+              <AlertCircleIcon className='text-red-400 size-4' />
+            </Button>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent side='right' className='border-neutral-900'>
+          <p>{promptEvaluationResult}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
