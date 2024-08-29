@@ -17,7 +17,7 @@ function SearchSuggestionsAI({
 }) {
   return (
     <div className='flex flex-col gap-2'>
-      <span className='text-xs font-semibold text-neutral-300 uppercase'>ai Suggestions</span>
+      <span className='text-xs font-semibold text-white uppercase'>ai Suggestions</span>
       <div className='flex flex-wrap gap-2 items-center w-full'>
         {searchSuggestionsAI.map((suggestion) => (
           <button
@@ -48,7 +48,7 @@ function SearchHistory({
 }) {
   return (
     <div className='flex flex-col gap-2 mt-4'>
-      <span className='text-xs font-semibold text-neutral-300 uppercase'>search history</span>
+      <span className='text-xs font-semibold text-white uppercase'>search history</span>
       <div className='flex flex-wrap gap-2 items-center w-full'>
         {searchHistory.map((suggestion) => (
           <button
