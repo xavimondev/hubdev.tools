@@ -201,7 +201,7 @@ export function FormSearch({
         )}
       </div>
       <div className='absolute right-0 pr-3 top-[14px]'>
-        <div className='flex items-center gap-1'>
+        <div className='flex gap-1'>
           <div className='text-yellow-200'>
             <span className='text-xs'>{showHint && !isMobile ? 'press [TAB]' : ''}</span>
             {(isFetchingSuggestions || isClassifying) && (
