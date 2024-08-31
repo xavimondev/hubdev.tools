@@ -93,7 +93,7 @@ export function SearchSuggestions({
                 onClick={() => {
                   handleSearch(suggestion)
                 }}
-                className='groupflex items-center border border-neutral-600/50 bg-neutral-800 hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
+                className='group flex items-center border border-neutral-600/50 bg-neutral-800 hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
               >
                 <AsteriskIcon className='mr-2 text-yellow-300 size-4' />
                 <span className='text-gray-300 group-hover:text-white text-sm text-left'>
