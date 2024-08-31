@@ -26,7 +26,11 @@ export const getData = async ({ from, to }: { from: number; to: number }) => {
 }
 
 export const getCategories = async () => {
-  const { data, error } = await supabase.from('categories').select('id, name, slug').order('name')
+  const { data, error } = await supabase
+    .from('categories')
+    .select('id, name, slug')
+    .eq('isActive', true)
+    .order('name')
 
   if (error) {
     console.error(error)
