@@ -213,7 +213,9 @@ export function FormSearch({
           </div>
           <Button
             size='icon'
-            disabled={isClassifying || content.trim().length <= 1}
+            disabled={
+              isClassifying || content.trim().length <= 1 || Boolean(promptEvaluationResult)
+            }
             className='bg-transparent border-none hover:bg-transparent size-5 text-white disabled:opacity-50'
             onClick={() => submit(content)}
           >
