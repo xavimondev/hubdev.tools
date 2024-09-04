@@ -18,7 +18,6 @@ type ToolbarProps = {
 function getStatusStyles({ status }: { status: ClassifyStatus }) {
   const styles = {
     idle: 'shadow',
-    success: 'shadow-[0_0_12px_2px_rgba(96,249,204,0.5)] border border-green-500/50',
     error: 'shadow-[0_0_12px_2px_rgba(179,64,43,0.5)] border border-red-400/50'
   }
 

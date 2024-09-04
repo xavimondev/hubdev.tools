@@ -1,1 +1,1 @@
-export type ClassifyStatus = 'idle' | 'success' | 'error'
+export type ClassifyStatus = 'idle' | 'error'

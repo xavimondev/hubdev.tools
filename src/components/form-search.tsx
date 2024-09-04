@@ -132,8 +132,6 @@ export function FormSearch({
       return
     }
 
-    setStatusForm('success')
-
     handleSearch(input, true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
