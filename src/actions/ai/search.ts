@@ -13,6 +13,54 @@ export type QueryData = {
   language?: string
 }
 
+type ResourcesWithCategories = {
+  id: string
+  title: string
+  url: string
+  image: string
+  summary: string
+  categories:
+    | {
+        name: string
+      }
+    | {
+        slug: string | null
+        name: string
+      }
+    | null
+}
+
+const formatDataWithCategories = async ({
+  resources
+}: {
+  resources: ResourcesWithCategories[]
+}) => {
+  const promises = resources.map(async (item) => {
+    const { categories, ...resource } = item
+    const { name } = categories ?? {}
+    const blurDataURL = await getPlaceholderImage(resource.image)
+    return {
+      ...resource,
+      category: name ?? '',
+      blurDataURL
+    }
+  })
+  const result = await Promise.all(promises)
+  return result
+}
+
+const formatDataWithoutCategories = async ({ resources }: { resources: Resource[] }) => {
+  const formattedResources = resources.map(async (resource) => {
+    const blurDataURL = await getPlaceholderImage(resource.image)
+    return {
+      ...resource,
+      blurDataURL
+    }
+  })
+  const formattedData = await Promise.all(formattedResources)
+  return formattedData
+}
+
 export async function search({
   q,
   slug
@@ -30,34 +78,19 @@ export async function search({
       if (!result) {
         return { error: 'An error occured. Please try again later.' }
       }
-      const promises = result.map(async (item) => {
-        const { categories, ...resource } = item
-        const { name } = categories ?? {}
-        const blurDataURL = await getPlaceholderImage(resource.image)
-        return {
-          ...resource,
-          category: name ?? '',
-          blurDataURL
-        }
+
+      data = await formatDataWithCategories({
+        resources: result
       })
-      data = await Promise.all(promises)
     } else {
       const result = await getData({ from: 0, to: 11 })
       if (!result) {
         return { error: 'An error occured. Please try again later.' }
       }
 
-      const promises = result.map(async (item) => {
-        const { categories, ...resource } = item
-        const { name } = categories ?? {}
-        const blurDataURL = await getPlaceholderImage(resource.image)
-        return {
-          ...resource,
-          category: name ?? '',
-          blurDataURL
-        }
+      data = await formatDataWithCategories({
+        resources: result
       })
-      data = await Promise.all(promises)
     }
 
     return {
@@ -94,16 +127,25 @@ export async function search({
 
     await saveCache({ cache })
 
+    const resources = await formatDataWithoutCategories({
+      resources: data
+    })
+
     return {
       summary,
-      resources: data,
+      resources,
       language
     }
   }
 
   const { data } = cache
+  const { summary, resources } = data
+  const formattedData = await formatDataWithoutCategories({
+    resources
+  })
 
   return {
-    ...data
+    resources: formattedData,
+    summary
   }
 }
