@@ -94,7 +94,9 @@ export function FormSearch({
       setPromptEvaluationResult(undefined)
     }
 
-    debounced(input)
+    if (input.trim().length >= 3) {
+      debounced(input)
+    }
   }
 
   const moveCursorToEnd = (content: string) => {
