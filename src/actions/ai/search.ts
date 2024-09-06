@@ -1,5 +1,6 @@
 import { Resource } from '@/types/resource'
 
+import { getPlaceholderImage } from '@/utils/generatePlaceholder'
 import { getData, getResourcesByCategorySlug } from '@/services/list'
 
 import { getCache, saveCache } from './cache'
@@ -29,27 +30,34 @@ export async function search({
       if (!result) {
         return { error: 'An error occured. Please try again later.' }
       }
-      data = result.map((item) => {
+      const promises = result.map(async (item) => {
         const { categories, ...resource } = item
         const { name } = categories ?? {}
+        const blurDataURL = await getPlaceholderImage(resource.image)
         return {
           ...resource,
-          category: name ?? ''
+          category: name ?? '',
+          blurDataURL
         }
       })
+      data = await Promise.all(promises)
     } else {
       const result = await getData({ from: 0, to: 11 })
       if (!result) {
         return { error: 'An error occured. Please try again later.' }
       }
-      data = result.map((item) => {
+
+      const promises = result.map(async (item) => {
         const { categories, ...resource } = item
         const { name } = categories ?? {}
+        const blurDataURL = await getPlaceholderImage(resource.image)
         return {
           ...resource,
-          category: name ?? ''
+          category: name ?? '',
+          blurDataURL
         }
       })
+      data = await Promise.all(promises)
     }
 
     return {

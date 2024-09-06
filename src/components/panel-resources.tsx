@@ -47,15 +47,7 @@ export function PanelResources({ resources }: { resources: Resource[] }) {
     if (!results) return
 
     if (results.length > 0) {
-      const formatedData: Resource[] = results.map((item: any) => {
-        const { categories, ...resource } = item
-        const { name } = categories ?? {}
-        return {
-          ...resource,
-          category: name ?? ''
-        }
-      })
-      setData((prevData) => prevData.concat(formatedData))
+      setData((prevData) => prevData.concat(results))
     }
 
     // Hidding the load more button

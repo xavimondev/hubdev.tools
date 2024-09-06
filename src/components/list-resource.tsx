@@ -12,9 +12,10 @@ type ResourceItemProps = {
   summary: string
   image: string
   order: number
+  blurDataURL?: string
 }
 
-function ResourceItem({ title, url, summary, image, order }: ResourceItemProps) {
+function ResourceItem({ title, url, summary, image, order, blurDataURL }: ResourceItemProps) {
   return (
     <a
       className='rounded-lg shadow-sm overflow-hidden border border-neutral-900 bg-[#101010] hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'
@@ -29,8 +30,10 @@ function ResourceItem({ title, url, summary, image, order }: ResourceItemProps) 
         height={225}
         priority={order === 0}
         alt={`Picture of ${title}`}
-        className='w-full h-40 object-cover animate-reveal'
+        className='w-full h-40 object-cover'
         decoding='async'
+        placeholder='blur'
+        blurDataURL={blurDataURL}
       />
       <div className='p-4'>
         <h2 className='text-base md:text-lg font-semibold text-balance'>{title}</h2>
@@ -55,7 +58,7 @@ export function ListResource({ data }: ListResourceProps) {
     <>
       {data && data.length > 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
-          {data.map(({ id, title, url, summary, image }, index) => {
+          {data.map(({ id, title, url, summary, image, blurDataURL }, index) => {
             return (
               <ResourceItem
                 order={index}
@@ -64,6 +67,7 @@ export function ListResource({ data }: ListResourceProps) {
                 url={url}
                 summary={summary}
                 image={image}
+                blurDataURL={blurDataURL}
               />
             )
           })}
