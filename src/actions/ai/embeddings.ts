@@ -12,7 +12,7 @@ import { supabase } from '@/services/client'
 const ratelimit =
   process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN ? uptash : false
 
-export async function getEmbeddings({ input }: { input: string }) {
+export async function getEmbeddings({ input, count }: { input: string; count?: number }) {
   try {
     if (process.env.NODE_ENV === 'production') {
       if (ratelimit) {
@@ -34,7 +34,7 @@ export async function getEmbeddings({ input }: { input: string }) {
       // @ts-ignore
       embed: embedding,
       match_threshold: 0.4,
-      match_count: 11
+      match_count: count ?? 11
     })
 
     const result = request.data as Resource[]
