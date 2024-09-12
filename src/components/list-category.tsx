@@ -35,12 +35,12 @@ function CategoryLink({ name, slug, icon, isVisited }: CategoryProps) {
   )
 }
 
-function CategoryAll() {
+function Home() {
   const slug = '/'
   const pathname = usePathname()
   const isVisited = pathname === slug
 
-  return <CategoryLink name='All' slug={slug} isVisited={isVisited} icon={'🌀'} />
+  return <CategoryLink name='Home' slug={slug} isVisited={isVisited} icon={'🏠'} />
 }
 
 type Category = {
@@ -58,7 +58,7 @@ export function ListCategory({ data }: ListCategoryProps) {
   return (
     <aside className='w-full md:fixed md:h-full md:w-56 overflow-y-auto scrollbar-hide mb-8 md:mb-0'>
       <nav className='flex gap-1 overflow-y-auto md:mb-32 md:flex-col md:overflow-y-visible md:pb-2 pt-0 px-0.5 md:px-0'>
-        <CategoryAll />
+        <Home />
         {data &&
           data.length > 0 &&
           data.map((category) => {
