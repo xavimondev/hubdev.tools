@@ -15,10 +15,17 @@ type ResourceItemProps = {
   blurDataURL?: string
 }
 
-function ResourceItem({ title, url, summary, image, order, blurDataURL }: ResourceItemProps) {
+export function ResourceItem({
+  title,
+  url,
+  summary,
+  image,
+  order,
+  blurDataURL
+}: ResourceItemProps) {
   return (
     <a
-      className='rounded-lg shadow-sm overflow-hidden border border-neutral-900 bg-[#101010] hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'
+      className='rounded-lg shadow-sm overflow-hidden border border-neutral-800/70 bg-[#101010] hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'
       href={url}
       target='_blank'
       rel='noopener noreferrer'
