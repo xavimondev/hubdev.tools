@@ -1,9 +1,9 @@
-import { getDashboardAISuggestions } from '@/services/get-dashboard-aisuggestions'
+import { getAISuggestions } from '@/services/dashboard'
 import { ErrorState } from '@/components/error-state'
 import { ListResource } from '@/components/list-resource'
 
 export async function AISuggestionsResources() {
-  const aiSuggestions = await getDashboardAISuggestions()
+  const aiSuggestions = await getAISuggestions()
 
   const { data, error } = aiSuggestions
 
