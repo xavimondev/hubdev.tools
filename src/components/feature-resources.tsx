@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Medal } from 'lucide-react'
 
 import { HREF_PREFIX } from '@/constants'
-import { getFeaturedResources } from '@/services/list'
+import { getFeaturedResources } from '@/services/dashboard'
 import { ErrorState } from '@/components/error-state'
 import { LoadingCards } from '@/components/loading'
 
