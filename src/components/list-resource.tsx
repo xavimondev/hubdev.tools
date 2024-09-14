@@ -4,6 +4,7 @@ import { Link2Icon } from 'lucide-react'
 
 import { Resource } from '@/types/resource'
 
+import { HREF_PREFIX } from '@/constants'
 import { EmptyState } from '@/components/empty-state'
 
 type ResourceItemProps = {
@@ -26,7 +27,7 @@ export function ResourceItem({
   return (
     <a
       className='rounded-lg shadow-sm overflow-hidden border border-neutral-800/70 bg-[#101010] hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'
-      href={url}
+      href={`${HREF_PREFIX}${url}`}
       target='_blank'
       rel='noopener noreferrer'
     >

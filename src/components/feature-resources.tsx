@@ -2,10 +2,10 @@ import { Suspense } from 'react'
 import Image from 'next/image'
 import { Medal } from 'lucide-react'
 
+import { HREF_PREFIX } from '@/constants'
 import { getFeaturedResources } from '@/services/list'
 import { ErrorState } from '@/components/error-state'
-
-import { LoadingCards } from './loading'
+import { LoadingCards } from '@/components/loading'
 
 async function ListFeatureResources() {
   const featuredResources = await getFeaturedResources()
@@ -30,7 +30,7 @@ async function ListFeatureResources() {
       {/* First place */}
       <a
         className='bg-gradient-to-br from-yellow-100 to-amber-300 border-2 border-yellow-700 p-6 rounded-lg col-span-1 md:row-span-3 text-black'
-        href={url}
+        href={`${HREF_PREFIX}${url}`}
         target='_blank'
         rel='noopener noreferrer'
       >
@@ -51,7 +51,7 @@ async function ListFeatureResources() {
       {/* Second place */}
       <a
         className='bg-gradient-to-br from-cyan-200 via-red-50 to-blue-200 p-6 rounded-lg col-span-1 row-span-2 text-gray-800'
-        href={secondPlaceUrl}
+        href={`${HREF_PREFIX}${secondPlaceUrl}`}
         target='_blank'
         rel='noopener noreferrer'
       >
@@ -71,7 +71,7 @@ async function ListFeatureResources() {
       {/* Third place */}
       <a
         className='bg-gradient-to-br from-neutral-900 to-gray-800 p-6 rounded-lg col-span-1 row-span-2 text-white-800'
-        href={thirdPlaceUrl}
+        href={`${HREF_PREFIX}${thirdPlace}`}
         target='_blank'
         rel='noopener noreferrer'
       >
@@ -95,7 +95,7 @@ async function ListFeatureResources() {
             <div className='flex flex-col gap-4 p-6' key={id}>
               <a
                 className='flex items-center gap-2'
-                href={url}
+                href={`${HREF_PREFIX}${url}`}
                 rel='noopener noreferrer'
                 target='_blank'
               >

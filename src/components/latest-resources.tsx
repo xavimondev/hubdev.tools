@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 
 import { getLatestResources } from '@/services/list'
 import { ErrorState } from '@/components/error-state'
+import { ListResource } from '@/components/list-resource'
 import { LoadingCards } from '@/components/loading'
 
 async function ListLatestResources() {
@@ -10,6 +11,8 @@ async function ListLatestResources() {
   if (!data) {
     return <ErrorState error='Something went wrong' />
   }
+
+  return <ListResource data={data} />
 }
 
 export function LatestResources() {
