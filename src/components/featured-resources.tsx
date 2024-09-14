@@ -5,7 +5,7 @@ import { Medal } from 'lucide-react'
 import { HREF_PREFIX } from '@/constants'
 import { getFeaturedResources } from '@/services/dashboard'
 import { ErrorState } from '@/components/error-state'
-import { LoadingCards } from '@/components/loading'
+import { LoadingBentoGrid } from '@/components/loading'
 
 async function ListFeaturedResources() {
   const featuredResources = await getFeaturedResources()
@@ -127,7 +127,7 @@ export async function FeaturedResources() {
           Discover the most popular resources.
         </p>
       </div>
-      <Suspense fallback={<LoadingCards />}>
+      <Suspense fallback={<LoadingBentoGrid />}>
         <ListFeaturedResources />
       </Suspense>
     </section>

@@ -35,3 +35,18 @@ export function LoadingCards() {
     </div>
   )
 }
+
+export function LoadingBentoGrid() {
+  return (
+    <div className='mt-4 grid grid-cols-1 md:grid-cols-3 gap-4'>
+      {/* First place */}
+      <div className='bg-neutral-900 animate-pulse rounded-lg col-span-1 md:row-span-3'></div>
+      {/* Second place */}
+      <div className='bg-neutral-900 animate-pulse rounded-lg col-span-1 row-span-2 h-44'></div>
+      {/* Third place */}
+      <div className='bg-neutral-900 animate-pulse rounded-lg col-span-1 row-span-2 h-44'></div>
+      {/* Next three */}
+      <div className='bg-neutral-900 rounded-lg col-span-2 row-span-1 h-[410px]'></div>
+    </div>
+  )
+}
