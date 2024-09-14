@@ -122,7 +122,7 @@ export async function FeaturedResources() {
   return (
     <section className='mb-4 md:mb-14'>
       <div className='flex flex-col gap-2'>
-        <h2 className='text-2xl md:text-4xl text-balance mb-2 text-yellow-50'>Feature</h2>
+        <h2 className='text-2xl md:text-4xl text-balance mb-2 text-yellow-50'>Featured</h2>
         <p className='text-base md:text-xl text-transparent bg-clip-text bg-gradient-to-t from-orange-100 to-orange-400'>
           Discover the most popular resources.
         </p>
