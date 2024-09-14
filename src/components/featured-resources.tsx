@@ -7,7 +7,7 @@ import { getFeaturedResources } from '@/services/dashboard'
 import { ErrorState } from '@/components/error-state'
 import { LoadingCards } from '@/components/loading'
 
-async function ListFeatureResources() {
+async function ListFeaturedResources() {
   const featuredResources = await getFeaturedResources()
 
   if (!featuredResources) {
@@ -118,7 +118,7 @@ async function ListFeatureResources() {
   )
 }
 
-export async function FeatureResources() {
+export async function FeaturedResources() {
   return (
     <section className='mb-4 md:mb-14'>
       <div className='flex flex-col gap-2'>
@@ -128,7 +128,7 @@ export async function FeatureResources() {
         </p>
       </div>
       <Suspense fallback={<LoadingCards />}>
-        <ListFeatureResources />
+        <ListFeaturedResources />
       </Suspense>
     </section>
   )

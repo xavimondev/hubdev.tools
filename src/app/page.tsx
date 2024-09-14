@@ -3,7 +3,7 @@ import { Metadata, ResolvingMetadata } from 'next'
 
 import { AISuggestionsResources } from '@/components/ai-suggestions-resources'
 import { Container } from '@/components/container'
-import { FeatureResources } from '@/components/feature-resources'
+import { FeaturedResources } from '@/components/featured-resources'
 import { LatestResources } from '@/components/latest-resources'
 import { LoadingCards } from '@/components/loading'
 
@@ -37,7 +37,7 @@ export default async function MainPage() {
   return (
     <>
       <Container>
-        <FeatureResources />
+        <FeaturedResources />
         <Suspense fallback={<LoadingCards />}>
           <AISuggestionsResources />
         </Suspense>
