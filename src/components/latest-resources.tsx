@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { getLatestResources } from '@/services/list'
+import { getLatestResources } from '@/services/dashboard'
 import { ErrorState } from '@/components/error-state'
 import { ListResource } from '@/components/list-resource'
 import { LoadingCards } from '@/components/loading'
