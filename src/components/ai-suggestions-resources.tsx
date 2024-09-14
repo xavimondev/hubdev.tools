@@ -1,4 +1,4 @@
-import { getDashboardAISuggestions } from '@/services/dashboard-suggestions'
+import { getDashboardAISuggestions } from '@/services/get-dashboard-aisuggestions'
 import { ErrorState } from '@/components/error-state'
 import { ListResource } from '@/components/list-resource'
 
