@@ -28,7 +28,7 @@ export function PanelResources({ resources }: { resources: Resource[] }) {
 
     setIsLoading(true)
 
-    if (Object.keys(params).length === 0) {
+    if (params.slug === 'all' || Object.keys(params).length === 0) {
       results = await listResources({
         from,
         to
