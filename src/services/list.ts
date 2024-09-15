@@ -1,7 +1,5 @@
 import { QueryData } from '@supabase/supabase-js'
 
-import { getPlaceholderImage } from '@/utils/generatePlaceholder'
-
 import { supabase } from './client'
 
 const resourcesWithCategoryQuery = supabase.from('resources').select(`
