@@ -73,16 +73,7 @@ export async function search({
   if (query === 'all') {
     let data: Resource[] = []
 
-    if (slug) {
-      const result = await getResourcesByCategorySlug({ from: 0, to: 11, slug })
-      if (!result) {
-        return { error: 'An error occured. Please try again later.' }
-      }
-
-      data = await formatDataWithCategories({
-        resources: result
-      })
-    } else {
+    if (!slug || slug === 'all') {
       const result = await getData({ from: 0, to: 11 })
       if (!result) {
         return { error: 'An error occured. Please try again later.' }
@@ -91,8 +82,16 @@ export async function search({
       data = await formatDataWithCategories({
         resources: result
       })
-    }
+    } else {
+      const result = await getResourcesByCategorySlug({ from: 0, to: 11, slug })
+      if (!result) {
+        return { error: 'An error occured. Please try again later.' }
+      }
 
+      data = await formatDataWithCategories({
+        resources: result
+      })
+    }
     return {
       resources: data
     }

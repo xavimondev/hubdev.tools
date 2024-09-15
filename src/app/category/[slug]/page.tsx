@@ -16,6 +16,13 @@ export async function generateMetadata({
   params: { slug: string }
 }): Promise<Metadata> {
   const { slug } = params
+
+  if (slug == 'all') {
+    return {
+      title: 'Resources'
+    }
+  }
+
   const data = await getCategoryDetails({ slug })
 
   if (!data) {
@@ -47,18 +54,28 @@ export default async function Page({
   searchParams: { query: string }
 }) {
   const { slug } = params
-  const data = await getCategoryDetails({ slug })
-  if (!data) return <ErrorState error='An error occurred. Please try again later.' />
+  let heroTitle = ''
+  let heroDescription = ''
 
-  const category = data[0]
+  if (slug === 'all') {
+    heroTitle = 'Resources'
+    heroDescription = 'Discover an awesome list of resources for developers.'
+  } else {
+    const data = await getCategoryDetails({ slug })
+    if (!data) return <ErrorState error='An error occurred. Please try again later.' />
 
-  const { name, description } = category
+    const category = data[0]
+
+    const { name, description: categoryDescription } = category
+    heroTitle = name
+    heroDescription = categoryDescription as string
+  }
 
   const { query } = searchParams
 
   return (
     <Container>
-      <Hero title={name} description={description!} />
+      <Hero title={heroTitle} description={heroDescription!} />
       <Suspense fallback={<Loading />} key={query}>
         <Home query={query} slug={slug} />
       </Suspense>
