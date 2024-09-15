@@ -1,4 +1,3 @@
-// import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 import { ViewTransitions } from 'next-view-transitions'
 
@@ -66,7 +65,7 @@ export default function RootLayout({
   return (
     <ViewTransitions>
       <html lang='en' className={`${GeistSans.variable}`}>
-        <body className={`dark flex flex-col min-h-screen container px-1 !sm:px-2`}>
+        <body className={`dark flex flex-col min-h-screen px-1 !sm:px-2`}>
           <Header />
           <div className='px-4 py-8 md:px-6 md:py-10 container'>
             <Sidebar />
