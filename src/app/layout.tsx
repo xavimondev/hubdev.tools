@@ -68,7 +68,7 @@ export default function RootLayout({
       <html lang='en' className={`${GeistSans.variable}`}>
         <body className={`dark flex flex-col min-h-screen container px-1 !sm:px-2`}>
           <Header />
-          <div className='px-4 py-8 md:px-6 md:py-10'>
+          <div className='px-4 py-8 md:px-6 md:py-10 container'>
             <Sidebar />
             {children}
             <AISearch />
