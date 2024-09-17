@@ -29,12 +29,12 @@ async function ListFeaturedResources() {
     <div className='mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4'>
       {/* First place */}
       <a
-        className='bg-gradient-to-br from-yellow-100 to-amber-300 border-2 border-yellow-500 dark:border-yellow-700 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
+        className='bg-gradient-to-br from-yellow-50 to-amber-200 dark:from-yellow-100 dark:to-amber-300 border-2 border-yellow-500 dark:border-yellow-700 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
         href={`${HREF_PREFIX}${url}`}
         target='_blank'
         rel='noopener noreferrer'
       >
-        <Medal className='md:size-12 mb-2 text-yellow-400 hidden xl:block' />
+        <Medal className='md:size-12 mb-2 text-yellow-600 dark:text-yellow-400 hidden xl:block' />
         <h2 className='text-xl font-semibold lowercase mb-4 text-black'>{title}</h2>
         <p className='text-sm text-gray-700 mb-4 line-clamp-4'>{summary}</p>
         <Image
@@ -50,7 +50,7 @@ async function ListFeaturedResources() {
       </a>
       {/* Second place */}
       <a
-        className='bg-gradient-to-br from-cyan-200 via-red-50 to-blue-200 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
+        className='bg-gradient-to-br from-cyan-100 to-blue-100 dark:from-cyan-200 dark:via-red-50 dark:to-blue-200 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
         href={`${HREF_PREFIX}${secondPlaceUrl}`}
         target='_blank'
         rel='noopener noreferrer'
@@ -64,13 +64,15 @@ async function ListFeaturedResources() {
             width={32}
             height={32}
           />
-          <h2 className='text-lg font-semibold text-gray-800'>{secondPlaceTitle}</h2>
+          <h2 className='text-lg font-semibold text-gray-900 dark:text-gray-800'>
+            {secondPlaceTitle}
+          </h2>
         </div>
         <p className='text-sm text-gray-700 line-clamp-4'>{secondPlaceSummary}</p>
       </a>
       {/* Third place */}
       <a
-        className='bg-gradient-to-br from-neutral-900 to-gray-800 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
+        className='bg-gradient-to-br from-neutral-700 to-gray-600 dark:from-neutral-900 dark:to-gray-800 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
         href={`${HREF_PREFIX}${thirdPlace}`}
         target='_blank'
         rel='noopener noreferrer'
@@ -89,7 +91,7 @@ async function ListFeaturedResources() {
         <p className='text-sm text-gray-200 line-clamp-4'>{thirdPlaceSummary}</p>
       </a>
       {/* Next three */}
-      <div className='bg-gradient-to-br from-blue-200 to-pink-200 rounded-lg row-span-1 col-span-1 lg:col-span-3 xl:col-span-2 text-gray-800 flex flex-col gap-1 divide-y divide-gray-600/20'>
+      <div className='bg-gradient-to-br from-blue-100 to-pink-100 dark:from-blue-200 dark:to-pink-200 rounded-lg row-span-1 col-span-1 lg:col-span-3 xl:col-span-2 text-gray-900 dark:text-gray-800 flex flex-col gap-1 divide-y divide-gray-600/20'>
         {nextThreeResources.map(({ id, title, url, summary }) => {
           return (
             <div className='flex flex-col gap-4 p-6' key={id}>
@@ -109,7 +111,7 @@ async function ListFeaturedResources() {
                 />
                 <span className='text-lg font-semibold'>{title}</span>
               </a>
-              <p className='text-sm text-gray-800 line-clamp-3'>{summary}</p>
+              <p className='text-sm text-gray-900 dark:text-gray-800 line-clamp-3'>{summary}</p>
             </div>
           )
         })}
