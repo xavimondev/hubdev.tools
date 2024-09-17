@@ -18,8 +18,10 @@ export async function AISuggestionsResources() {
   return (
     <section className='mb-4 md:mb-14'>
       <div className='flex flex-col gap-2'>
-        <h2 className='text-2xl md:text-4xl text-balance mb-2 text-yellow-50'>AI Suggestions</h2>
-        <p className='text-base md:text-xl text-transparent bg-clip-text bg-gradient-to-t from-cyan-100 to-cyan-400'>
+        <h2 className='text-2xl md:text-4xl text-balance mb-2 text-yellow-800 dark:text-yellow-50'>
+          AI Suggestions
+        </h2>
+        <p className='text-base md:text-lg text-transparent bg-clip-text bg-gradient-to-t from-cyan-500 to-cyan-800 dark:from-cyan-100 dark:to-cyan-400'>
           Tailored recommendations powered by AI.
         </p>
       </div>

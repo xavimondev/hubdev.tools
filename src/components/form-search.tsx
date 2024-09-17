@@ -184,8 +184,7 @@ export function FormSearch({
         [&[contenteditable=true]]:empty:before:left-2 
         [&[contenteditable=true]]:empty:before:top-2
         [&[contenteditable=true]]:empty:before:block whitespace-nowrap overflow-hidden 
-        focus-within:text-white 
-        text-neutral-400'
+        dark:focus-within:text-white dark:text-neutral-400 focus-within:text-black text-neutral-900'
           data-placeholder='typescript books'
           spellCheck='false'
           role='textbox'
@@ -202,7 +201,7 @@ export function FormSearch({
       </div>
       <div className='absolute right-0 pr-3 top-[14px]'>
         <div className='flex gap-1'>
-          <div className='text-yellow-200'>
+          <div className='text-black dark:text-yellow-200'>
             <span className='text-xs'>{showHint && !isMobile ? 'press [TAB]' : ''}</span>
             {(isFetchingSuggestions || isClassifying) && (
               <LoaderCircleIcon className='animate-spin size-5' />
@@ -216,7 +215,7 @@ export function FormSearch({
             disabled={
               isClassifying || content.trim().length <= 1 || Boolean(promptEvaluationResult)
             }
-            className='bg-transparent border-none hover:bg-transparent size-5 text-white disabled:opacity-50'
+            className='bg-transparent border-none hover:bg-transparent size-5 text-black dark:text-white disabled:opacity-50'
             onClick={() => submit(content)}
           >
             <ArrowRightIcon className='size-5' />
@@ -238,7 +237,7 @@ function ToolTipError({ promptEvaluationResult }: { promptEvaluationResult: stri
               size='icon'
               className='bg-transparent border-none hover:bg-transparent size-5'
             >
-              <AlertCircleIcon className='text-red-400 size-5' />
+              <AlertCircleIcon className='text-red-500 dark:text-red-400 size-5' />
             </Button>
           </div>
         </TooltipTrigger>

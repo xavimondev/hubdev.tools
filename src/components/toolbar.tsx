@@ -17,8 +17,8 @@ type ToolbarProps = {
 
 function getStatusStyles({ status }: { status: ClassifyStatus }) {
   const styles = {
-    idle: 'shadow',
-    error: 'shadow-[0_0_12px_2px_rgba(179,64,43,0.5)] border border-red-400/50'
+    idle: 'shadow-sm',
+    error: 'shadow-[0_0_12px_2px_rgba(179,64,43,0.5)] border border-red-700 dark:border-red-400/50'
   }
 
   return styles[status]
@@ -64,11 +64,13 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
          h-[50px] 
          w-[min(450px,calc(100%_-_110px))] 
          bg-gradient-to-br 
-         from-stone-800 
-         to-neutral-900 
+         dark:from-stone-800 
+         dark:to-neutral-900 
+         from-stone-50
+         to-light-400
          translate-y-[8px] 
          transition-multiple 
-         duration-300`,
+         duration-300 border border-light-600 dark:border-neutral-800/70`,
         showSuggestions && 'w-[calc(100%_-_8px)] md:w-[600px] h-[280px]',
         styles
       )}
@@ -89,7 +91,9 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
         />
       )}
       {!showSuggestions && Boolean(promptEvaluationResult) && (
-        <span className='my-2 w-full text-red-400 text-sm'>{promptEvaluationResult}</span>
+        <span className='my-2 w-full text-red-700 dark:text-red-400 text-sm'>
+          {promptEvaluationResult}
+        </span>
       )}
     </div>
   )

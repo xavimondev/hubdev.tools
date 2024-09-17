@@ -57,7 +57,20 @@ const config = {
           foreground: 'hsl(var(--card-foreground))'
         },
         link: '#b9b9b9',
-        anchor: '#80B4F5'
+        anchor: '#80B4F5',
+        light: {
+          '50': '#FFFFFF',
+          '100': '#FDFDFB',
+          '200': '#FCFCF8',
+          '300': '#FCFCF8',
+          '400': '#FAFAF4',
+          '500': '#F9F9F1',
+          '600': '#DCDCAD',
+          '700': '#BFBF69',
+          '800': '#88883A',
+          '900': '#44441D',
+          '950': '#24240F'
+        }
       },
       borderRadius: {
         lg: 'var(--radius)',

@@ -18,15 +18,15 @@ function CategoryLink({ name, slug, icon, isVisited }: CategoryProps) {
     <Link
       href={slug}
       className={cn(
-        'flex items-center gap-1 md:gap-3 group hover:bg-neutral-500/30 py-1.5 px-3 rounded-md border',
-        isVisited && 'bg-neutral-500/30 hover:bg-none'
+        'flex items-center gap-1 md:gap-3 group bg-background hover:bg-light-600/50 dark:hover:bg-neutral-500/30 py-1.5 px-3 rounded-md border border-light-600 dark:border-neutral-500/20',
+        isVisited && 'bg-light-600/50 dark:bg-neutral-500/30 hover:bg-none'
       )}
     >
       <span>{icon}</span>
       <span
         className={cn(
-          'text-link text-sm md:text-[15px] leading-normal group-hover:text-yellow-300 transition-colors duration-200',
-          isVisited && 'text-yellow-300 category'
+          'text-light-900 dark:text-link text-sm md:text-[15px] leading-normal group-hover:text-light-900 dark:group-hover:text-yellow-300 transition-colors duration-200',
+          isVisited && 'text-light-900 dark:text-yellow-300 category'
         )}
       >
         {name}

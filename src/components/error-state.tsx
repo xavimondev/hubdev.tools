@@ -9,7 +9,7 @@ export function ErrorState({ error }: { error: string }) {
           <h3 className='mt-4 text-xl font-bold tracking-tight text-foreground sm:text-3xl'>
             Error
           </h3>
-          <p className='mt-1 text-yellow-500 text-lg'>{error}</p>
+          <p className='mt-1 text-yellow-800 dark:text-yellow-500 text-lg'>{error}</p>
         </div>
       </div>
     </div>

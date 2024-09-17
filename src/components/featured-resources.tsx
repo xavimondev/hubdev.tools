@@ -29,7 +29,7 @@ async function ListFeaturedResources() {
     <div className='mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4'>
       {/* First place */}
       <a
-        className='bg-gradient-to-br from-yellow-100 to-amber-300 border-2 border-yellow-700 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
+        className='bg-gradient-to-br from-yellow-100 to-amber-300 border-2 border-yellow-500 dark:border-yellow-700 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
         href={`${HREF_PREFIX}${url}`}
         target='_blank'
         rel='noopener noreferrer'
@@ -122,8 +122,10 @@ export async function FeaturedResources() {
   return (
     <section className='mb-4 md:mb-14'>
       <div className='flex flex-col gap-2'>
-        <h2 className='text-2xl md:text-4xl text-balance mb-2 text-yellow-50'>Featured</h2>
-        <p className='text-base md:text-xl text-transparent bg-clip-text bg-gradient-to-t from-orange-100 to-orange-400'>
+        <h2 className='text-2xl md:text-4xl text-balance mb-2 text-yellow-800 dark:text-yellow-50'>
+          Featured
+        </h2>
+        <p className='text-base md:text-lg text-transparent bg-clip-text bg-gradient-to-t from-gray-600 to-gray-800 dark:from-orange-100 dark:to-orange-400'>
           Discover the most popular resources.
         </p>
       </div>

@@ -26,10 +26,10 @@ function SearchSuggestionsAI({
             onClick={() => {
               handleSearch(suggestion)
             }}
-            className='group flex items-center border border-neutral-600/50 bg-neutral-800 hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
+            className='group flex items-center border border-neutral-600/30 dark:border-neutral-600/50 bg-light-300 dark:bg-neutral-800 hover:bg-light-600/40 dark:hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
           >
-            <SparklesIcon className='mr-2 text-yellow-300 size-4' />
-            <span className='text-gray-300 group-hover:text-white text-sm text-left'>
+            <SparklesIcon className='mr-2 text-yellow-700 dark:text-yellow-300 size-4' />
+            <span className='text-gray-900 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white text-sm text-left'>
               {suggestion}
             </span>
           </button>
@@ -57,10 +57,10 @@ function SearchHistory({
             onClick={() => {
               handleSearch(suggestion)
             }}
-            className='group flex items-center border border-neutral-600/50 bg-neutral-800 hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
+            className='group flex items-center border border-neutral-600/30 dark:border-neutral-600/50 bg-light-300 dark:bg-neutral-800 hover:bg-light-600/40 dark:hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
           >
-            <HistoryIcon className='mr-2 text-yellow-300 size-4' />
-            <span className='text-gray-300 group-hover:text-white text-sm text-left'>
+            <HistoryIcon className='mr-2 text-yellow-700 dark:text-yellow-300 size-4' />
+            <span className='text-gray-900 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white text-sm text-left'>
               {suggestion}
             </span>
           </button>
@@ -93,10 +93,10 @@ export function SearchSuggestions({
                 onClick={() => {
                   handleSearch(suggestion)
                 }}
-                className='group flex items-center border border-neutral-600/50 bg-neutral-800 hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
+                className='group flex items-center border border-neutral-600/30 dark:border-neutral-600/50 bg-light-300 dark:bg-neutral-800 hover:bg-light-600/40 dark:hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
               >
-                <AsteriskIcon className='mr-2 text-yellow-300 size-4' />
-                <span className='text-gray-300 group-hover:text-white text-sm text-left'>
+                <AsteriskIcon className='mr-2 text-yellow-700 dark:text-yellow-300 size-4' />
+                <span className='text-gray-900 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white text-sm text-left'>
                   {suggestion}
                 </span>
               </button>
