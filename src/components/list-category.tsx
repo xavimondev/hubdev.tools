@@ -18,15 +18,15 @@ function CategoryLink({ name, slug, icon, isVisited }: CategoryProps) {
     <Link
       href={slug}
       className={cn(
-        'flex items-center gap-1 md:gap-3 group bg-background hover:bg-light-600/50 dark:hover:bg-neutral-500/30 py-1.5 px-3 rounded-md border border-light-600 dark:border-neutral-500/20',
+        'flex items-center gap-1 md:gap-3 group bg-background hover:bg-light-600/50 dark:hover:bg-neutral-500/30 px-2.5 md:p-1.5 rounded-md',
         isVisited && 'bg-light-600/50 dark:bg-neutral-500/30 hover:bg-none'
       )}
     >
       <span>{icon}</span>
       <span
         className={cn(
-          'text-light-900 dark:text-link text-sm md:text-[15px] leading-normal group-hover:text-light-900 dark:group-hover:text-yellow-300 transition-colors duration-200',
-          isVisited && 'text-light-900 dark:text-yellow-300 category'
+          'text-light-900 dark:text-link text-sm md:text-[15px] leading-normal group-hover:text-black dark:group-hover:text-yellow-300 transition-colors duration-200',
+          isVisited && 'text-black dark:text-yellow-300 category'
         )}
       >
         {name}
@@ -56,8 +56,8 @@ type ListCategoryProps = {
 export function ListCategory({ data }: ListCategoryProps) {
   const pathname = usePathname()
   return (
-    <div className='w-full md:h-full overflow-y-auto scrollbar-hide mb-7'>
-      <nav className='flex gap-1 overflow-y-auto md:pb-2 pt-0 px-0.5 md:px-0'>
+    <aside className='w-full md:fixed md:h-full md:w-56 overflow-y-auto scrollbar-hide mb-8 md:mb-0'>
+      <nav className='flex gap-1 overflow-y-auto md:mb-32 md:flex-col md:overflow-y-visible md:pb-2 pt-0 px-0.5 md:px-0'>
         <Home />
         {data &&
           data.length > 0 &&
@@ -76,6 +76,6 @@ export function ListCategory({ data }: ListCategoryProps) {
             )
           })}
       </nav>
-    </div>
+    </aside>
   )
 }
