@@ -1,6 +1,5 @@
 import { Suspense } from 'react'
 import Image from 'next/image'
-import { Medal } from 'lucide-react'
 
 import { HREF_PREFIX } from '@/constants'
 import { getFeaturedResources } from '@/services/dashboard'
@@ -26,27 +25,42 @@ async function ListFeaturedResources() {
   const { summary: thirdPlaceSummary, title: thirdPlaceTitle, url: thirdPlaceUrl } = thirdPlace
 
   return (
-    <div className='mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4'>
+    <div className='mt-4 grid grid-cols-1 lg:grid-cols-[460px_repeat(2,_1fr)] gap-4'>
       {/* First place */}
       <a
-        className='bg-gradient-to-br from-yellow-50 to-amber-200 dark:from-yellow-100 dark:to-amber-300 border-2 border-yellow-500 dark:border-yellow-700 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
+        className='size-full bg-gradient-to-br from-yellow-50 to-amber-200 dark:from-yellow-100 dark:to-amber-300 border-2 border-yellow-500 dark:border-yellow-700 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
         href={`${HREF_PREFIX}${url}`}
         target='_blank'
         rel='noopener noreferrer'
       >
-        <Medal className='md:size-12 mb-2 text-yellow-600 dark:text-yellow-400 hidden xl:block' />
-        <h2 className='text-xl font-semibold lowercase mb-4 text-black'>{title}</h2>
-        <p className='text-sm text-gray-700 mb-4 line-clamp-4'>{summary}</p>
-        <Image
-          src={image}
-          width={400}
-          height={225}
-          alt={`Picture of ${title}`}
-          className='w-full h-40 object-cover rounded-md hidden xl:block'
-          decoding='async'
-          placeholder='blur'
-          blurDataURL={blurDataURL}
-        />
+        <div className='flex items-center gap-2 mb-4'>
+          <Image
+            unoptimized
+            src={`https://www.google.com/s2/favicons?domain=${url}&sz=128`}
+            alt={`Logo for ${title}`}
+            className='rounded-md'
+            width={32}
+            height={32}
+          />
+          <h2 className='text-base lg:text-3xl font-bold text-gray-900 dark:text-gray-800'>
+            {title}
+          </h2>
+        </div>
+        <p className='text-sm lg:text-base text-gray-700 mb-4 line-clamp-3 sm:line-clamp-5'>
+          {summary}
+        </p>
+        <div className='h-[300px] w-full relative mt-24 shadow-lg rounded-md overflow-hidden'>
+          <Image
+            src={image}
+            fill
+            alt={`Picture of ${title}`}
+            className='object-cover hidden xl:block'
+            decoding='async'
+            placeholder='blur'
+            blurDataURL={blurDataURL}
+            // [mask-image:linear-gradient(#000_85%,#0000_100%)]
+          />
+        </div>
       </a>
       {/* Second place */}
       <a
@@ -72,7 +86,7 @@ async function ListFeaturedResources() {
       </a>
       {/* Third place */}
       <a
-        className='bg-gradient-to-br from-neutral-700 to-gray-600 dark:from-neutral-900 dark:to-gray-800 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
+        className='bg-gradient-to-br from-neutral-700 to-gray-600 dark:from-neutral-900 dark:to-gray-800 transition-shadow duration-150 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
         href={`${HREF_PREFIX}${thirdPlace}`}
         target='_blank'
         rel='noopener noreferrer'
