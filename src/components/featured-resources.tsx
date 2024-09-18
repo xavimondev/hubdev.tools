@@ -28,7 +28,7 @@ async function ListFeaturedResources() {
     <div className='mt-4 grid grid-cols-1 lg:grid-cols-[460px_repeat(2,_1fr)] gap-4'>
       {/* First place */}
       <a
-        className='size-full bg-gradient-to-br from-yellow-50 to-amber-200 dark:from-yellow-100 dark:to-amber-300 border-2 border-yellow-500 dark:border-yellow-700 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
+        className='size-full bg-gradient-to-br from-yellow-50 to-amber-200 dark:from-yellow-100 dark:to-amber-300 border-2 border-yellow-200 hover:border-yellow-500 hover:dark:border-yellow-700 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
         href={`${HREF_PREFIX}${url}`}
         target='_blank'
         rel='noopener noreferrer'
@@ -64,7 +64,7 @@ async function ListFeaturedResources() {
       </a>
       {/* Second place */}
       <a
-        className='bg-gradient-to-br from-cyan-100 to-blue-100 dark:from-cyan-200 dark:via-red-50 dark:to-blue-200 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
+        className='bg-gradient-to-br from-cyan-100 to-blue-100 dark:from-cyan-200 dark:via-red-50 dark:to-blue-200 border-2 border-blue-200 hover:border-blue-700 hover:dark:border-blue-600 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
         href={`${HREF_PREFIX}${secondPlaceUrl}`}
         target='_blank'
         rel='noopener noreferrer'
@@ -86,7 +86,7 @@ async function ListFeaturedResources() {
       </a>
       {/* Third place */}
       <a
-        className='bg-gradient-to-br from-neutral-700 to-gray-600 dark:from-neutral-900 dark:to-gray-800 transition-shadow duration-150 p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
+        className='bg-gradient-to-br from-neutral-700 to-gray-600 dark:from-neutral-900 dark:to-gray-800 border-2 border-gray-700 hover:border-gray-900 hover:dark:border-gray-500 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
         href={`${HREF_PREFIX}${thirdPlace}`}
         target='_blank'
         rel='noopener noreferrer'
@@ -105,7 +105,7 @@ async function ListFeaturedResources() {
         <p className='text-sm text-gray-200 line-clamp-4'>{thirdPlaceSummary}</p>
       </a>
       {/* Next three */}
-      <div className='bg-gradient-to-br from-blue-100 to-pink-100 dark:from-blue-200 dark:to-pink-200 rounded-lg row-span-1 col-span-1 lg:col-span-3 xl:col-span-2 text-gray-900 dark:text-gray-800 flex flex-col gap-1 divide-y divide-gray-600/20'>
+      <div className='bg-gradient-to-br from-blue-100 to-pink-100 dark:from-blue-200 dark:to-pink-200 border-2 border-indigo-300 hover:border-indigo-500 hover:dark:border-indigo-700 transition-colors rounded-lg row-span-1 col-span-1 lg:col-span-3 xl:col-span-2 flex flex-col gap-1 divide-y divide-gray-600/20'>
         {nextThreeResources.map(({ id, title, url, summary }) => {
           return (
             <div className='flex flex-col gap-4 p-6' key={id}>
