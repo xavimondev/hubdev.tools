@@ -28,7 +28,6 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter()
-  const [showSuggestions, setShowSuggestions] = useState(false)
   const [statusForm, setStatusForm] = useState<ClassifyStatus>('idle')
   const styles = getStatusStyles({ status: statusForm })
 
@@ -70,30 +69,30 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
          to-light-400
          translate-y-[8px] 
          transition-multiple 
-         duration-300 border border-light-600 dark:border-neutral-800/70`,
-        showSuggestions && 'w-[calc(100%_-_8px)] md:w-[600px] h-[280px]',
+         duration-300 
+         border 
+         border-light-600 
+         dark:border-neutral-800/70 
+         focus-within:w-[calc(100%_-_8px)] 
+         focus-within:md:w-[600px] 
+         focus-within:h-[270px] 
+         group`,
         styles
       )}
-      onClick={() => setShowSuggestions(true)}
     >
       <FormSearch
         handleSearch={handleSearch}
-        setShowSuggestions={setShowSuggestions}
         setStatusForm={setStatusForm}
         setPromptEvaluationResult={setPromptEvaluationResult}
         promptEvaluationResult={promptEvaluationResult}
       />
-      {showSuggestions && (
-        <SearchSuggestions
-          handleSearch={handleSearch}
-          searchHistory={searchHistory}
-          searchSuggestionsAI={searchSuggestionsAI}
-        />
-      )}
-      {!showSuggestions && Boolean(promptEvaluationResult) && (
-        <span className='my-2 w-full text-red-700 dark:text-red-400 text-sm'>
-          {promptEvaluationResult}
-        </span>
+      <SearchSuggestions
+        handleSearch={handleSearch}
+        searchHistory={searchHistory}
+        searchSuggestionsAI={searchSuggestionsAI}
+      />
+      {Boolean(promptEvaluationResult) && (
+        <span className='my-2 w-full text-red-700 dark:text-red-400 text-sm'>cool</span>
       )}
     </div>
   )

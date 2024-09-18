@@ -17,7 +17,9 @@ function SearchSuggestionsAI({
 }) {
   return (
     <div className='flex flex-col gap-2'>
-      <span className='text-xs font-semibold text-white uppercase'>ai Suggestions</span>
+      <span className='text-xs font-semibold text-light-900 dark:text-white uppercase'>
+        ai Suggestions
+      </span>
       <div className='flex flex-wrap gap-2 items-center w-full'>
         {searchSuggestionsAI.map((suggestion) => (
           <button
@@ -48,7 +50,9 @@ function SearchHistory({
 }) {
   return (
     <div className='flex flex-col gap-2 mt-4'>
-      <span className='text-xs font-semibold text-white uppercase'>search history</span>
+      <span className='text-xs font-semibold text-light-900 dark:text-white uppercase'>
+        search history
+      </span>
       <div className='flex flex-wrap gap-2 items-center w-full'>
         {searchHistory.map((suggestion) => (
           <button
@@ -82,7 +86,7 @@ export function SearchSuggestions({
   searchSuggestionsAI
 }: SearchSuggestionsProps) {
   return (
-    <div className='size-full border-t border-t-neutral-700/40 overflow-y-auto scrollbar-hide p-3.5'>
+    <div className='size-full border-t border-light-700 dark:border-t-neutral-700/40 overflow-y-auto scrollbar-hide p-3.5 hidden group-focus-within:block'>
       <>
         {searchHistory.length === 0 && searchSuggestionsAI.length === 0 ? (
           <div className='flex flex-wrap gap-2 items-center w-full'>

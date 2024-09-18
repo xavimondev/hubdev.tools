@@ -1,21 +1,18 @@
-import React, { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { generateAutoSuggestion } from '@/actions/ai/auto-suggestions'
 import { queryClassify } from '@/actions/ai/query-classify'
 import { AlertCircleIcon, ArrowRightIcon, LoaderCircleIcon } from 'lucide-react'
 import { isMobile } from 'react-device-detect'
 import { toast } from 'sonner'
-import { useDebouncedCallback } from 'use-debounce'
 
 import { ClassifyStatus } from '@/types/classify'
 
-import { useOnClickOutside } from '@/hooks/useClickOutside'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 type FormSearchProps = {
   handleSearch: (term: string, save?: boolean) => void
-  setShowSuggestions: Dispatch<SetStateAction<boolean>>
   setStatusForm: Dispatch<SetStateAction<ClassifyStatus>>
   setPromptEvaluationResult: Dispatch<SetStateAction<string | undefined>>
   promptEvaluationResult: string | undefined
@@ -23,108 +20,27 @@ type FormSearchProps = {
 
 export function FormSearch({
   handleSearch,
-  setShowSuggestions,
   setStatusForm,
   setPromptEvaluationResult,
   promptEvaluationResult
 }: FormSearchProps) {
   const searchParams = useSearchParams()
   const query = searchParams.get('query')?.toString() ?? ''
-  const [showHint, setShowHint] = useState(false)
-  const [content, setContent] = useState('')
-  const [suggestion, setSuggestion] = useState('')
-  const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false)
   const [isClassifying, setIsClassifying] = useState(false)
-  const contentEditableRef = useRef<HTMLDivElement>(null)
-  const firstTimeAutoSuggestion = useRef(true)
-  const isCancelled = useRef(false)
-  const debounced = useDebouncedCallback(async (input: string) => {
-    setIsFetchingSuggestions(true)
 
-    if (input.length === 0) return
-
-    const { suggestion, error } = await generateAutoSuggestion({ input })
-    setIsFetchingSuggestions(false)
-
-    if (error || !suggestion || isCancelled.current) return
-
-    const portion = suggestion.slice(input.length)
-
-    setSuggestion(portion)
-
-    // Just show the hint once
-    if (firstTimeAutoSuggestion.current) {
-      setShowHint(true)
-      firstTimeAutoSuggestion.current = false
-    }
-  }, 700)
-
-  useOnClickOutside(contentEditableRef, () => {
-    cancelSuggestionsGeneration()
-  })
-
-  const cancelSuggestionsGeneration = useCallback(() => {
-    debounced.cancel()
-    isCancelled.current = true
-    if (contentEditableRef.current) {
-      contentEditableRef.current.blur()
-    }
-
-    setSuggestion('')
-    setShowHint(false)
-    setShowSuggestions(false)
-    setIsFetchingSuggestions(false)
-  }, [])
-
-  const handleInput = (event: React.FormEvent<HTMLDivElement>) => {
-    const input = event.currentTarget.textContent || ''
-    setContent(input)
-
-    isCancelled.current = false
-
-    if (suggestion) {
-      setSuggestion('')
-    }
-
-    if (showHint) {
-      setShowHint(false)
-    }
-
-    if (promptEvaluationResult) {
-      setPromptEvaluationResult(undefined)
-    }
-
-    if (input.trim().length >= 3) {
-      debounced(input)
-    }
-  }
-
-  const moveCursorToEnd = (content: string) => {
-    if (contentEditableRef.current) {
-      contentEditableRef.current.textContent = content.replaceAll('\n', '')
-      const range = document.createRange()
-      const sel = window.getSelection()
-      range.selectNodeContents(contentEditableRef.current)
-      range.collapse(false)
-      sel?.removeAllRanges()
-      sel?.addRange(range)
-      contentEditableRef.current.scrollLeft = contentEditableRef.current.scrollWidth
-    }
-  }
-
-  const submit = useCallback(async (input: string) => {
-    if (input.trim().length < 5) {
+  const search = async (prompt: string) => {
+    if (prompt.trim().length < 5) {
       toast.error('Please enter a valid search term')
       return
     }
     setIsClassifying(true)
 
-    const { category, error } = await queryClassify({ input })
+    const { category, error } = await queryClassify({ input: prompt })
 
     setIsClassifying(false)
 
     if (error || !category) {
-      toast.error(`Something went wrong while classifying the query: ${input}`)
+      toast.error(`Something went wrong while classifying the query: ${prompt}`)
       return
     }
 
@@ -134,95 +50,73 @@ export function FormSearch({
       return
     }
 
-    handleSearch(input, true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    handleSearch(prompt, true)
+  }
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === 'Tab') {
-        event.preventDefault()
-        if (!suggestion) return
-
-        setContent((prevContent) => prevContent + suggestion)
-        moveCursorToEnd(`${content}${suggestion}`)
-        setSuggestion('')
-      } else if (event.key === 'Enter') {
-        event.preventDefault()
-        const inputText = event.currentTarget.innerText
-        // console.log(inputText)
-        submit(inputText)
-        cancelSuggestionsGeneration()
-      } else if (isMobile && event.code === 'Space') {
-        // event.preventDefault()
-        // console.log('space', content, suggestion)
-        if (!suggestion) return
-        setContent((prevContent) => prevContent + suggestion)
-        moveCursorToEnd(`${content}${suggestion}`)
-        setSuggestion('')
-      }
-    },
-    [suggestion]
-  )
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const input = event.currentTarget.prompt.value
+    await search(input)
+  }
 
   return (
-    <div className='flex w-full relative px-2 py-1'>
-      <div className='relative w-full sm:w-[calc(100%_-_58px)] overflow-hidden'>
-        <div
-          ref={contentEditableRef}
-          contentEditable={!isClassifying}
-          suppressContentEditableWarning
-          onInput={handleInput}
-          onKeyDown={handleKeyDown}
-          onPaste={(event) => event.preventDefault()}
-          className='relative flex h-10 w-full p-2 border-none bg-transparent border border-input 
-        focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 items-center 
-        [&[contenteditable=true]]:empty:before:text-neutral-400 
-        [&[contenteditable=true]]:empty:before:content-[attr(data-placeholder)] 
-        [&[contenteditable=true]]:empty:before:absolute 
-        [&[contenteditable=true]]:empty:before:pointer-events-none 
-        [&[contenteditable=true]]:empty:before:left-2 
-        [&[contenteditable=true]]:empty:before:top-2
-        [&[contenteditable=true]]:empty:before:block whitespace-nowrap overflow-hidden 
-        dark:focus-within:text-white dark:text-neutral-400 focus-within:text-black text-neutral-900'
-          data-placeholder='typescript books'
+    <form className='flex w-full relative px-2 py-1' onSubmit={handleSubmit}>
+      <div className='relative w-full sm:w-[calc(100%_-_58px)]'>
+        <label className='sr-only' htmlFor='prompt'>
+          Prompt
+        </label>
+        <Input
+          key={searchParams.get('query')?.toString()}
+          className='block 
+          h-10 
+          w-full 
+          p-2 
+          border-none 
+          bg-transparent 
+          border 
+          border-input 
+          focus-visible:outline-none 
+          focus-visible:ring-0 
+          focus-visible:ring-offset-0 
+          whitespace-nowrap 
+          overflow-hidden
+          placeholder:text-neutral-500 
+          focus-within:placeholder:text-neutral-300
+          dark:placeholder:text-neutral-300 
+          dark:focus-within:placeholder:text-neutral-500
+        dark:focus-within:text-white 
+        dark:text-neutral-400 
+        focus-within:text-black 
+        text-neutral-900'
+          id='prompt'
           spellCheck='false'
-          role='textbox'
           aria-label='Search'
-        >
-          {query}
-        </div>
-        {suggestion && (
-          <div className='absolute top-0 left-0 p-2 pointer-events-none whitespace-nowrap overflow-hidden'>
-            <span className='invisible'>{content}</span>
-            <span className='opacity-50'>{suggestion}</span>
-          </div>
-        )}
+          defaultValue={query}
+          placeholder='Typescript books'
+        />
       </div>
       <div className='absolute right-0 pr-3 top-[14px]'>
         <div className='flex gap-1'>
           <div className='text-black dark:text-yellow-200'>
-            <span className='text-xs'>{showHint && !isMobile ? 'press [TAB]' : ''}</span>
-            {(isFetchingSuggestions || isClassifying) && (
-              <LoaderCircleIcon className='animate-spin size-5' />
-            )}
             {promptEvaluationResult && !isMobile && (
               <ToolTipError promptEvaluationResult={promptEvaluationResult} />
             )}
           </div>
           <Button
+            type='submit'
             size='icon'
-            disabled={
-              isClassifying || content.trim().length <= 1 || Boolean(promptEvaluationResult)
-            }
+            disabled={isClassifying || Boolean(promptEvaluationResult)}
             className='bg-transparent border-none hover:bg-transparent size-5 text-black dark:text-white disabled:opacity-50'
-            onClick={() => submit(content)}
           >
-            <ArrowRightIcon className='size-5' />
+            {isClassifying ? (
+              <LoaderCircleIcon className='size-5 animate-spin' />
+            ) : (
+              <ArrowRightIcon className='size-5' />
+            )}
           </Button>
         </div>
       </div>
-    </div>
+    </form>
   )
 }
 
