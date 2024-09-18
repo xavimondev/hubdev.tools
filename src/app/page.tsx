@@ -1,11 +1,10 @@
 import { Suspense } from 'react'
 import { Metadata, ResolvingMetadata } from 'next'
 
-import { AISuggestionsResources } from '@/components/ai-suggestions-resources'
 import { Container } from '@/components/container'
-import { FeaturedResources } from '@/components/featured-resources'
-import { LatestResources } from '@/components/latest-resources'
-import { LoadingCards } from '@/components/loading'
+import { Dashboard } from '@/components/dashboard'
+import { Home } from '@/components/home'
+import Loading from '@/components/loading'
 
 export const maxDuration = 60
 
@@ -33,15 +32,18 @@ export async function generateMetadata(
   }
 }
 
-export default async function MainPage() {
+export default async function MainPage({ searchParams }: { searchParams: { query: string } }) {
+  const { query } = searchParams
   return (
     <>
       <Container>
-        <FeaturedResources />
-        <Suspense fallback={<LoadingCards />}>
-          <AISuggestionsResources />
-        </Suspense>
-        <LatestResources />
+        {query ? (
+          <Suspense key={query} fallback={<Loading />}>
+            <Home query={query} />
+          </Suspense>
+        ) : (
+          <Dashboard />
+        )}
       </Container>
     </>
   )
