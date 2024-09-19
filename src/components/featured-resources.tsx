@@ -138,7 +138,7 @@ export async function FeaturedResources() {
   return (
     <section className='mb-4 md:mb-14'>
       <div className='flex flex-col gap-2'>
-        <h2 className='text-2xl md:text-4xl text-balance mb-2 text-yellow-800 dark:text-yellow-5 font-bold'>
+        <h2 className='text-2xl md:text-4xl text-balance mb-2 text-yellow-800 dark:text-yellow-50 font-bold'>
           Featured
         </h2>
         <p className='text-base md:text-lg text-transparent bg-clip-text bg-gradient-to-t from-gray-600 to-gray-800 dark:from-orange-100 dark:to-orange-400'>
