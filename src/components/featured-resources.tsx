@@ -15,7 +15,7 @@ async function ListFeaturedResources() {
 
   const [topResource, ...restResources] = featuredResources
 
-  const { image, summary, title, url, blurDataURL } = topResource
+  const { image, summary, title, url, placeholder } = topResource
   const nextTwoTopResources = restResources.slice(0, 2)
 
   const [secondPlace, thirdPlace] = nextTwoTopResources
@@ -57,7 +57,7 @@ async function ListFeaturedResources() {
             className='object-cover hidden xl:block'
             decoding='async'
             placeholder='blur'
-            blurDataURL={blurDataURL}
+            blurDataURL={placeholder}
             // [mask-image:linear-gradient(#000_85%,#0000_100%)]
           />
         </div>

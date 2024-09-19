@@ -3,8 +3,6 @@ import { getEmbeddings } from '@/actions/ai/embeddings'
 import { openai } from '@ai-sdk/openai'
 import { generateText } from 'ai'
 
-import { getPlaceholderImage } from '@/utils/generatePlaceholder'
-
 import { supabase } from './client'
 
 export const getFeaturedResources = async () => {
@@ -17,6 +15,7 @@ export const getFeaturedResources = async () => {
     url, 
     image, 
     summary, 
+    placeholder, 
     categories!inner(
       slug,
       name
@@ -31,18 +30,17 @@ export const getFeaturedResources = async () => {
     return
   }
 
-  const promises = data.map(async (item) => {
+  const formattedData = data.map((item) => {
+    // @ts-ignore
     const { categories, ...resource } = item
     const { name } = categories ?? {}
-    const blurDataURL = await getPlaceholderImage(resource.image)
     return {
       ...resource,
-      category: name ?? '',
-      blurDataURL
+      category: name ?? ''
     }
   })
-  const formatedData = await Promise.all(promises)
-  return formatedData
+
+  return formattedData
 }
 
 export const getAISuggestions = async () => {
@@ -77,17 +75,8 @@ export const getAISuggestions = async () => {
     }
   }
 
-  const promises = data.map(async (resource) => {
-    const blurDataURL = await getPlaceholderImage(resource.image)
-    return {
-      ...resource,
-      blurDataURL
-    }
-  })
-  const formatedData = await Promise.all(promises)
-
   return {
-    data: formatedData
+    data
   }
 }
 
@@ -101,6 +90,7 @@ export const getLatestResources = async () => {
     url, 
     image, 
     summary, 
+    placeholder, 
     categories!inner(
       slug,
       name
@@ -115,16 +105,15 @@ export const getLatestResources = async () => {
     return
   }
 
-  const promises = data.map(async (item) => {
+  const formattedData = data.map((item) => {
+    // @ts-ignore
     const { categories, ...resource } = item
     const { name } = categories ?? {}
-    const blurDataURL = await getPlaceholderImage(resource.image)
     return {
       ...resource,
-      category: name ?? '',
-      blurDataURL
+      category: name ?? ''
     }
   })
-  const formatedData = await Promise.all(promises)
-  return formatedData
+
+  return formattedData
 }

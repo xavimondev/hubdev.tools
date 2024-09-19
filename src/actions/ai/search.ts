@@ -1,6 +1,5 @@
 import { Resource } from '@/types/resource'
 
-import { getPlaceholderImage } from '@/utils/generatePlaceholder'
 import { getData, getResourcesByCategorySlug } from '@/services/list'
 
 import { getCache, saveCache } from './cache'
@@ -19,6 +18,7 @@ type ResourcesWithCategories = {
   url: string
   image: string
   summary: string
+  placeholder?: string
   categories:
     | {
         name: string
@@ -30,35 +30,15 @@ type ResourcesWithCategories = {
     | null
 }
 
-const formatDataWithCategories = async ({
-  resources
-}: {
-  resources: ResourcesWithCategories[]
-}) => {
-  const promises = resources.map(async (item) => {
+const formatDataWithCategories = ({ resources }: { resources: ResourcesWithCategories[] }) => {
+  return resources.map((item) => {
     const { categories, ...resource } = item
     const { name } = categories ?? {}
-    const blurDataURL = await getPlaceholderImage(resource.image)
     return {
       ...resource,
-      category: name ?? '',
-      blurDataURL
+      category: name ?? ''
     }
   })
-  const result = await Promise.all(promises)
-  return result
-}
-
-const formatDataWithoutCategories = async ({ resources }: { resources: Resource[] }) => {
-  const formattedResources = resources.map(async (resource) => {
-    const blurDataURL = await getPlaceholderImage(resource.image)
-    return {
-      ...resource,
-      blurDataURL
-    }
-  })
-  const formattedData = await Promise.all(formattedResources)
-  return formattedData
 }
 
 export async function search({
@@ -78,8 +58,9 @@ export async function search({
       if (!result) {
         return { error: 'An error occured. Please try again later.' }
       }
-
-      data = await formatDataWithCategories({
+      // @ts-ignore
+      data = formatDataWithCategories({
+        // @ts-ignore
         resources: result
       })
     } else {
@@ -88,7 +69,9 @@ export async function search({
         return { error: 'An error occured. Please try again later.' }
       }
 
-      data = await formatDataWithCategories({
+      // @ts-ignore
+      data = formatDataWithCategories({
+        // @ts-ignore
         resources: result
       })
     }
@@ -126,25 +109,18 @@ export async function search({
 
     await saveCache({ cache })
 
-    const resources = await formatDataWithoutCategories({
-      resources: data
-    })
-
     return {
       summary,
-      resources,
+      resources: data,
       language
     }
   }
 
   const { data } = cache
   const { summary, resources } = data
-  const formattedData = await formatDataWithoutCategories({
-    resources
-  })
 
   return {
-    resources: formattedData,
+    resources,
     summary
   }
 }

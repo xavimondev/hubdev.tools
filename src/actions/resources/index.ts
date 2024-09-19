@@ -2,7 +2,6 @@
 
 import { Resource } from '@/types/resource'
 
-import { getPlaceholderImage } from '@/utils/generatePlaceholder'
 import { getData, getResourcesByCategorySlug } from '@/services/list'
 
 export const listResources = async ({
@@ -15,18 +14,17 @@ export const listResources = async ({
   const data = await getData({ from, to })
   if (!data) return
 
-  const promises = data.map(async (item) => {
+  const formattedData = data.map((item) => {
+    // @ts-ignore
     const { categories, ...resource } = item
     const { name } = categories ?? {}
-    const blurDataURL = await getPlaceholderImage(resource.image)
     return {
       ...resource,
-      category: name ?? '',
-      blurDataURL
+      category: name ?? ''
     }
   })
-  const formatedData = await Promise.all(promises)
-  return formatedData
+
+  return formattedData
 }
 
 export const listResourcesBySlug = async ({
@@ -41,16 +39,15 @@ export const listResourcesBySlug = async ({
   const data = await getResourcesByCategorySlug({ from, to, slug })
   if (!data) return
 
-  const promises = data.map(async (item) => {
+  const formattedData = data.map((item) => {
+    // @ts-ignore
     const { categories, ...resource } = item
     const { name } = categories ?? {}
-    const blurDataURL = await getPlaceholderImage(resource.image)
     return {
       ...resource,
-      category: name ?? '',
-      blurDataURL
+      category: name ?? ''
     }
   })
-  const formatedData = await Promise.all(promises)
-  return formatedData
+
+  return formattedData
 }

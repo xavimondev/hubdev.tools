@@ -13,7 +13,7 @@ type ResourceItemProps = {
   summary: string
   image: string
   order: number
-  blurDataURL?: string
+  placeholder?: string
 }
 
 export function ResourceItem({
@@ -22,7 +22,7 @@ export function ResourceItem({
   summary,
   image,
   order,
-  blurDataURL
+  placeholder
 }: ResourceItemProps) {
   return (
     <a
@@ -41,7 +41,7 @@ export function ResourceItem({
         className='w-full h-40 object-cover'
         decoding='async'
         placeholder='blur'
-        blurDataURL={blurDataURL}
+        blurDataURL={placeholder}
       />
       <div className='p-4'>
         <h2 className='text-base md:text-lg font-semibold text-balance'>{title}</h2>
@@ -68,7 +68,7 @@ export function ListResource({ data }: ListResourceProps) {
     <>
       {data && data.length > 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
-          {data.map(({ id, title, url, summary, image, blurDataURL }, index) => {
+          {data.map(({ id, title, url, summary, image, placeholder }, index) => {
             return (
               <ResourceItem
                 order={index}
@@ -77,7 +77,7 @@ export function ListResource({ data }: ListResourceProps) {
                 url={url}
                 summary={summary}
                 image={image}
-                blurDataURL={blurDataURL}
+                placeholder={placeholder}
               />
             )
           })}

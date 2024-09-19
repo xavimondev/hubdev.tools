@@ -36,7 +36,6 @@
     "react": "18",
     "react-device-detect": "2.2.3",
     "react-dom": "18",
-    "sharp": "0.33.5",
     "snarkdown": "2.0.0",
     "sonner": "1.5.0",
     "tailwind-merge": "2.4.0",

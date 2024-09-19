@@ -5,5 +5,5 @@ export type Resource = {
   summary: string
   image: string
   category: string
-  blurDataURL?: string
+  placeholder?: string
 }
