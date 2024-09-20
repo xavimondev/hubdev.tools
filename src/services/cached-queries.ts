@@ -2,6 +2,7 @@ import { unstable_cache } from 'next/cache'
 import { QueryData } from '@supabase/supabase-js'
 
 import { supabase } from './client'
+import { getFeaturedResources, getLatestResources } from './dashboard'
 
 const resourcesWithCategoryQuery = supabase.from('resources').select(`
     id, 
@@ -74,6 +75,30 @@ export const getResourcesByCategorySlug = async ({
       return data
     },
     ['resources_slug', `${slug.toLowerCase()}:from_${from}_to${to}`],
+    {
+      revalidate: 3600
+    }
+  )()
+}
+
+export function getLatestResourcesCached() {
+  return unstable_cache(
+    async () => {
+      return getLatestResources()
+    },
+    ['latest_resources'],
+    {
+      revalidate: 3600 * 12
+    }
+  )()
+}
+
+export function getFeaturedResourcesCached() {
+  return unstable_cache(
+    async () => {
+      return getFeaturedResources()
+    },
+    ['featured_resources'],
     {
       revalidate: 3600
     }

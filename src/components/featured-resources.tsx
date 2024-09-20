@@ -2,12 +2,12 @@ import { Suspense } from 'react'
 import Image from 'next/image'
 
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
-import { getFeaturedResources } from '@/services/dashboard'
+import { getFeaturedResourcesCached } from '@/services/cached-queries'
 import { ErrorState } from '@/components/error-state'
 import { LoadingBentoGrid } from '@/components/loading'
 
 async function ListFeaturedResources() {
-  const featuredResources = await getFeaturedResources()
+  const featuredResources = await getFeaturedResourcesCached()
 
   if (!featuredResources) {
     return <ErrorState error='Something went wrong' />

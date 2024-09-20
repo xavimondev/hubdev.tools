@@ -2,13 +2,13 @@ import { Suspense } from 'react'
 import { ArrowRightCircleIcon } from 'lucide-react'
 import { Link } from 'next-view-transitions'
 
-import { getLatestResources } from '@/services/dashboard'
+import { getLatestResourcesCached } from '@/services/cached-queries'
 import { ErrorState } from '@/components/error-state'
 import { ListResource } from '@/components/list-resource'
 import { LoadingCards } from '@/components/loading'
 
 async function ListLatestResources() {
-  const data = await getLatestResources()
+  const data = await getLatestResourcesCached()
 
   if (!data) {
     return <ErrorState error='Something went wrong' />
