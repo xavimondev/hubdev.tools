@@ -4,12 +4,9 @@ import { getData, getResourcesByCategorySlug } from '@/services/list'
 
 import { getCache, saveCache } from './cache'
 import { getEmbeddings } from './embeddings'
-import { getSummary } from './summary'
 
 export type QueryData = {
   resources: Resource[] | undefined
-  summary?: string
-  language?: string
 }
 
 type ResourcesWithCategories = {
@@ -87,37 +84,25 @@ export async function search({
       }
     }
 
-    const { summary, error: errorSummary, language } = await getSummary({ data, input: query })
-    if (!summary || errorSummary) {
-      return {
-        error: errorSearch ?? '"An error occured. Please try again later."'
-      }
-    }
-
     // Let's save the query in the cache
     const cache = {
       input: query,
       data: {
-        summary,
         resources: data
-      },
-      language
+      }
     }
 
     await saveCache({ cache })
 
     return {
-      summary,
-      resources: data,
-      language
+      resources: data
     }
   }
 
   const { data } = cache
-  const { summary, resources } = data
+  const { resources } = data
 
   return {
-    resources,
-    summary
+    resources
   }
 }

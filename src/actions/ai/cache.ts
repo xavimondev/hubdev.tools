@@ -8,9 +8,7 @@ type CacheQuery = {
   input: string
   data: {
     resources: Resource[]
-    summary: string
   }
-  language: string
 }
 
 export const getCache = async ({ input }: { input: string }) => {
@@ -21,8 +19,8 @@ export const getCache = async ({ input }: { input: string }) => {
 }
 
 export const saveCache = async ({ cache }: { cache: CacheQuery }) => {
-  const { input, data, language } = cache
-  await redis.set(`q:${input}`, JSON.stringify({ data, language }), {
+  const { input, data } = cache
+  await redis.set(`q:${input}`, JSON.stringify({ data }), {
     ex: 60 * 60 * 24 // 24 hours
   })
 }
