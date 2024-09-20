@@ -2,7 +2,7 @@
 
 import { Resource } from '@/types/resource'
 
-import { getData, getResourcesByCategorySlug } from '@/services/list'
+import { getData, getResourcesByCategorySlug } from '@/services/cached-queries'
 
 export const listResources = async ({
   from,

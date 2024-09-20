@@ -13,8 +13,6 @@ import { AISearch } from '@/components/ai-search'
 import { Header } from '@/components/header'
 import { Sidebar } from '@/components/sidebar'
 
-// export const revalidate = 60 // revalidate every hour
-
 const title = 'hubdev.tools - Developer Tools and Resources | Find Everything Here'
 const description =
   'A great collection of essential resources and tools for developers, thoughtfully categorized. Simplify your searches with our powerful semantic search engine. Discover UI inspiration, books, courses, testing tools, icons, and much more.'
