@@ -38,9 +38,22 @@ export default async function MainPage({ searchParams }: { searchParams: { query
     <>
       <Container>
         {query ? (
-          <Suspense key={query} fallback={<Loading />}>
-            <Home query={query} />
-          </Suspense>
+          <>
+            <div className='flex flex-col gap-4'>
+              <h1 className='bg-gradient-to-br from-light-800 to-light-900 dark:from-white dark:to-white/50 bg-clip-text text-3xl md:text-4xl xl:text-5xl text-transparent text-balance font-bold'>
+                Results
+              </h1>
+              <div className='flex items-center justify-between'>
+                <p className='text-base md:text-lg text-gray-600 dark:text-muted-foreground'>
+                  Based on your input, there are found several relevant resources tailored to your
+                  needs.
+                </p>
+              </div>
+            </div>
+            <Suspense key={query} fallback={<Loading />}>
+              <Home query={query} />
+            </Suspense>
+          </>
         ) : (
           <Dashboard />
         )}
