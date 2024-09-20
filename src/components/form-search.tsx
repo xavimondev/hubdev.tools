@@ -1,7 +1,7 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { queryClassify } from '@/actions/ai/query-classify'
-import { AlertCircleIcon, ArrowRightIcon, LoaderCircleIcon } from 'lucide-react'
+import { AlertCircleIcon, LoaderCircleIcon } from 'lucide-react'
 import { isMobile } from 'react-device-detect'
 import { toast } from 'sonner'
 
@@ -27,6 +27,24 @@ export function FormSearch({
   const searchParams = useSearchParams()
   const query = searchParams.get('query')?.toString() ?? ''
   const [isClassifying, setIsClassifying] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!inputRef.current) return
+
+      if (event.key.toLowerCase() === 's' && document.activeElement !== inputRef.current) {
+        event.preventDefault()
+        inputRef.current.focus()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
   const search = async (prompt: string) => {
     if (prompt.trim().length < 5) {
@@ -60,13 +78,13 @@ export function FormSearch({
   }
 
   return (
-    <form className='flex w-full relative px-2 py-1' onSubmit={handleSubmit}>
+    <form className='flex w-full items-center relative px-2 py-1' onSubmit={handleSubmit}>
       <div className='relative w-full sm:w-[calc(100%_-_58px)]'>
         <label className='sr-only' htmlFor='prompt'>
           Prompt
         </label>
         <Input
-          key={searchParams.get('query')?.toString()}
+          ref={inputRef}
           className='block 
           h-10 
           w-full 
@@ -95,25 +113,24 @@ export function FormSearch({
           placeholder='Typescript books'
         />
       </div>
-      <div className='absolute right-0 pr-3 top-[14px]'>
+      <div className='flex justify-end w-full mr-1'>
         <div className='flex gap-1'>
           <div className='text-black dark:text-yellow-200'>
             {promptEvaluationResult && !isMobile && (
               <ToolTipError promptEvaluationResult={promptEvaluationResult} />
             )}
           </div>
-          <Button
-            type='submit'
-            size='icon'
-            disabled={isClassifying || Boolean(promptEvaluationResult)}
-            className='bg-transparent border-none hover:bg-transparent size-5 text-black dark:text-white disabled:opacity-50'
-          >
-            {isClassifying ? (
-              <LoaderCircleIcon className='size-5 animate-spin' />
-            ) : (
-              <ArrowRightIcon className='size-5' />
-            )}
-          </Button>
+          {isClassifying || Boolean(promptEvaluationResult) ? (
+            <LoaderCircleIcon className='size-5 animate-spin' />
+          ) : (
+            <>
+              {!isMobile && (
+                <kbd className='bg-light-600 dark:bg-neutral-700 text-light-900 dark:text-white rounded-sm px-2 py-1 text-xs'>
+                  S
+                </kbd>
+              )}
+            </>
+          )}
         </div>
       </div>
     </form>
@@ -135,7 +152,7 @@ function ToolTipError({ promptEvaluationResult }: { promptEvaluationResult: stri
             </Button>
           </div>
         </TooltipTrigger>
-        <TooltipContent side='right' className='border-neutral-900'>
+        <TooltipContent side='right' className='border-light-600 dark:border-neutral-800/70'>
           <p>{promptEvaluationResult}</p>
         </TooltipContent>
       </Tooltip>
