@@ -34,25 +34,6 @@ A comprehensive collection of essential resources and tools for developers, thou
 
 - [License](#license)
 
-## Features
-
-### AI Powered Semantic Search
-
-Leverage the power of AI with a semantic search engine, which uses Supabase embeddings and OpenAI to deliver highly relevant resources based on user input. Ensure smooth performance and efficient query handling with Upstash, providing rate limiting and query caching.
-
-### Auto-Suggestions
-
-Automatically suggest relevant resources based on the user's input, powered by `llama-3.1-70b-versatile`.
-
-
-### Resources Summary
-
-Provide a brief summary of the generated resources powered by `llama-3.1-8b-instant`. This feature offers concise summaries in both English and Spanish.
-
-### Search Suggestions
-
-Improve the search experience with intelligent search suggestions based on your history, powered by `gpt-4o-mini`.
-
 ## How was built
 
 The code is found [here](./scrapping/).
@@ -91,6 +72,7 @@ All this information was then bulk inserted into Supabase.
 ### Regular Updates
 
 The resources are updated every hour to ensure the information remains current.
+
 ```
 export const revalidate = 60
 ```
@@ -142,7 +124,6 @@ export const revalidate = 60
 - Navigate to your project.
 - Go to the "Project Settings" menu.
 - Under "API" section, copy the "URL" and "Service Role Key".
-
 
 ### GROQ_API_KEY
 
