@@ -61,7 +61,7 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
          z-50 
          rounded-xl 
          h-[50px] 
-         w-[min(450px,calc(100%_-_110px))] 
+         w-[min(450px,calc(100%_-_90px))] 
          bg-gradient-to-br 
          dark:from-stone-800 
          dark:to-neutral-900 

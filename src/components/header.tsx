@@ -8,7 +8,7 @@ export function Header() {
   return (
     <header className='bg-background shadow-sm sticky top-0 z-40'>
       <div className='flex items-center justify-between h-16 px-4 md:px-6'>
-        <div className='flex items-center justify-between w-full'>
+        <div className='hidden sm:flex items-center justify-between w-full'>
           <Link
             href='/'
             className='flex items-center gap-2 font-semibold'
@@ -18,7 +18,7 @@ export function Header() {
             <Logo className='size-6 md:size-7' />
             <span className='hidden md:block text-sm md:text-base'>hubdev</span>
           </Link>
-          <div className='hidden md:flex items-center gap-4'>
+          <div className='flex items-center gap-2'>
             <ModeToggle />
             <a
               href='https://github.com/xavimondev/hubdev.tools'
