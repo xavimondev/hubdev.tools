@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import Image from 'next/image'
 
-import { HREF_PREFIX } from '@/constants'
+import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { getFeaturedResources } from '@/services/dashboard'
 import { ErrorState } from '@/components/error-state'
 import { LoadingBentoGrid } from '@/components/loading'
@@ -57,7 +57,7 @@ async function ListFeaturedResources() {
             className='object-cover'
             decoding='async'
             placeholder='blur'
-            blurDataURL={placeholder}
+            blurDataURL={placeholder ?? DEFAULT_BLUR_DATA_URL}
             // [mask-image:linear-gradient(#000_85%,#0000_100%)]
           />
         </div>

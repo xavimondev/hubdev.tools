@@ -4,7 +4,7 @@ import { Link2Icon } from 'lucide-react'
 
 import { Resource } from '@/types/resource'
 
-import { HREF_PREFIX } from '@/constants'
+import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { EmptyState } from '@/components/empty-state'
 
 type ResourceItemProps = {
@@ -13,7 +13,7 @@ type ResourceItemProps = {
   summary: string
   image: string
   order: number
-  placeholder?: string
+  placeholder: string | null
 }
 
 export function ResourceItem({
@@ -41,7 +41,7 @@ export function ResourceItem({
         className='w-full h-40 object-cover'
         decoding='async'
         placeholder='blur'
-        blurDataURL={placeholder}
+        blurDataURL={placeholder ?? DEFAULT_BLUR_DATA_URL}
       />
       <div className='p-4'>
         <h2 className='text-base md:text-lg font-semibold text-balance'>{title}</h2>
