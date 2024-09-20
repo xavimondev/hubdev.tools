@@ -30,7 +30,6 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
   const { replace } = useRouter()
   const [statusForm, setStatusForm] = useState<ClassifyStatus>('idle')
   const styles = getStatusStyles({ status: statusForm })
-
   const [promptEvaluationResult, setPromptEvaluationResult] = useState<string | undefined>()
 
   function handleSearch(term: string, save?: boolean) {
@@ -91,9 +90,11 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
         searchHistory={searchHistory}
         searchSuggestionsAI={searchSuggestionsAI}
       />
-      {Boolean(promptEvaluationResult) && (
-        <span className='my-2 w-full text-red-700 dark:text-red-400 text-sm'>cool</span>
-      )}
+      {/* {Boolean(promptEvaluationResult) && (
+        <span className='my-2 w-full text-red-700 dark:text-red-400 text-sm'>
+          {promptEvaluationResult}
+        </span>
+      )} */}
     </div>
   )
 }

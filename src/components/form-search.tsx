@@ -78,12 +78,13 @@ export function FormSearch({
   }
 
   return (
-    <form className='flex w-full items-center relative px-2 py-1' onSubmit={handleSubmit}>
-      <div className='relative w-full sm:w-[calc(100%_-_58px)]'>
+    <form className='flex w-full items-center px-2 py-1' onSubmit={handleSubmit}>
+      <div className='relative w-full'>
         <label className='sr-only' htmlFor='prompt'>
           Prompt
         </label>
         <Input
+          key={query}
           ref={inputRef}
           className='block 
           h-10 
@@ -111,25 +112,26 @@ export function FormSearch({
           aria-label='Search'
           defaultValue={query}
           placeholder='Typescript books'
+          onChange={() => {
+            if (promptEvaluationResult) {
+              setStatusForm('idle')
+              setPromptEvaluationResult(undefined)
+            }
+          }}
         />
       </div>
-      <div className='flex justify-end w-full mr-1'>
+      <div className='flex justify-end mx-1'>
         <div className='flex gap-1'>
           <div className='text-black dark:text-yellow-200'>
             {promptEvaluationResult && !isMobile && (
               <ToolTipError promptEvaluationResult={promptEvaluationResult} />
             )}
           </div>
-          {isClassifying || Boolean(promptEvaluationResult) ? (
-            <LoaderCircleIcon className='size-5 animate-spin' />
-          ) : (
-            <>
-              {!isMobile && (
-                <kbd className='bg-light-600 dark:bg-neutral-700 text-light-900 dark:text-white rounded-sm px-2 py-1 text-xs'>
-                  S
-                </kbd>
-              )}
-            </>
+          {isClassifying && <LoaderCircleIcon className='size-5 animate-spin' />}
+          {!isMobile && !isClassifying && !promptEvaluationResult && (
+            <kbd className='bg-light-600 dark:bg-neutral-700 text-light-900 dark:text-white rounded-sm px-2 py-1 text-xs'>
+              S
+            </kbd>
           )}
         </div>
       </div>
@@ -146,7 +148,7 @@ function ToolTipError({ promptEvaluationResult }: { promptEvaluationResult: stri
             <Button
               variant='outline'
               size='icon'
-              className='bg-transparent border-none hover:bg-transparent size-5'
+              className='bg-transparent border-none hover:bg-transparent size-5 mt-1.5'
             >
               <AlertCircleIcon className='text-red-500 dark:text-red-400 size-5' />
             </Button>
