@@ -58,6 +58,7 @@ async function ListFeaturedResources() {
             decoding='async'
             placeholder='blur'
             blurDataURL={placeholder ?? DEFAULT_BLUR_DATA_URL}
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             // [mask-image:linear-gradient(#000_85%,#0000_100%)]
           />
         </div>
