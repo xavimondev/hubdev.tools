@@ -43,7 +43,6 @@ const verifyUrl = async ({ url }: { url: string }) => {
 }
 
 const incrementClicks = async ({ id }: { id: string }) => {
-  // @ts-ignore
   const { error } = await supabase.rpc('increment_clicks', { resource_id: id })
   if (error) {
     console.error(error)

@@ -31,7 +31,6 @@ export const getFeaturedResources = async () => {
   }
 
   const formattedData = data.map((item) => {
-    // @ts-ignore
     const { categories, ...resource } = item
     const { name } = categories ?? {}
     return {
@@ -106,7 +105,6 @@ export const getLatestResources = async () => {
   }
 
   const formattedData = data.map((item) => {
-    // @ts-ignore
     const { categories, ...resource } = item
     const { name } = categories ?? {}
     return {

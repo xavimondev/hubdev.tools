@@ -5,5 +5,5 @@ export type Resource = {
   summary: string
   image: string
   category: string
-  placeholder?: string
+  placeholder: string | null
 }

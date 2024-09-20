@@ -18,7 +18,7 @@ type ResourcesWithCategories = {
   url: string
   image: string
   summary: string
-  placeholder?: string
+  placeholder: string | null
   categories:
     | {
         name: string
@@ -58,9 +58,8 @@ export async function search({
       if (!result) {
         return { error: 'An error occured. Please try again later.' }
       }
-      // @ts-ignore
+
       data = formatDataWithCategories({
-        // @ts-ignore
         resources: result
       })
     } else {
@@ -69,9 +68,7 @@ export async function search({
         return { error: 'An error occured. Please try again later.' }
       }
 
-      // @ts-ignore
       data = formatDataWithCategories({
-        // @ts-ignore
         resources: result
       })
     }

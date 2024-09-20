@@ -15,7 +15,6 @@ export const listResources = async ({
   if (!data) return
 
   const formattedData = data.map((item) => {
-    // @ts-ignore
     const { categories, ...resource } = item
     const { name } = categories ?? {}
     return {
@@ -40,7 +39,6 @@ export const listResourcesBySlug = async ({
   if (!data) return
 
   const formattedData = data.map((item) => {
-    // @ts-ignore
     const { categories, ...resource } = item
     const { name } = categories ?? {}
     return {
