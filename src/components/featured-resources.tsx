@@ -25,7 +25,7 @@ async function ListFeaturedResources() {
   const { summary: thirdPlaceSummary, title: thirdPlaceTitle, url: thirdPlaceUrl } = thirdPlace
 
   return (
-    <div className='mt-4 grid grid-cols-1 lg:grid-cols-[460px_repeat(2,_1fr)] gap-4'>
+    <div className='py-6 grid grid-cols-1 lg:grid-cols-[500px_repeat(2,_1fr)] gap-4'>
       {/* First place */}
       <a
         className='size-full bg-gradient-to-br from-yellow-50 to-amber-200 dark:from-yellow-100 dark:to-amber-300 border-2 border-yellow-200 hover:border-yellow-500 hover:dark:border-yellow-700 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
@@ -54,7 +54,7 @@ async function ListFeaturedResources() {
             src={image}
             fill
             alt={`Picture of ${title}`}
-            className='object-cover hidden xl:block'
+            className='object-cover'
             decoding='async'
             placeholder='blur'
             blurDataURL={placeholder}
