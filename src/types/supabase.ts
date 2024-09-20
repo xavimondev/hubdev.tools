@@ -14,6 +14,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: number
+          isActive: boolean
           name: string
           slug: string | null
         }
@@ -21,6 +22,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: number
+          isActive?: boolean
           name: string
           slug?: string | null
         }
@@ -28,6 +30,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: number
+          isActive?: boolean
           name?: string
           slug?: string | null
         }
@@ -35,36 +38,45 @@ export type Database = {
       }
       resources: {
         Row: {
+          clicks: number
           created_at: string
           description: string
           embedding: string | null
           id: string
           idCategory: number | null
           image: string
+          last_clicked: string
+          placeholder: string | null
           slug: string
           summary: string
           title: string
           url: string
         }
         Insert: {
+          clicks?: number
           created_at?: string
           description: string
           embedding?: string | null
           id?: string
           idCategory?: number | null
           image: string
+          last_clicked?: string
+          placeholder?: string | null
           slug: string
           summary: string
           title: string
           url: string
         }
         Update: {
+          clicks?: number
           created_at?: string
           description?: string
           embedding?: string | null
           id?: string
           idCategory?: number | null
           image?: string
+          last_clicked?: string
+          placeholder?: string | null
           slug?: string
           summary?: string
           title?: string
@@ -85,6 +97,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      increment_clicks: {
+        Args: {
+          resource_id: string
+        }
+        Returns: undefined
+      }
       query_embeddings: {
         Args: {
           embed: string
@@ -98,6 +116,7 @@ export type Database = {
           summary: string
           image: string
           category: string
+          placeholder: string
         }[]
       }
     }
