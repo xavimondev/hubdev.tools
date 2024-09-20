@@ -51,6 +51,9 @@ export function FormSearch({
       toast.error('Please enter a valid search term')
       return
     }
+
+    inputRef.current?.blur()
+
     setIsClassifying(true)
 
     const { category, error } = await queryClassify({ input: prompt })
