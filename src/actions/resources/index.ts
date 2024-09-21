@@ -2,7 +2,7 @@
 
 import { Resource } from '@/types/resource'
 
-import { getData, getResourcesByCategorySlug } from '@/services/cached-queries'
+import { getResourcesByCategoryCached, getResourcesCached } from '@/services/cached-queries'
 
 export const listResources = async ({
   from,
@@ -11,7 +11,7 @@ export const listResources = async ({
   from: number
   to: number
 }): Promise<Resource[] | undefined> => {
-  const data = await getData({ from, to })
+  const data = await getResourcesCached({ from, to })
   if (!data) return
 
   const formattedData = data.map((item) => {
@@ -35,7 +35,7 @@ export const listResourcesBySlug = async ({
   to: number
   slug: string
 }) => {
-  const data = await getResourcesByCategorySlug({ from, to, slug })
+  const data = await getResourcesByCategoryCached({ from, to, slug })
   if (!data) return
 
   const formattedData = data.map((item) => {
