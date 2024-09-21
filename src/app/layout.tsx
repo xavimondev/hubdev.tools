@@ -4,7 +4,6 @@ import { ViewTransitions } from 'next-view-transitions'
 import './globals.css'
 
 import { Metadata } from 'next'
-import dynamic from 'next/dynamic'
 import { Analytics } from '@vercel/analytics/react'
 import { Toaster } from 'sonner'
 
@@ -12,6 +11,7 @@ import { APP_URL } from '@/constants'
 import { AISearch } from '@/components/ai-search'
 import { Header } from '@/components/header'
 import { Sidebar } from '@/components/sidebar'
+import { ThemeProvider } from '@/components/theme-provider'
 
 const title = 'hubdev.tools - Developer Tools and Resources | Find Everything Here'
 const description =
@@ -56,8 +56,6 @@ export const metadata: Metadata = {
   }
 }
 
-const Providers = dynamic(() => import('./providers'), { ssr: false })
-
 export default function RootLayout({
   children
 }: Readonly<{
@@ -65,16 +63,21 @@ export default function RootLayout({
 }>) {
   return (
     <ViewTransitions>
-      <html lang='en' className={`${GeistSans.variable}`}>
+      <html lang='en' className={`${GeistSans.variable}`} suppressHydrationWarning>
         <body className={`flex flex-col min-h-screen px-1 !sm:px-2`}>
-          <Providers>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
             <Header />
             <div className='px-4 py-8 md:px-6 md:py-10 container'>
               <Sidebar />
               {children}
               <AISearch />
             </div>
-          </Providers>
+          </ThemeProvider>
           <Toaster theme='dark' />
           <Analytics />
         </body>
