@@ -25,7 +25,7 @@ async function ListFeaturedResources() {
   const { summary: thirdPlaceSummary, title: thirdPlaceTitle, url: thirdPlaceUrl } = thirdPlace
 
   return (
-    <div className='py-6 grid grid-cols-1 lg:grid-cols-[500px_repeat(2,_1fr)] gap-4'>
+    <div className='py-6 grid grid-cols-1 lg:grid-cols-[350px_repeat(2,_1fr)] xl:grid-cols-[500px_repeat(2,_1fr)] gap-4'>
       {/* First place */}
       <a
         className='size-full bg-gradient-to-br from-yellow-50 to-amber-200 dark:from-yellow-100 dark:to-amber-300 border-2 border-yellow-200 hover:border-yellow-500 hover:dark:border-yellow-700 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
@@ -49,7 +49,7 @@ async function ListFeaturedResources() {
         <p className='text-sm lg:text-base text-gray-700 mb-4 line-clamp-3 sm:line-clamp-5'>
           {summary}
         </p>
-        <div className='h-[300px] w-full relative mt-24 shadow-lg rounded-md overflow-hidden'>
+        <div className='h-[300px] w-full relative mt-24 shadow-lg rounded-md overflow-hidden hidden xl:block'>
           <Image
             src={image}
             fill
@@ -59,7 +59,6 @@ async function ListFeaturedResources() {
             placeholder='blur'
             blurDataURL={placeholder ?? DEFAULT_BLUR_DATA_URL}
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-            // [mask-image:linear-gradient(#000_85%,#0000_100%)]
           />
         </div>
       </a>
