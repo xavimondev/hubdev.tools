@@ -7,7 +7,7 @@ import { addSearch } from '@/actions/history'
 import { ClassifyStatus } from '@/types/classify'
 
 import { cn } from '@/utils/styles'
-import { FormSearch } from '@/components/form-search'
+import { FormSearch } from '@/components/search-form'
 import { SearchSuggestions } from '@/components/search-suggestions'
 
 type ToolbarProps = {
