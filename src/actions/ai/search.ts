@@ -1,8 +1,8 @@
 import { Resource } from '@/types/resource'
 
 import { getResourcesByCategoryCached, getResourcesCached } from '@/services/cached-queries'
+import { getCache, saveCache } from '@/services/redis-cache'
 
-import { getCache, saveCache } from './cache'
 import { getEmbeddings } from './embeddings'
 
 export type QueryData = {

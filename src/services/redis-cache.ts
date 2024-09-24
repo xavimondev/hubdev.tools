@@ -1,5 +1,3 @@
-'use server'
-
 import { redis } from '@/ratelimit/redis'
 
 import { Resource } from '@/types/resource'
