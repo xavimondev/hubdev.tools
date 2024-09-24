@@ -10,9 +10,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  const { message, success, code } = await updateClicks({ url: resourceLink })
-  if (!success) {
-    return NextResponse.json({ error: message }, { status: code })
+  if (process.env.NODE_ENV === 'production') {
+    const { message, success, code } = await updateClicks({ url: resourceLink })
+    if (!success) {
+      return NextResponse.json({ error: message }, { status: code })
+    }
   }
 
   return NextResponse.redirect(new URL(resourceLink, request.url))
