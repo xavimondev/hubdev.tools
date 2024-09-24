@@ -20,8 +20,8 @@ async function ListLatestResources() {
 export function LatestResources() {
   return (
     <section>
-      <div className='flex flex-col gap-2 mt-8'>
-        <h2 className='text-2xl md:text-4xl text-balance mb-2 text-yellow-800 dark:text-yellow-50 font-bold'>
+      <div className='flex flex-col gap-4 mt-8'>
+        <h2 className='text-2xl md:text-4xl text-balance text-yellow-800 dark:text-yellow-50 font-bold'>
           The latest
         </h2>
         <div className='flex items-center justify-between'>
