@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import { Logo } from '@/components/logo'
 import { ModeToggle } from '@/components/mode-toggle'
+import { SubmitDialog } from '@/components/submit-dialog'
 
 export function Header() {
   return (
@@ -19,6 +20,7 @@ export function Header() {
             <span className='hidden md:block text-sm md:text-base'>hubdev</span>
           </Link>
           <div className='flex items-center gap-2'>
+            <SubmitDialog />
             <ModeToggle />
             <a
               href='https://github.com/xavimondev/hubdev.tools'

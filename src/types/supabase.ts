@@ -36,6 +36,30 @@ export type Database = {
         }
         Relationships: []
       }
+      requests: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          isAdded: boolean
+          website: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          isAdded?: boolean
+          website: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          isAdded?: boolean
+          website?: string
+        }
+        Relationships: []
+      }
       resources: {
         Row: {
           clicks: number
