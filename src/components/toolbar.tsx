@@ -32,7 +32,7 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
   const styles = getStatusStyles({ status: statusForm })
   const [promptEvaluationResult, setPromptEvaluationResult] = useState<string | undefined>()
 
-  function handleSearch(term: string, save?: boolean) {
+  const handleSearch = async (term: string, save?: boolean) => {
     const params = new URLSearchParams(searchParams)
     if (term) {
       params.set('query', term)

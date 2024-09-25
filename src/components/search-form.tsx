@@ -33,7 +33,11 @@ export function FormSearch({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!inputRef.current) return
 
-      if (event.key.toLowerCase() === 's' && document.activeElement !== inputRef.current) {
+      const isInForm =
+        document.activeElement?.tagName === 'INPUT' ||
+        document.activeElement?.tagName === 'TEXTAREA'
+
+      if (event.key.toLowerCase() === 's' && !isInForm) {
         event.preventDefault()
         inputRef.current.focus()
       }
