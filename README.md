@@ -1,7 +1,9 @@
 
 <div align="center">
 
-[![hubdev](https://res.cloudinary.com/marcomontalbano/image/upload/v1723954225/video_to_markdown/images/video--4b6ff47aa62838d99e0725f3024fdc2a-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://res.cloudinary.com/di19fkmzs/video/upload/v1723953989/hubtoolsdev/demo/demov2.mp4 "hubdev")
+<a href=https://github.com/xavimondev/hubdev.tools target="_blank">
+  <img src='https://hubdev.tools/assets/banner.png' width="100%" alt="Banner" />
+</a>
 
 <p>Empowering Developers with Essential Tools and Seamless Semantic Search.</p> 
 <img src="https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white" alt="Nextjs" />
