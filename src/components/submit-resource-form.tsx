@@ -108,7 +108,11 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
           )}
         />
         {hasErrors && <p className='text-red-500 text-sm'>{errors?.root?.api?.message}</p>}
-        {successMessage && <p className='text-green-500 text-sm'>{successMessage}</p>}
+        {successMessage && (
+          <p className='text-light-900 dark:text-green-500 text-sm font-semibold'>
+            {successMessage}
+          </p>
+        )}
         <Button
           type='submit'
           className='w-full'

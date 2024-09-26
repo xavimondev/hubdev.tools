@@ -1,10 +1,10 @@
 export const SLUG_ICONS = [
-  // {
-  //   slug: 'accessibility',
-  //   icon: '👀',
-  //   bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(120,119,198,0.2),rgba(255,255,255,0))]',
-  //   ogColor: 'rgba(120,119,198,0.2)'
-  // },
+  {
+    slug: 'accessibility',
+    icon: '👀',
+    bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(120,119,198,0.2),rgba(255,255,255,0))]',
+    ogColor: 'rgba(120,119,198,0.2)'
+  },
   {
     slug: 'ai',
     icon: '🤖',
@@ -47,12 +47,12 @@ export const SLUG_ICONS = [
     bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(180,110,210,0.2),rgba(255,255,255,0))]',
     ogColor: 'rgba(180,110,210,0.2)'
   },
-  // {
-  //   slug: 'design',
-  //   icon: '🎨',
-  //   bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(255,20,147,0.2),rgba(255,255,255,0))]',
-  //   ogColor: 'rgba(255,20,147,0.2)'
-  // },
+  {
+    slug: 'charts',
+    icon: '📊',
+    bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(255,20,147,0.2),rgba(255,255,255,0))]',
+    ogColor: 'rgba(255,20,147,0.2)'
+  },
   {
     slug: 'documentation',
     icon: '📖',
@@ -101,12 +101,6 @@ export const SLUG_ICONS = [
     bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(255,215,0,0.2),rgba(255,255,255,0))]',
     ogColor: 'rgba(255,215,0,0.2)'
   },
-  // {
-  //   slug: 'library',
-  //   icon: '🏛️',
-  //   bg: 'bg-[radial-gradient(ellipse_80%_50%_at_65%_-25%,rgba(139,10,30,0.2),rgba(255,255,255,0))]',
-  //   ogColor: 'rgba(139,10,30,0.2)'
-  // },
   {
     slug: 'newsletter',
     icon: '📰',
