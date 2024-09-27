@@ -78,7 +78,7 @@ export default function RootLayout({
               <AISearch />
             </div>
           </ThemeProvider>
-          <Toaster theme='dark' />
+          <Toaster theme='system' />
           <Analytics />
         </body>
       </html>
