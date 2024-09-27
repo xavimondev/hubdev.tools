@@ -1,6 +1,10 @@
+'use client'
+
 import { useState } from 'react'
 import Image from 'next/image'
+import { addPin, Pin, removePin } from '@/actions/pin'
 import { ArrowUpRight, PinIcon } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { Resource } from '@/types/resource'
 
@@ -10,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { EmptyState } from '@/components/empty-state'
 
 type ResourceItemProps = {
+  id: string
   title: string
   url: string
   summary: string
@@ -19,6 +24,7 @@ type ResourceItemProps = {
 }
 
 export function ResourceItem({
+  id,
   title,
   url,
   summary,
@@ -26,10 +32,20 @@ export function ResourceItem({
   order,
   placeholder
 }: ResourceItemProps) {
-  const [isFavorite, setIsFavorite] = useState(false)
+  const [isPinned, setIsPinned] = useState(false)
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite)
+  const pinResource = async (pin: Pin) => {
+    const isPinnedResult = !isPinned
+    setIsPinned(isPinnedResult)
+
+    if (isPinnedResult) {
+      const res = await addPin({ pin })
+      toast(res.msg)
+      return
+    }
+
+    const res = await removePin({ resource_id: pin.id })
+    toast(res.msg)
   }
 
   return (
@@ -75,14 +91,17 @@ export function ResourceItem({
             className='group hover:bg-light-800/20 dark:hover:bg-orange-500/20'
             variant='ghost'
             size='icon'
-            aria-label={isFavorite ? 'Pin' : 'Remove pin'}
-            onClick={toggleFavorite}
+            aria-label={isPinned ? 'Pin' : 'Remove pin'}
+            onClick={() => {
+              pinResource({ id, title, url, summary })
+            }}
           >
-            <div className={cn(isFavorite && 'animate-scale-pulse')}>
+            <div className={cn(isPinned && 'animate-scale-pulse')}>
               <PinIcon
                 className={cn(
-                  `size-6 rotate-[50deg] transition-all duration-300 ease-in-out transform group-hover:scale-105 text-light-800 dark:text-orange-400 group-hover:text-light-800 group-hover:dark:text-orange-500`,
-                  isFavorite && 'fill-light-800 dark:fill-orange-500 dark:text-orange-500'
+                  `size-6 rotate-[50deg] transition-all duration-300 ease-in-out transform group-hover:scale-105 text-light-900/50 dark:text-orange-500/50 group-hover:text-light-900 group-hover:dark:text-orange-500`,
+                  isPinned &&
+                    'text-light-900 fill-light-900 dark:fill-orange-500 dark:text-orange-500'
                 )}
               />
             </div>
@@ -112,6 +131,7 @@ export function ListResource({ data }: ListResourceProps) {
                 summary={summary}
                 image={image}
                 placeholder={placeholder}
+                id={id}
               />
             )
           })}

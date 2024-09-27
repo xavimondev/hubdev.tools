@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Metadata } from 'next'
+import { getPines } from '@/actions/pin'
 
 import { getCategoryDetails } from '@/services/list'
 import { Container } from '@/components/container'
@@ -74,12 +75,15 @@ export default async function Page({
 
   const { query } = searchParams
 
+  const pines = await getPines()
+  const idsPines = pines.data.map((pin) => pin.id)
+
   return (
     <Container>
-      <ListPines />
+      <ListPines pines={pines.data} />
       <Hero title={heroTitle} description={heroDescription!} />
       <Suspense fallback={<Loading />} key={query}>
-        <Home query={query} slug={slug} />
+        <Home query={query} slug={slug} idsPines={idsPines} />
       </Suspense>
     </Container>
   )

@@ -1,14 +1,17 @@
 import { search } from '@/actions/ai/search'
 
+import { Resource } from '@/types/resource'
+
 import { ErrorState } from '@/components/error-state'
 import { PanelResources } from '@/components/panel-resources'
 
 type HomeProps = {
   query?: string
   slug?: string
+  idsPines: string[]
 }
 
-export async function Home({ query, slug }: HomeProps) {
+export async function Home({ query, slug, idsPines }: HomeProps) {
   const data = await search({ q: query, slug })
   // @ts-ignore
   const { resources, error } = data
@@ -16,5 +19,9 @@ export async function Home({ query, slug }: HomeProps) {
     return <ErrorState error={error ?? 'An error occured. Please try again later.'} />
   }
 
-  return <PanelResources resources={resources} />
+  const filteredResources = resources.filter(
+    (resource: Resource) => !idsPines.includes(resource.id)
+  )
+
+  return <PanelResources resources={filteredResources} />
 }
