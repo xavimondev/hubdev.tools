@@ -8,7 +8,7 @@ import { PanelResources } from '@/components/panel-resources'
 type HomeProps = {
   query?: string
   slug?: string
-  idsPines: string[]
+  idsPines?: string[]
 }
 
 export async function Home({ query, slug, idsPines }: HomeProps) {
@@ -19,9 +19,10 @@ export async function Home({ query, slug, idsPines }: HomeProps) {
     return <ErrorState error={error ?? 'An error occured. Please try again later.'} />
   }
 
-  const filteredResources = resources.filter(
-    (resource: Resource) => !idsPines.includes(resource.id)
-  )
+  const filteredResources =
+    !idsPines || idsPines.length === 0
+      ? resources
+      : resources.filter((resource: Resource) => !idsPines.includes(resource.id))
 
   return <PanelResources resources={filteredResources} />
 }
