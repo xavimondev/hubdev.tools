@@ -25,7 +25,7 @@ export function Header() {
             <a
               href='https://github.com/xavimondev/hubdev.tools'
               target='_blank'
-              className='inline-flex items-center justify-center border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors duration-200 size-10 rounded-md'
+              className='inline-flex items-center justify-center bg-background hover:bg-accent hover:text-accent-foreground transition-colors duration-200 size-10 rounded-md'
               rel='noreferrer noopener'
               aria-label='GitHub repository'
             >
