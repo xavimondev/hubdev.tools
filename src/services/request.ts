@@ -2,7 +2,6 @@ import { supabase } from './client'
 
 type RequestResource = {
   website: string
-  email: string
 }
 
 export const submitRequest = async ({ request }: { request: RequestResource }) => {

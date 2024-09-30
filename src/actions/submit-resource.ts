@@ -4,8 +4,7 @@ import { isAlreadySubmittedOrAdded, submitRequest } from '@/services/request'
 
 export async function submitResource({ formData }: { formData: FormData }) {
   const request = {
-    website: formData.get('url') as string,
-    email: formData.get('email') as string
+    website: formData.get('url') as string
   }
 
   try {

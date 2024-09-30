@@ -19,9 +19,6 @@ import { Input } from '@/components/ui/input'
 const formSchema = z.object({
   url: z.string().url({
     message: 'Invalid URL.'
-  }),
-  email: z.string().email({
-    message: 'Invalid email address.'
   })
 })
 
@@ -30,8 +27,7 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      url: '',
-      email: ''
+      url: ''
     }
   })
 
@@ -53,7 +49,6 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
     try {
       const formData = new FormData()
       formData.append('url', values.url)
-      formData.append('email', values.email)
 
       const { msg } = await submitResource({ formData })
       if (msg !== 'ok') {
@@ -87,22 +82,6 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
               <FormControl>
                 <Input placeholder='https://example.com' {...field} />
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='email'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder='your@email.com' {...field} />
-              </FormControl>
-              {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
