@@ -29,7 +29,7 @@ export const getData = async ({ from, to }: { from: number; to: number }) => {
 export const getCategories = async () => {
   const { data, error } = await supabase
     .from('categories')
-    .select('id, name, slug')
+    .select('id, name, slug, emoji')
     .eq('isActive', true)
     .order('name')
 

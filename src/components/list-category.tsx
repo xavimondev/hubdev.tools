@@ -2,7 +2,6 @@
 
 import { memo } from 'react'
 import { usePathname } from 'next/navigation'
-import { SLUG_ICONS } from '@/categories'
 import { Link } from 'next-view-transitions'
 
 import { cn } from '@/utils/styles'
@@ -10,10 +9,10 @@ import { cn } from '@/utils/styles'
 type CategoryProps = {
   name: string
   slug: string
-  icon: string
+  emoji: string | null
 }
 
-const CategoryLink = memo(function CategoryLink({ name, slug, icon }: CategoryProps) {
+const CategoryLink = memo(function CategoryLink({ name, slug, emoji }: CategoryProps) {
   const pathname = usePathname()
   const isActive = pathname === slug
 
@@ -27,7 +26,7 @@ const CategoryLink = memo(function CategoryLink({ name, slug, icon }: CategoryPr
           : 'hover:bg-light-600/40 dark:hover:bg-neutral-600/20'
       )}
     >
-      <span>{icon}</span>
+      <span>{emoji ?? '🤔'}</span>
       <span className={cn(isActive && 'text-black dark:text-yellow-300 category')}>{name}</span>
     </Link>
   )
@@ -36,13 +35,14 @@ const CategoryLink = memo(function CategoryLink({ name, slug, icon }: CategoryPr
 function Home() {
   const slug = '/'
 
-  return <CategoryLink name='Home' slug={slug} icon={'🏠'} />
+  return <CategoryLink name='Home' slug={slug} emoji={'🏠'} />
 }
 
 type Category = {
   id: number
   name: string
   slug: string | null
+  emoji: string | null
 }
 
 type ListCategoryProps = {
@@ -58,8 +58,14 @@ export function ListCategory({ data }: ListCategoryProps) {
           data.length > 0 &&
           data.map((category) => {
             const slug = `/category/${category.slug}`
-            const emoji = SLUG_ICONS.find((icon) => icon.slug === category.slug)!.icon
-            return <CategoryLink key={category.id} name={category.name} slug={slug} icon={emoji} />
+            return (
+              <CategoryLink
+                key={category.id}
+                name={category.name}
+                slug={slug}
+                emoji={category.emoji}
+              />
+            )
           })}
       </nav>
     </aside>

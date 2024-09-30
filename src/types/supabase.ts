@@ -11,24 +11,30 @@ export type Database = {
     Tables: {
       categories: {
         Row: {
+          bg_color: string | null
           created_at: string
           description: string | null
+          emoji: string | null
           id: number
           isActive: boolean
           name: string
           slug: string | null
         }
         Insert: {
+          bg_color?: string | null
           created_at?: string
           description?: string | null
+          emoji?: string | null
           id?: number
           isActive?: boolean
           name: string
           slug?: string | null
         }
         Update: {
+          bg_color?: string | null
           created_at?: string
           description?: string | null
+          emoji?: string | null
           id?: number
           isActive?: boolean
           name?: string
