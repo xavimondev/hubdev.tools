@@ -1,6 +1,7 @@
 import { SVGProps } from 'react'
 import Link from 'next/link'
 
+import { LoginDialog } from '@/components/login-dialog'
 import { Logo } from '@/components/logo'
 import { ModeToggle } from '@/components/mode-toggle'
 import { SubmitDialog } from '@/components/submit-dialog'
@@ -21,6 +22,7 @@ export function Header() {
           </Link>
           <div className='flex items-center gap-2'>
             <SubmitDialog />
+            <LoginDialog />
             <ModeToggle />
             <a
               href='https://github.com/xavimondev/hubdev.tools'
