@@ -1,5 +1,4 @@
 import { ImageResponse } from 'next/og'
-import { SLUG_ICONS } from '@/categories'
 
 import { APP_URL } from '@/constants'
 import { getCategoryDetails } from '@/services/list'
@@ -34,8 +33,6 @@ export async function GET(request: Request, { params }: { params: { slug: string
   }
 
   const { name, description } = details[0]
-  const data = SLUG_ICONS.find((icon) => icon.slug === params.slug)
-  const ogColor = data?.ogColor
 
   const iconSrc = await fetch(new URL(`${APP_URL}/assets/icon.png`, import.meta.url)).then((res) =>
     res.arrayBuffer()
@@ -87,7 +84,7 @@ export async function GET(request: Request, { params }: { params: { slug: string
         <div
           style={{
             backgroundColor: 'transparent',
-            backgroundImage: `radial-gradient(ellipse 80% 35% at 65% -25%,${ogColor}, rgba(255, 255, 255, 0))`,
+            backgroundImage: `radial-gradient(ellipse 80% 35% at 65% -25%, rgba(70,100,180,0.2), rgba(255, 255, 255, 0))`,
             width: '100%',
             height: '100%',
             position: 'absolute',

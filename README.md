@@ -22,10 +22,6 @@ A comprehensive collection of essential resources and tools for developers, thou
 
 ## Table of Contents
 
-- [Features](#features)
-
-- [How was built](#how-was-built)
-
 - [Stack](#stack)
 
 - [Project Summary](#project-summary)
@@ -35,49 +31,6 @@ A comprehensive collection of essential resources and tools for developers, thou
 - [Run Locally](#run-locally)
 
 - [License](#license)
-
-## How was built
-
-The code is found [here](./scrapping/).
-
-The construction of this project followed a systematic approach to ensure efficiency and accuracy in gathering and processing resources. Below is the detailed process:
-
-### Generating Links Array
-
-Initially, an array of links was created in the format: 
-
-```
-[{
-  url: 'https://linkresource.com'
-}]
-```
-
-### Scraping Metadata
-
-Using Cheerio, I scraped the meta tags: title, description, and image from each link.
-When it comes to handling images, I followed a specific approach:
-
-- OpenGraph Image: If an OpenGraph image was available, it was optimized and uploaded to Supabase.
-- No OpenGraph Image: If no OpenGraph image was found, [Playwright](https://playwright.dev/) was used to take a screenshot of the website.
-
-All the images were optimized using [Sharp](https://github.com/lovell/sharp), then uploaded to Supabase.
-
-### Generating Summaries
-
-The HTML of the initial page was obtained and sent to OpenAI to generate a summary of the website, providing a clearer understanding of its content. The model used was `gpt-4o-mini`.
-
-### Storing and Embedding Resources
-
-With the images stored in Supabase, along with the summary and description of each website, embeddings were generated for each resource. I've used the model `text-embedding-3-small`.
-All this information was then bulk inserted into Supabase.
-
-### Regular Updates
-
-The resources are updated every hour to ensure the information remains current.
-
-```
-export const revalidate = 60
-```
 
 ## Stack
 

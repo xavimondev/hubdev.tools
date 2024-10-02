@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import Image from 'next/image'
 
-import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
+import { HREF_PREFIX } from '@/constants'
 import { getFeaturedResourcesCached } from '@/services/cached-queries'
 import { ErrorState } from '@/components/error-state'
 import { LoadingBentoGrid } from '@/components/loading'
@@ -15,7 +15,7 @@ async function ListFeaturedResources() {
 
   const [topResource, ...restResources] = featuredResources
 
-  const { image, summary, title, url, placeholder } = topResource
+  const { summary, title, url } = topResource
   const nextTwoTopResources = restResources.slice(0, 2)
 
   const [secondPlace, thirdPlace] = nextTwoTopResources
@@ -25,7 +25,7 @@ async function ListFeaturedResources() {
   const { summary: thirdPlaceSummary, title: thirdPlaceTitle, url: thirdPlaceUrl } = thirdPlace
 
   return (
-    <div className='py-6 grid grid-cols-1 lg:grid-cols-[350px_repeat(2,_1fr)] xl:grid-cols-[500px_repeat(2,_1fr)] gap-4'>
+    <div className='py-6 grid grid-cols-1 lg:grid-cols-[350px_repeat(2,_1fr)] xl:grid-cols-[450px_repeat(2,_1fr)] gap-4'>
       {/* First place */}
       <a
         className='size-full bg-gradient-to-br from-yellow-50 to-amber-200 dark:from-yellow-100 dark:to-amber-300 border-2 border-yellow-200 hover:border-yellow-500 hover:dark:border-yellow-700 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
@@ -33,34 +33,22 @@ async function ListFeaturedResources() {
         target='_blank'
         rel='noopener noreferrer'
       >
-        <div className='flex items-center gap-2 mb-4'>
+        <div className='flex flex-row xl:flex-col items-center md:items-start gap-2 md:gap-4 xl:mt-40 mb-4'>
           <Image
             unoptimized
             src={`https://www.google.com/s2/favicons?domain=${url}&sz=128`}
             alt={`Logo for ${title}`}
-            className='rounded-md'
-            width={32}
-            height={32}
+            className='rounded-md size-6 xl:size-16'
+            width={64}
+            height={64}
           />
-          <h2 className='text-base lg:text-3xl font-bold text-gray-900 dark:text-gray-800'>
+          <h2 className='text-base xl:text-6xl font-bold text-gray-900 dark:text-gray-800'>
             {title}
           </h2>
         </div>
-        <p className='text-sm lg:text-base text-gray-700 mb-4 line-clamp-3 sm:line-clamp-5'>
+        <p className='text-sm xl:text-lg text-gray-700 line-clamp-3 sm:line-clamp-5 xl:mt-8'>
           {summary}
         </p>
-        <div className='h-[300px] w-full relative mt-24 shadow-lg rounded-md overflow-hidden hidden xl:block'>
-          <Image
-            src={image}
-            fill
-            alt={`Picture of ${title}`}
-            className='object-cover'
-            decoding='async'
-            placeholder='blur'
-            blurDataURL={placeholder ?? DEFAULT_BLUR_DATA_URL}
-            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-          />
-        </div>
       </a>
       {/* Second place */}
       <a
@@ -74,11 +62,11 @@ async function ListFeaturedResources() {
             unoptimized
             src={`https://www.google.com/s2/favicons?domain=${secondPlaceUrl}&sz=128`}
             alt={`Logo for ${secondPlaceTitle}`}
-            className='rounded-md'
+            className='rounded-md size-6 md:size-8'
             width={32}
             height={32}
           />
-          <h2 className='text-lg font-semibold text-gray-900 dark:text-gray-800'>
+          <h2 className='text-base xl:text-lg font-semibold text-gray-900 dark:text-gray-800'>
             {secondPlaceTitle}
           </h2>
         </div>
@@ -96,11 +84,11 @@ async function ListFeaturedResources() {
             unoptimized
             src={`https://www.google.com/s2/favicons?domain=${thirdPlaceUrl}&sz=128`}
             alt={`Logo for ${thirdPlaceTitle}`}
-            className='rounded-md'
+            className='rounded-md size-6 md:size-8'
             width={32}
             height={32}
           />
-          <h2 className='text-lg font-semibold text-white'>{thirdPlaceTitle}</h2>
+          <h2 className='text-base xl:text-lg font-semibold text-white'>{thirdPlaceTitle}</h2>
         </div>
         <p className='text-sm text-gray-200 line-clamp-4'>{thirdPlaceSummary}</p>
       </a>
@@ -119,11 +107,11 @@ async function ListFeaturedResources() {
                   unoptimized
                   src={`https://www.google.com/s2/favicons?domain=${url}&sz=128`}
                   alt={`Logo for ${title}`}
-                  className='rounded-lg'
+                  className='rounded-md size-6 md:size-8'
                   width={32}
                   height={32}
                 />
-                <span className='text-lg font-semibold'>{title}</span>
+                <span className='text-base xl:text-lg font-semibold'>{title}</span>
               </a>
               <p className='text-sm line-clamp-3'>{summary}</p>
             </div>

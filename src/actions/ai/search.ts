@@ -1,6 +1,6 @@
 import { Resource } from '@/types/resource'
 
-import { getResourcesByCategoryCached, getResourcesCached } from '@/services/cached-queries'
+import { getData, getResourcesByCategorySlug } from '@/services/list'
 import { getCache, saveCache } from '@/services/redis-cache'
 
 import { getEmbeddings } from './embeddings'
@@ -51,7 +51,7 @@ export async function search({
     let data: Resource[] = []
 
     if (!slug || slug === 'all') {
-      const result = await getResourcesCached({ from: 0, to: 11 })
+      const result = await getData({ from: 0, to: 11 })
       if (!result) {
         return { error: 'An error occured. Please try again later.' }
       }
@@ -60,7 +60,7 @@ export async function search({
         resources: result
       })
     } else {
-      const result = await getResourcesByCategoryCached({ from: 0, to: 11, slug })
+      const result = await getResourcesByCategorySlug({ from: 0, to: 11, slug })
       if (!result) {
         return { error: 'An error occured. Please try again later.' }
       }
