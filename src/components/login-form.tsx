@@ -1,13 +1,11 @@
 'use client'
 
-import { useEffect, type SVGProps } from 'react'
+import { type SVGProps } from 'react'
 import * as React from 'react'
-// import { sentEmail } from '@/actions'
+import { signInWithGithub } from '@/auth/client'
 import { LoaderIcon } from 'lucide-react'
 import { useFormState, useFormStatus } from 'react-dom'
-import { toast } from 'sonner'
 
-// import { signInWithGithub } from '@/services/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -44,7 +42,7 @@ export function SubmitButton() {
 
 export function GithubAuthButton() {
   return (
-    <Button className='w-full' variant='outline' type='button' onClick={() => {}}>
+    <Button className='w-full' variant='outline' type='button' onClick={signInWithGithub}>
       <GithubIc className='mr-2 h-5 w-5' />
       Github
     </Button>
@@ -52,19 +50,8 @@ export function GithubAuthButton() {
 }
 
 export function LoginForm() {
-  // const [state, formAction] = useFormState(sentEmail, initialState)
-
-  // useEffect(() => {
-  //   if (state && state.message) {
-  //     toast.success(state.message, {
-  //       duration: 5000
-  //     })
-  //   }
-  // }, [state])
-
   return (
     <div className='w-full flex flex-col gap-6'>
-      {/* action={formAction} */}
       <form className='flex flex-col gap-4'>
         <div className='grid gap-2 w-full'>
           <div className='grid gap-1'>
