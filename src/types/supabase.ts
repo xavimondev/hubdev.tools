@@ -42,6 +42,42 @@ export type Database = {
         }
         Relationships: []
       }
+      pines: {
+        Row: {
+          created_at: string
+          id: string
+          resource_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          resource_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          resource_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pines_resource_id_fkey"
+            columns: ["resource_id"]
+            isOneToOne: false
+            referencedRelation: "resources"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pines_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       requests: {
         Row: {
           created_at: string
@@ -121,6 +157,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      users: {
+        Row: {
+          avatar_url: string
+          created_at: string
+          id: string
+          name: string
+          user_name: string
+        }
+        Insert: {
+          avatar_url: string
+          created_at?: string
+          id: string
+          name: string
+          user_name: string
+        }
+        Update: {
+          avatar_url?: string
+          created_at?: string
+          id?: string
+          name?: string
+          user_name?: string
+        }
+        Relationships: []
       }
     }
     Views: {

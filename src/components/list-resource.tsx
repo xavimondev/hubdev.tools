@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { addPin, Pin, removePin } from '@/actions/pin'
 import { ArrowUpRight, PinIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -10,6 +9,8 @@ import { Resource } from '@/types/resource'
 
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { cn } from '@/utils/styles'
+import { createSupabaseBrowserClient } from '@/utils/supabase-client'
+import { addPin, removePin } from '@/services/pines'
 import { Button } from '@/components/ui/button'
 import { EmptyState } from '@/components/empty-state'
 
@@ -34,18 +35,44 @@ export function ResourceItem({
 }: ResourceItemProps) {
   const [isPinned, setIsPinned] = useState(false)
 
-  const pinResource = async (pin: Pin) => {
-    const isPinnedResult = !isPinned
-    setIsPinned(isPinnedResult)
-
-    if (isPinnedResult) {
-      const res = await addPin({ pin })
-      toast(res.msg)
+  const submit = async ({ resource_id }: { resource_id: string }) => {
+    const supabase = await createSupabaseBrowserClient()
+    const {
+      data: { user }
+    } = await supabase.auth.getUser()
+    if (!user) {
+      toast.error('You need to be logged in to pin a resource.')
       return
     }
 
-    const res = await removePin({ resource_id: pin.id })
-    toast(res.msg)
+    const { id } = user
+
+    const pin = {
+      resource_id,
+      user_id: id
+    }
+
+    try {
+      const isPinnedResult = !isPinned
+      setIsPinned(isPinnedResult)
+
+      if (isPinnedResult) {
+        const response = await addPin(pin)
+        if (response === 'ok') {
+          toast('Pin added successfully')
+        }
+        return
+      }
+
+      const response = await removePin(pin)
+      if (response === 'ok') {
+        toast('Pin removed successfully')
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast(error.message)
+      }
+    }
   }
 
   return (
@@ -93,7 +120,7 @@ export function ResourceItem({
             size='icon'
             aria-label={isPinned ? 'Pin' : 'Remove pin'}
             onClick={() => {
-              pinResource({ id, title, url, summary })
+              submit({ resource_id: id })
             }}
           >
             <div className={cn(isPinned && 'animate-scale-pulse')}>
