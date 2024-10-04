@@ -44,13 +44,19 @@ export function UserNavbar({ avatar_url, full_name, user_name }: UserNavbarProps
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Link href='/' className='flex items-center'>
+            <Link href='/pinned' className='flex items-center w-full'>
               <PinIcon className='mr-2 size-4' />
               <span>Pinned</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <a href='https://github.com/xavimondev/hubdev.tools' className='flex items-center'>
+            <a
+              href='https://github.com/xavimondev/hubdev.tools'
+              target='_blank'
+              className='flex items-center w-full'
+              rel='noreferrer noopener'
+              aria-label='GitHub repository'
+            >
               <GitHubIc className='mr-2 size-4' />
               <span>Github</span>
             </a>
