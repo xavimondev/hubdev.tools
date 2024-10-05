@@ -2,16 +2,21 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { ArrowUpRight, PinIcon } from 'lucide-react'
+import { ArrowBigUpIcon, ArrowUpRight, MoreVertical, PinIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Resource } from '@/types/resource'
 
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
-import { cn } from '@/utils/styles'
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
 import { addPin, removePin } from '@/services/pines'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import { EmptyState } from '@/components/empty-state'
 
 type ResourceItemProps = {
@@ -114,25 +119,24 @@ export function ResourceItem({
             <span>Go to resource</span>
             <ArrowUpRight className='size-4 duration-200 group-hover:translate-x-[1.5px] group-hover:opacity-100' />
           </a>
-          <Button
-            className='group hover:bg-light-800/20 dark:hover:bg-orange-500/20'
-            variant='ghost'
-            size='icon'
-            aria-label={isPinned ? 'Pin' : 'Remove pin'}
-            onClick={() => {
-              submit({ resource_id: id })
-            }}
-          >
-            <div className={cn(isPinned && 'animate-scale-pulse')}>
-              <PinIcon
-                className={cn(
-                  `size-6 rotate-[50deg] transition-all duration-300 ease-in-out transform group-hover:scale-105 text-light-900/50 dark:text-orange-500/50 group-hover:text-light-900 group-hover:dark:text-orange-500`,
-                  isPinned &&
-                    'text-light-900 fill-light-900 dark:fill-orange-500 dark:text-orange-500'
-                )}
-              />
-            </div>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size='icon' variant='outline' className='h-8 w-8'>
+                <MoreVertical className='size-3.5' />
+                <span className='sr-only'>More</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end'>
+              <DropdownMenuItem className='group'>
+                <ArrowBigUpIcon className='size-[21px] mr-[5px] group-hover:-translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
+                <span>Mark as Top Pin</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className='group' onClick={() => submit({ resource_id: id })}>
+                <PinIcon className='size-4 ml-[2px] mr-2 group-hover:animate-scale-pulse' />
+                <span>Pin</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>
