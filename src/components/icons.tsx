@@ -19,3 +19,28 @@ export function GitHubIc(props: SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
+
+export function RemoveIc(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='16'
+      height='16'
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke='currentColor'
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      {...props}
+    >
+      <path d='M3 6h18' />
+      <path d='M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6' />
+      <path d='M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2' />
+      <path
+        className='origin-[20%_50%] transition-transform duration-300 ease-in-out group-hover:-rotate-45 group-hover:-translate-y-[1px]'
+        d='M4 6h16'
+      />
+    </svg>
+  )
+}

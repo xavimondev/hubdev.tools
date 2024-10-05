@@ -1,3 +1,13 @@
+import { getUserPines } from '@/services/list-pines'
+import { Container } from '@/components/container'
+import { ListPines } from '@/components/list-pines'
+
 export default async function Page() {
-  return <div>Pinned</div>
+  const pines = await getUserPines()
+
+  return (
+    <Container>
+      <ListPines pines={pines} />
+    </Container>
+  )
 }

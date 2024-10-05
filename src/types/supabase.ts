@@ -187,6 +187,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_user_pines: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          resource_id: string
+          resource: string
+          url: string
+          image: string
+          summary: string
+          placeholder: string
+          clicks: number
+          category: string
+          category_color: string
+        }[]
+      }
       increment_clicks: {
         Args: {
           resource_id: string
