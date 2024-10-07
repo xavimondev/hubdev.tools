@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ArrowBigDownIcon, ChevronLeft, ChevronRight, MoreVertical } from 'lucide-react'
 
+import { Pin } from '@/types/pin'
+
 import { HREF_PREFIX } from '@/constants'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,24 +18,7 @@ import { RemoveIc } from '@/components/icons'
 import { SectionHeader } from '@/components/section-header'
 import { SettingsPinesDialog } from '@/components/settings-pines-dialog'
 
-type Pin = {
-  id: string
-  title: string
-  url: string
-  summary: string
-  category: string
-}
-
-type PinCardProps = {
-  id: string
-  index: number
-  name: string
-  url: string
-  summary: string
-  category: string
-}
-
-function PinCard({ id, index, name, url, summary, category }: PinCardProps) {
+function PinCard({ name, url, summary, category, categoryColor }: Pin) {
   return (
     <a
       className='group 
@@ -56,7 +41,7 @@ function PinCard({ id, index, name, url, summary, category }: PinCardProps) {
       target='_blank'
       rel='noopener noreferrer'
     >
-      <div className='flex flex-col gap-4 p-3'>
+      <div className='flex flex-col gap-3 p-3'>
         <div className='flex items-center justify-between'>
           <img
             src={`https://www.google.com/s2/favicons?domain=${url}&sz=32`}
@@ -86,7 +71,14 @@ function PinCard({ id, index, name, url, summary, category }: PinCardProps) {
         </div>
         <div className='flex flex-col gap-2'>
           <h2 className='text-base font-semibold text-balance'>{name}</h2>
-          <span className='text-xs font-medium rounded-sm text-light-900 dark:text-yellow-300 border px-2 py-1 w-fit'>
+          <span
+            style={{
+              // @ts-ignore
+              '--text-color': categoryColor,
+              '--border-color': categoryColor
+            }}
+            className='text-xs font-medium rounded-sm px-2 py-1 w-fit text-[var(--text-color)] border border-dashed border-[var(--border-color)]'
+          >
             {category}
           </span>
           <p className='text-sm text-muted-foreground line-clamp-4 text-pretty'>{summary}</p>
@@ -96,7 +88,7 @@ function PinCard({ id, index, name, url, summary, category }: PinCardProps) {
   )
 }
 
-export function ListTopPines({ pines }: { pines: Pin[] }) {
+function ListTopPines({ topPines }: { topPines: Pin[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start', loop: false })
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
   const [nextBtnEnabled, setNextBtnEnabled] = useState(true)
@@ -121,8 +113,6 @@ export function ListTopPines({ pines }: { pines: Pin[] }) {
     }
   }, [emblaApi, onSelect])
 
-  if (!pines || pines.length === 0) return null
-
   return (
     <div className='mb-10'>
       <div className='flex items-center justify-between'>
@@ -130,7 +120,6 @@ export function ListTopPines({ pines }: { pines: Pin[] }) {
           title='Top Pinned Cards'
           description='Here are some of the most popular pines'
         />
-        {/* <div className='flex-grow h-px bg-light-600 dark:bg-neutral-700' /> */}
         <div className='flex space-x-2 ml-4'>
           <SettingsPinesDialog />
           <Button
@@ -154,20 +143,32 @@ export function ListTopPines({ pines }: { pines: Pin[] }) {
       <div className='mt-4'>
         <div className='overflow-hidden' ref={emblaRef}>
           <div className='flex gap-6'>
-            {pines.map(({ id, title, url, summary, category }, index) => (
+            {topPines.map(({ id, name, url, summary, category, categoryColor }) => (
               <PinCard
                 key={id}
                 id={id}
-                index={index}
-                name={title}
+                name={name}
                 url={url}
                 summary={summary}
                 category={category}
+                categoryColor={categoryColor}
               />
             ))}
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+export function TopPines({ topPines }: { topPines: Pin[] }) {
+  return (
+    <>
+      {topPines.length > 0 ? (
+        <ListTopPines topPines={topPines} />
+      ) : (
+        <div className='grid-cols-3'>No pines found</div>
+      )}
+    </>
   )
 }

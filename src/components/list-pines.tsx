@@ -1,12 +1,9 @@
-'use client'
-
 import Image from 'next/image'
 import { ArrowBigUpIcon, ArrowUpRight, MoreVertical } from 'lucide-react'
 
 import { Pin } from '@/types/pin'
 
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
-import { cn } from '@/utils/styles'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -16,7 +13,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { RemoveIc } from '@/components/icons'
 import { SectionHeader } from '@/components/section-header'
-import { ListTopPines } from '@/components/top-pines'
 
 const PinCard = ({ name, url, image, summary, placeholder, category, categoryColor }: Pin) => {
   return (
@@ -29,29 +25,28 @@ const PinCard = ({ name, url, image, summary, placeholder, category, categoryCol
           target='_blank'
           rel='noopener noreferrer'
         >
-          <div className='relative w-full h-[160px] rounded-md overflow-hidden border'>
-            <Image
-              src={image}
-              fill
-              alt={`Picture of ${name}`}
-              className='object-cover'
-              decoding='async'
-              placeholder='blur'
-              blurDataURL={placeholder ?? DEFAULT_BLUR_DATA_URL}
-            />
-          </div>
+          {image && (
+            <div className='relative w-full h-[160px] rounded-md overflow-hidden border'>
+              <Image
+                src={image}
+                fill
+                alt={`Picture of ${name}`}
+                className='object-cover'
+                decoding='async'
+                placeholder='blur'
+                blurDataURL={placeholder ?? DEFAULT_BLUR_DATA_URL}
+              />
+            </div>
+          )}
           <div className='flex flex-col gap-2'>
             <h2 className='text-base md:text-lg font-semibold text-balance'>{name}</h2>
-            {/* text-light-900 dark:text-yellow-200 border border-yellow-200 */}
             <span
               style={{
                 // @ts-ignore
                 '--text-color': categoryColor,
                 '--border-color': categoryColor
               }}
-              className={cn(
-                'text-xs font-medium rounded-sm px-2 py-1 w-fit text-[var(--text-color)] border border-dashed border-[var(--border-color)]'
-              )}
+              className='text-xs font-medium rounded-sm px-2 py-1 w-fit text-[var(--text-color)] border border-dashed border-[var(--border-color)]'
             >
               {category}
             </span>
@@ -102,26 +97,6 @@ export function ListPines({ pines }: { pines: Pin[] }) {
         <div className='grid-cols-3'>No pines found</div>
       ) : (
         <>
-          <ListTopPines
-            pines={[
-              {
-                title: 'Spotify API',
-                url: 'https://open.spotify.com/search/item?q=spotify%20api',
-                summary:
-                  'The Spotify API is a web API that allows you to search and play music from Spotify.',
-                id: Date.now().toString(),
-                category: 'AI'
-              },
-              {
-                title: 'Spotify API',
-                url: 'https://open.spotify.com/search/item?q=spotify%20api',
-                summary:
-                  'The Spotify API is a web API that allows you to search and play music from Spotify.',
-                id: Date.now().toString(),
-                category: 'Inspiration'
-              }
-            ]}
-          />
           {pines.length > 0 ? (
             <div className='h-auto w-full shrink-0 rounded-md'>
               <SectionHeader title='Pines' description='Here are some of the most popular pines' />
