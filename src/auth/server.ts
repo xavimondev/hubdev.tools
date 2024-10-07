@@ -5,3 +5,11 @@ export const signOut = async () => {
   const { error } = await supabase.auth.signOut()
   return error
 }
+
+export const getUser = async () => {
+  const supabase = await createSupabaseServerClient()
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
+  return user
+}

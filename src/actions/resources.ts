@@ -1,8 +1,16 @@
 'use server'
 
+import { getUser } from '@/auth/server'
+
 import { Resource } from '@/types/resource'
 
-import { getData, getResourcesByCategorySlug } from '@/services/list'
+import { NUMBER_OF_GENERATIONS_TO_FETCH } from '@/constants'
+import {
+  getData,
+  getResourcesBasedOnUser,
+  getResourcesByCategorySlug,
+  getResourcesByCategorySlugBasedOnUser
+} from '@/services/list'
 
 export const listResources = async ({
   from,
@@ -11,19 +19,31 @@ export const listResources = async ({
   from: number
   to: number
 }): Promise<Resource[] | undefined> => {
-  const data = await getData({ from, to })
-  if (!data) return
+  const user = await getUser()
+  if (!user) {
+    const data = await getData({ from, to })
 
-  const formattedData = data.map((item) => {
-    const { categories, ...resource } = item
-    const { name } = categories ?? {}
-    return {
-      ...resource,
-      category: name ?? ''
-    }
+    if (!data) return
+
+    const formattedData = data.map((item) => {
+      const { categories, ...resource } = item
+      const { name } = categories ?? {}
+      return {
+        ...resource,
+        category: name ?? ''
+      }
+    })
+    return formattedData
+  }
+
+  const pageNumber = Math.floor(to / NUMBER_OF_GENERATIONS_TO_FETCH)
+
+  const data = await getResourcesBasedOnUser({
+    page_number: pageNumber,
+    user_id: user.id
   })
 
-  return formattedData
+  return data
 }
 
 export const listResourcesBySlug = async ({
@@ -35,17 +55,32 @@ export const listResourcesBySlug = async ({
   to: number
   slug: string
 }) => {
-  const data = await getResourcesByCategorySlug({ from, to, slug })
-  if (!data) return
+  const user = await getUser()
 
-  const formattedData = data.map((item) => {
-    const { categories, ...resource } = item
-    const { name } = categories ?? {}
-    return {
-      ...resource,
-      category: name ?? ''
-    }
+  if (!user) {
+    const data = await getResourcesByCategorySlug({ from, to, slug })
+    if (!data) return
+    const formattedData = data.map((item) => {
+      const { categories, ...resource } = item
+      const { name } = categories ?? {}
+      return {
+        ...resource,
+        category: name ?? ''
+      }
+    })
+
+    return formattedData
+  }
+
+  const pageNumber = Math.floor(to / NUMBER_OF_GENERATIONS_TO_FETCH)
+
+  const data = await getResourcesByCategorySlugBasedOnUser({
+    page_number: pageNumber,
+    slug,
+    user_id: user.id
   })
 
-  return formattedData
+  if (!data) return
+
+  return data
 }

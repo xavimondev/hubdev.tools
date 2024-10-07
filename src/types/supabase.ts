@@ -201,6 +201,39 @@ export type Database = {
           category_color: string
         }[]
       }
+      get_user_resources: {
+        Args: {
+          rows_per_page: number
+          page_number: number
+          u_id: string
+        }
+        Returns: {
+          id: string
+          title: string
+          url: string
+          image: string
+          summary: string
+          placeholder: string
+          category: string
+        }[]
+      }
+      get_user_resources_by_slug: {
+        Args: {
+          rows_per_page: number
+          page_number: number
+          cat_slug: string
+          u_id: string
+        }
+        Returns: {
+          id: string
+          title: string
+          url: string
+          image: string
+          summary: string
+          placeholder: string
+          category: string
+        }[]
+      }
       increment_clicks: {
         Args: {
           resource_id: string
