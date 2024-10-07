@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import { Resource } from '@/types/resource'
 
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
+import { cn } from '@/utils/styles'
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
 import { addPin, removePin } from '@/services/pines'
 import { Button } from '@/components/ui/button'
@@ -18,6 +19,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { EmptyState } from '@/components/empty-state'
+import { RemoveIc } from '@/components/icons'
 
 type ResourceItemProps = {
   id: string
@@ -64,14 +66,16 @@ export function ResourceItem({
       if (isPinnedResult) {
         const response = await addPin(pin)
         if (response === 'ok') {
-          toast('Pin added successfully')
+          toast('📌  Pin added successfully', {
+            duration: 1000
+          })
         }
         return
       }
 
       const response = await removePin(pin)
       if (response === 'ok') {
-        toast('Pin removed successfully')
+        toast('🗑️  Pin removed successfully')
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -81,7 +85,14 @@ export function ResourceItem({
   }
 
   return (
-    <div className='rounded-lg shadow-sm overflow-hidden border border-light-600/70 dark:border-neutral-800/70 bg-light-600/20 hover:bg-light-600/70 dark:bg-[#101010] dark:hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'>
+    <div
+      className={cn(
+        'rounded-lg shadow-sm overflow-hidden border transition-colors duration-300 ease-in-out resource-item',
+        isPinned
+          ? 'border-orange-500/30 bg-orange-400/30 hover:bg-orange-600/30 dark:border-orange-200/40 dark:bg-orange-200/5 dark:hover:bg-orange-400/5'
+          : 'border-light-600/70 bg-light-600/20 hover:bg-light-600/70 dark:border-neutral-800/70 dark:bg-[#101010] dark:hover:bg-[#191919]'
+      )}
+    >
       <div className='flex flex-col gap-5 p-3'>
         <a
           className='flex flex-col gap-3'
@@ -132,8 +143,17 @@ export function ResourceItem({
                 <span>Mark as Top Pin</span>
               </DropdownMenuItem>
               <DropdownMenuItem className='group' onClick={() => submit({ resource_id: id })}>
-                <PinIcon className='size-4 ml-[2px] mr-2 group-hover:animate-scale-pulse' />
-                <span>Pin</span>
+                {!isPinned ? (
+                  <>
+                    <PinIcon className='size-4 ml-[2px] mr-2 group-hover:animate-scale-pulse' />
+                    <span>Pin</span>
+                  </>
+                ) : (
+                  <>
+                    <RemoveIc className='size-4 ml-[3px] mr-[9px] overflow-visible' />
+                    <span>Remove pin</span>
+                  </>
+                )}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
