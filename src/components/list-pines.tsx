@@ -3,7 +3,10 @@
 import Image from 'next/image'
 import { ArrowBigUpIcon, ArrowUpRight, MoreVertical } from 'lucide-react'
 
+import { Pin } from '@/types/pin'
+
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
+import { cn } from '@/utils/styles'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -15,27 +18,7 @@ import { RemoveIc } from '@/components/icons'
 import { SectionHeader } from '@/components/section-header'
 import { ListTopPines } from '@/components/top-pines'
 
-type PinCardProps = {
-  resource_id: string
-  resource: string
-  url: string
-  image: string
-  summary: string
-  placeholder: string
-  category: string
-  category_color: string
-}
-
-const PinCard = ({
-  resource_id,
-  resource,
-  url,
-  image,
-  summary,
-  placeholder,
-  category,
-  category_color
-}: PinCardProps) => {
+const PinCard = ({ name, url, image, summary, placeholder, category, categoryColor }: Pin) => {
   return (
     <div className='relative size-full overflow-hidden rounded-lg border border-light-600/70 dark:border-neutral-800/70 bg-light-600/20 hover:bg-light-600/70 dark:bg-[#101010] dark:hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'>
       <div className='absolute right-5 top-0 h-px w-80 bg-gradient-to-l from-transparent via-orange-500/30 dark:via-orange-400/30 via-10% to-transparent' />
@@ -50,7 +33,7 @@ const PinCard = ({
             <Image
               src={image}
               fill
-              alt={`Picture of ${resource}`}
+              alt={`Picture of ${name}`}
               className='object-cover'
               decoding='async'
               placeholder='blur'
@@ -58,8 +41,18 @@ const PinCard = ({
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <h2 className='text-base md:text-lg font-semibold text-balance'>{resource}</h2>
-            <span className='text-xs font-medium rounded-sm text-light-900 dark:text-yellow-200 border border-yellow-200 px-2 py-1 w-fit'>
+            <h2 className='text-base md:text-lg font-semibold text-balance'>{name}</h2>
+            {/* text-light-900 dark:text-yellow-200 border border-yellow-200 */}
+            <span
+              style={{
+                // @ts-ignore
+                '--text-color': categoryColor,
+                '--border-color': categoryColor
+              }}
+              className={cn(
+                'text-xs font-medium rounded-sm px-2 py-1 w-fit text-[var(--text-color)] border border-dashed border-[var(--border-color)]'
+              )}
+            >
               {category}
             </span>
             <p className='text-sm text-gray-700 dark:text-link line-clamp-4 text-pretty'>
@@ -100,7 +93,8 @@ const PinCard = ({
     </div>
   )
 }
-export function ListPines({ pines }: { pines: any }) {
+
+export function ListPines({ pines }: { pines: Pin[] }) {
   return (
     <>
       {!pines ? (
@@ -132,8 +126,8 @@ export function ListPines({ pines }: { pines: any }) {
             <div className='h-auto w-full shrink-0 rounded-md'>
               <SectionHeader title='Pines' description='Here are some of the most popular pines' />
               <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
-                {pines.map((pin: any) => (
-                  <PinCard key={pin.resource_id} {...pin} />
+                {pines.map((pin: Pin) => (
+                  <PinCard key={pin.id} {...pin} />
                 ))}
               </div>
             </div>

@@ -190,6 +190,7 @@ export type Database = {
       get_user_pines: {
         Args: Record<PropertyKey, never>
         Returns: {
+          id: string
           resource_id: string
           resource: string
           url: string

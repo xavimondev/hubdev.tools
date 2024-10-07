@@ -7,5 +7,19 @@ export const getUserPines = async () => {
 
   if (error) throw error
 
-  return data
+  const formattedData = data.map((pin) => {
+    return {
+      id: pin.id,
+      resourceId: pin.resource_id,
+      name: pin.resource,
+      url: pin.url,
+      image: pin.image,
+      summary: pin.summary,
+      placeholder: pin.placeholder,
+      category: pin.category,
+      categoryColor: pin.category_color
+    }
+  })
+
+  return formattedData
 }
