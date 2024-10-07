@@ -20,7 +20,7 @@ export function SubmitDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='default'>
+        <Button variant='outline'>
           <SendIcon className='size-4 mr-2' />
           <span>Submit</span>
         </Button>

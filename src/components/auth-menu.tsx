@@ -16,6 +16,7 @@ import {
 import { GitHubIc } from '@/components/icons'
 import { LoginDialog } from '@/components/login-dialog'
 import { LogoutForm } from '@/components/logout-form'
+import { SubmitDialog } from '@/components/submit-dialog'
 
 type UserNavbarProps = {
   avatar_url: string
@@ -83,5 +84,10 @@ export async function AuthMenu() {
   const { user_metadata } = user
   const { avatar_url, full_name, user_name } = user_metadata
 
-  return <UserNavbar avatar_url={avatar_url} full_name={full_name} user_name={user_name} />
+  return (
+    <>
+      <SubmitDialog />
+      <UserNavbar avatar_url={avatar_url} full_name={full_name} user_name={user_name} />
+    </>
+  )
 }
