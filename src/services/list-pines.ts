@@ -15,7 +15,6 @@ export const getUserPines = async ({ userId }: { userId: string }) => {
       image,
       summary,
       placeholder,
-      clicks,
       ...categories!inner(
         category:name,
         category_color:bg_color
