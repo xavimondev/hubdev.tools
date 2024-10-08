@@ -51,23 +51,23 @@ export const getUserPines = async ({ userId }: { userId: string }) => {
 export const getTopPines = async ({ userId }: { userId: string }) => {
   const supabaseServer = await createSupabaseServerClient()
   const { data, error } = await supabaseServer
-    .from('resources')
+    .from('pines')
     .select(
       `
-    resource_id:id,
-    resource:title,
-    url,
-    summary,
-    categories!inner(
-      category:name,
-      category_color:bg_color
-    ),
-    pines!inner(
-      id
+    id,
+    ...resources!inner(
+      resource_id:id,
+      resource:title,
+      url,
+      summary,
+      ...categories!inner(
+        category:name,
+        category_color:bg_color
+      )
     )
     `
     )
-    .match({ 'pines.user_id': userId, 'pines.isTop': true })
+    .match({ user_id: userId, isTop: true })
 
   if (error) {
     console.error(error)
@@ -75,19 +75,14 @@ export const getTopPines = async ({ userId }: { userId: string }) => {
   }
 
   const formattedData = data.map((pin) => {
-    const { resource_id, resource, url, summary, categories, pines } = pin
-
-    const { category, category_color } = categories ?? {}
-    const { id } = pines[0]
-
     return {
-      id,
-      resourceId: resource_id,
-      name: resource,
-      url: url,
-      summary: summary,
-      category: category,
-      categoryColor: category_color as string
+      id: pin.id,
+      resourceId: pin.resource_id,
+      name: pin.resource,
+      url: pin.url,
+      summary: pin.summary,
+      category: pin.category,
+      categoryColor: pin.category_color as string
     }
   })
 
