@@ -23,8 +23,7 @@ export const getUserPines = async ({ userId }: { userId: string }) => {
     )
     `
     )
-    .eq('user_id', userId)
-    .eq('isTop', false)
+    .match({ user_id: userId, isTop: false })
 
   if (error) {
     console.error(error)
