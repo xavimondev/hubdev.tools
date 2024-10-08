@@ -1,3 +1,4 @@
+import { revalidate } from '@/actions/revalidate'
 import { toast } from 'sonner'
 
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
@@ -25,6 +26,8 @@ export function usePin() {
         toast('🗑️ Pin removed successfully', {
           duration: 1000
         })
+
+        await revalidate()
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -40,6 +43,9 @@ export function usePin() {
         toast('✅ Status updated successfully', {
           duration: 2000
         })
+
+        // TODO: improve this, maybe move supabase operations to server
+        await revalidate()
       }
     } catch (error) {
       if (error instanceof Error) {
