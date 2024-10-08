@@ -11,7 +11,7 @@ export default async function Page() {
 
   if (!user) return <ErrorState error='You need to be logged in to view your pinned resources' />
 
-  const pines = await getUserPines()
+  const pines = await getUserPines({ userId: user.id })
   const topPines = await getTopPines({ userId: user.id })
 
   if (!topPines || !pines) return <ErrorState error='Something went wrong' />

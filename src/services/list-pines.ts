@@ -1,9 +1,30 @@
 import { createSupabaseServerClient } from '@/utils/supabase-server'
 
-export const getUserPines = async () => {
+export const getUserPines = async ({ userId }: { userId: string }) => {
   const supabaseServer = await createSupabaseServerClient()
 
-  const { data, error } = await supabaseServer.rpc('get_user_pines')
+  const { data, error } = await supabaseServer
+    .from('pines')
+    .select(
+      `
+    id,
+    ...resources!inner(
+      resource_id:id,
+      resource:title,
+      url,
+      image,
+      summary,
+      placeholder,
+      clicks,
+      ...categories!inner(
+        category:name,
+        category_color:bg_color
+      )
+    )
+    `
+    )
+    .eq('user_id', userId)
+    .eq('isTop', false)
 
   if (error) {
     console.error(error)
@@ -18,9 +39,9 @@ export const getUserPines = async () => {
       url: pin.url,
       image: pin.image,
       summary: pin.summary,
-      placeholder: pin.placeholder,
+      placeholder: pin.placeholder as string,
       category: pin.category,
-      categoryColor: pin.category_color
+      categoryColor: pin.category_color as string
     }
   })
 
