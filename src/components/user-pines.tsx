@@ -2,13 +2,11 @@
 
 import Image from 'next/image'
 import { ArrowBigUpIcon, ArrowUpRight, MoreVertical } from 'lucide-react'
-import { toast } from 'sonner'
 
 import { Pin } from '@/types/pin'
 
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
-import { createSupabaseBrowserClient } from '@/utils/supabase-client'
-import { removePin, updateIsTopStatus } from '@/services/pines'
+import { usePin } from '@/hooks/usePin'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -22,10 +20,10 @@ import { SectionHeader } from '@/components/section-header'
 type PinCardProps = {
   pin: Pin
   deletePin: ({ resourceId }: { resourceId: string }) => Promise<void>
-  movePinToTop: ({ id }: { id: string }) => Promise<void>
+  updatePinStatus: ({ id, action }: { id: string; action: 'add' | 'remove' }) => Promise<void>
 }
 
-const PinCard = ({ pin, deletePin, movePinToTop }: PinCardProps) => {
+const PinCard = ({ pin, deletePin, updatePinStatus }: PinCardProps) => {
   const { name, resourceId, url, summary, category, categoryColor, id, image, placeholder } = pin
 
   return (
@@ -86,7 +84,10 @@ const PinCard = ({ pin, deletePin, movePinToTop }: PinCardProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
-              <DropdownMenuItem className='group' onClick={() => movePinToTop({ id })}>
+              <DropdownMenuItem
+                className='group'
+                onClick={() => updatePinStatus({ id, action: 'add' })}
+              >
                 <ArrowBigUpIcon className='size-[21px] mr-[7px] group-hover:-translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
                 <span>Add to Top</span>
               </DropdownMenuItem>
@@ -106,56 +107,14 @@ const PinCard = ({ pin, deletePin, movePinToTop }: PinCardProps) => {
 }
 
 function ListPines({ pines }: { pines: Pin[] }) {
-  const deletePin = async ({ resourceId }: { resourceId: string }) => {
-    try {
-      const supabase = await createSupabaseBrowserClient()
-      const {
-        data: { user }
-      } = await supabase.auth.getUser()
-      if (!user) {
-        toast.error('You need to be logged in to pin a resource.')
-        return
-      }
-
-      const { id } = user
-      const response = await removePin({
-        resource_id: resourceId,
-        user_id: id
-      })
-
-      if (response === 'ok') {
-        toast('🗑️ Pin removed successfully', {
-          duration: 1000
-        })
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast(error.message)
-      }
-    }
-  }
-
-  const movePinToTop = async ({ id }: { id: string }) => {
-    try {
-      const response = await updateIsTopStatus({ pinId: id, action: 'add' })
-      if (response === 'ok') {
-        toast('🚀 Pin added to Top Pins', {
-          duration: 1000
-        })
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast(error.message)
-      }
-    }
-  }
+  const { deletePin, updatePinStatus } = usePin()
 
   return (
     <div className='h-auto w-full shrink-0 rounded-md'>
       <SectionHeader title='Pines' description='Here are some of the most popular pines' />
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
         {pines.map((pin: Pin) => (
-          <PinCard key={pin.id} pin={pin} deletePin={deletePin} movePinToTop={movePinToTop} />
+          <PinCard key={pin.id} pin={pin} deletePin={deletePin} updatePinStatus={updatePinStatus} />
         ))}
       </div>
     </div>

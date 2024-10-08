@@ -3,13 +3,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ArrowBigDownIcon, ChevronLeft, ChevronRight, MoreVertical } from 'lucide-react'
-import { toast } from 'sonner'
 
 import { Pin } from '@/types/pin'
 
 import { HREF_PREFIX } from '@/constants'
-import { createSupabaseBrowserClient } from '@/utils/supabase-client'
-import { removePin, updateIsTopStatus } from '@/services/pines'
+import { usePin } from '@/hooks/usePin'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -24,10 +22,10 @@ import { SettingsPinesDialog } from '@/components/settings-pines-dialog'
 type PinCardProps = {
   pin: Pin
   deletePin: ({ resourceId }: { resourceId: string }) => Promise<void>
-  removePinFromTop: ({ id }: { id: string }) => Promise<void>
+  updatePinStatus: ({ id, action }: { id: string; action: 'add' | 'remove' }) => Promise<void>
 }
 
-function PinCard({ pin, deletePin, removePinFromTop }: PinCardProps) {
+function PinCard({ pin, deletePin, updatePinStatus }: PinCardProps) {
   const { name, resourceId, url, summary, category, categoryColor, id } = pin
   return (
     <a
@@ -75,7 +73,10 @@ function PinCard({ pin, deletePin, removePinFromTop }: PinCardProps) {
                 <RemoveIc className='size-4 ml-[3px] mr-[9px] overflow-visible' />
                 <span>Remove pin</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className='group' onClick={() => removePinFromTop({ id })}>
+              <DropdownMenuItem
+                className='group'
+                onClick={() => updatePinStatus({ id, action: 'remove' })}
+              >
                 <ArrowBigDownIcon className='size-[21px] mr-2 group-hover:translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
                 <span>Remove from Top</span>
               </DropdownMenuItem>
@@ -102,6 +103,7 @@ function PinCard({ pin, deletePin, removePinFromTop }: PinCardProps) {
 }
 
 function ListTopPines({ topPines }: { topPines: Pin[] }) {
+  const { deletePin, updatePinStatus } = usePin()
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start', loop: false })
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
   const [nextBtnEnabled, setNextBtnEnabled] = useState(true)
@@ -125,50 +127,6 @@ function ListTopPines({ topPines }: { topPines: Pin[] }) {
       emblaApi.off('select', onSelect)
     }
   }, [emblaApi, onSelect])
-
-  const deletePin = async ({ resourceId }: { resourceId: string }) => {
-    try {
-      const supabase = await createSupabaseBrowserClient()
-      const {
-        data: { user }
-      } = await supabase.auth.getUser()
-      if (!user) {
-        toast.error('You need to be logged in to pin a resource.')
-        return
-      }
-
-      const { id } = user
-      const response = await removePin({
-        resource_id: resourceId,
-        user_id: id
-      })
-
-      if (response === 'ok') {
-        toast('🗑️ Pin removed successfully', {
-          duration: 1000
-        })
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast(error.message)
-      }
-    }
-  }
-
-  const removePinFromTop = async ({ id }: { id: string }) => {
-    try {
-      const response = await updateIsTopStatus({ pinId: id, action: 'remove' })
-      if (response === 'ok') {
-        toast('😔 Pin removed from Top Pins', {
-          duration: 1000
-        })
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast(error.message)
-      }
-    }
-  }
 
   return (
     <div className='mb-10'>
@@ -205,7 +163,7 @@ function ListTopPines({ topPines }: { topPines: Pin[] }) {
                 key={pin.id}
                 pin={pin}
                 deletePin={deletePin}
-                removePinFromTop={removePinFromTop}
+                updatePinStatus={updatePinStatus}
               />
             ))}
           </div>
