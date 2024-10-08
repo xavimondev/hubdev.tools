@@ -3,8 +3,8 @@ import { getUser } from '@/auth/server'
 import { getTopPines, getUserPines } from '@/services/list-pines'
 import { Container } from '@/components/container'
 import { ErrorState } from '@/components/error-state'
-import { ListPines } from '@/components/list-pines'
 import { TopPines } from '@/components/top-pines'
+import { UserPines } from '@/components/user-pines'
 
 export default async function Page() {
   const user = await getUser()
@@ -19,7 +19,7 @@ export default async function Page() {
   return (
     <Container>
       <TopPines topPines={topPines} />
-      <ListPines pines={pines} />
+      <UserPines userPines={pines} />
     </Container>
   )
 }

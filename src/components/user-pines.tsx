@@ -1,9 +1,14 @@
+'use client'
+
 import Image from 'next/image'
 import { ArrowBigUpIcon, ArrowUpRight, MoreVertical } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { Pin } from '@/types/pin'
 
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
+import { createSupabaseBrowserClient } from '@/utils/supabase-client'
+import { removePin, updateIsTopStatus } from '@/services/pines'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -14,7 +19,15 @@ import {
 import { RemoveIc } from '@/components/icons'
 import { SectionHeader } from '@/components/section-header'
 
-const PinCard = ({ name, url, image, summary, placeholder, category, categoryColor }: Pin) => {
+type PinCardProps = {
+  pin: Pin
+  deletePin: ({ resourceId }: { resourceId: string }) => Promise<void>
+  movePinToTop: ({ id }: { id: string }) => Promise<void>
+}
+
+const PinCard = ({ pin, deletePin, movePinToTop }: PinCardProps) => {
+  const { name, resourceId, url, summary, category, categoryColor, id, image, placeholder } = pin
+
   return (
     <div className='relative size-full overflow-hidden rounded-lg border border-light-600/70 dark:border-neutral-800/70 bg-light-600/20 hover:bg-light-600/70 dark:bg-[#101010] dark:hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'>
       <div className='absolute right-5 top-0 h-px w-80 bg-gradient-to-l from-transparent via-orange-500/30 dark:via-orange-400/30 via-10% to-transparent' />
@@ -73,11 +86,14 @@ const PinCard = ({ name, url, image, summary, placeholder, category, categoryCol
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
-              <DropdownMenuItem className='group'>
+              <DropdownMenuItem className='group' onClick={() => movePinToTop({ id })}>
                 <ArrowBigUpIcon className='size-[21px] mr-[7px] group-hover:-translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
                 <span>Add to Top</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className='group'>
+              <DropdownMenuItem
+                className='group'
+                onClick={() => deletePin({ resourceId: resourceId as string })}
+              >
                 <RemoveIc className='size-4 ml-[3px] mr-[9px] overflow-visible' />
                 <span>Remove pin</span>
               </DropdownMenuItem>
@@ -89,25 +105,70 @@ const PinCard = ({ name, url, image, summary, placeholder, category, categoryCol
   )
 }
 
-export function ListPines({ pines }: { pines: Pin[] }) {
+function ListPines({ pines }: { pines: Pin[] }) {
+  const deletePin = async ({ resourceId }: { resourceId: string }) => {
+    try {
+      const supabase = await createSupabaseBrowserClient()
+      const {
+        data: { user }
+      } = await supabase.auth.getUser()
+      if (!user) {
+        toast.error('You need to be logged in to pin a resource.')
+        return
+      }
+
+      const { id } = user
+      const response = await removePin({
+        resource_id: resourceId,
+        user_id: id
+      })
+
+      if (response === 'ok') {
+        toast('🗑️ Pin removed successfully', {
+          duration: 1000
+        })
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast(error.message)
+      }
+    }
+  }
+
+  const movePinToTop = async ({ id }: { id: string }) => {
+    try {
+      const response = await updateIsTopStatus({ pinId: id, action: 'add' })
+      if (response === 'ok') {
+        toast('🚀 Pin added to Top Pins', {
+          duration: 1000
+        })
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast(error.message)
+      }
+    }
+  }
+
+  return (
+    <div className='h-auto w-full shrink-0 rounded-md'>
+      <SectionHeader title='Pines' description='Here are some of the most popular pines' />
+      <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
+        {pines.map((pin: Pin) => (
+          <PinCard key={pin.id} pin={pin} deletePin={deletePin} movePinToTop={movePinToTop} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export function UserPines({ userPines }: { userPines: Pin[] }) {
   return (
     <>
-      {!pines ? (
-        // TODO: Add empty state
-        <div className='grid-cols-3'>No pines found</div>
+      {userPines.length > 0 ? (
+        <ListPines pines={userPines} />
       ) : (
-        <>
-          {pines.length > 0 ? (
-            <div className='h-auto w-full shrink-0 rounded-md'>
-              <SectionHeader title='Pines' description='Here are some of the most popular pines' />
-              <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
-                {pines.map((pin: Pin) => (
-                  <PinCard key={pin.id} {...pin} />
-                ))}
-              </div>
-            </div>
-          ) : null}
-        </>
+        <div className='grid-cols-3'>No pines found</div>
       )}
     </>
   )
