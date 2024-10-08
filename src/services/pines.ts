@@ -66,6 +66,37 @@ export const updateIsTopStatus = async ({
   return 'ok'
 }
 
+export const updateIsTopStatusByResourceId = async ({
+  resourceId,
+  action,
+  userId
+}: {
+  resourceId: string
+  action: 'add' | 'remove'
+  userId: string
+}) => {
+  const supabase = await createSupabaseBrowserClient()
+  const isTop = action === 'add'
+
+  if (isTop) {
+    const hasReachedLimit = await hasReachedMaxTopPins({ userId })
+    if (hasReachedLimit) {
+      throw new Error(
+        `You have reached your pin limit of ${MAX_TOP_PINES}. Please remove a pin before adding a new one.`
+      )
+    }
+  }
+
+  const { error } = await supabase
+    .from('pines')
+    .update({ isTop })
+    .match({ resource_id: resourceId, user_id: userId })
+
+  if (error) throw error
+
+  return 'ok'
+}
+
 export const getTotalPinsByUser = async ({ userId }: { userId: string }) => {
   const supabase = await createSupabaseBrowserClient()
 
@@ -103,4 +134,17 @@ export const getTotalTopPinsByUser = async ({ userId }: { userId: string }) => {
 export const hasReachedMaxTopPins = async ({ userId }: { userId: string }) => {
   const count = (await getTotalTopPinsByUser({ userId })) ?? 0
   return count + 1 > MAX_TOP_PINES
+}
+
+export const getPin = async ({ resourceId, userId }: { resourceId: string; userId: string }) => {
+  const supabase = await createSupabaseBrowserClient()
+
+  const { error, data } = await supabase
+    .from('pines')
+    .select('id')
+    .match({ resource_id: resourceId, user_id: userId })
+
+  if (error) throw error
+
+  return data
 }

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { ArrowBigUpIcon, ArrowUpRight, MoreVertical, PinIcon } from 'lucide-react'
+import { ArrowBigDownIcon, ArrowBigUpIcon, ArrowUpRight, MoreVertical, PinIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Resource } from '@/types/resource'
@@ -10,7 +10,13 @@ import { Resource } from '@/types/resource'
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { cn } from '@/utils/styles'
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
-import { addPin, removePin } from '@/services/pines'
+import {
+  addPin,
+  getPin,
+  removePin,
+  updateIsTopStatus,
+  updateIsTopStatusByResourceId
+} from '@/services/pines'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -30,7 +36,8 @@ type ResourceItemProps = {
   order: number
   placeholder: string | null
 }
-
+const DEFAULT_STYLE =
+  'border-light-600/70 bg-light-600/20 hover:bg-light-600/70 dark:border-neutral-800/70 dark:bg-[#101010] dark:hover:bg-[#191919]'
 export function ResourceItem({
   id,
   title,
@@ -41,8 +48,70 @@ export function ResourceItem({
   placeholder
 }: ResourceItemProps) {
   const [isPinned, setIsPinned] = useState(false)
+  const [isTopPinned, setIsTopPinned] = useState(false)
 
-  const submit = async ({ resource_id }: { resource_id: string }) => {
+  // TODO: update this function, maybe remove the option to set a top pin
+  const updatePinStatus = async ({ resourceId }: { resourceId: string }) => {
+    setIsPinned(false)
+    try {
+      const supabase = await createSupabaseBrowserClient()
+
+      const {
+        data: { user }
+      } = await supabase.auth.getUser()
+      if (!user) {
+        toast.error('You need to be logged in to pin a resource.')
+        return
+      }
+
+      const { id: userId } = user
+
+      const isPinnedResult = !isTopPinned
+
+      const pinData = await getPin({ resourceId, userId })
+
+      // At this point this resources is not pin, so let's added to database and then update its status
+      if (pinData.length === 0) {
+        const response = await addPin({ resource_id: resourceId, user_id: userId })
+        if (response === 'ok') {
+          const response = await updateIsTopStatusByResourceId({
+            resourceId,
+            action: 'add',
+            userId
+          })
+          if (response === 'ok') {
+            toast.success('Status updated successfully', {
+              duration: 2000
+            })
+            setIsTopPinned(isPinnedResult)
+          }
+        }
+
+        return
+      }
+
+      const pinId = pinData[0].id
+      const action = isPinnedResult ? 'add' : 'remove'
+      const response = await updateIsTopStatus({ pinId, action, userId })
+      if (response === 'ok') {
+        toast.success('Status updated successfully', {
+          duration: 2000
+        })
+
+        if (action === 'remove') {
+          setIsPinned(true)
+        }
+
+        setIsTopPinned(isPinnedResult)
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      }
+    }
+  }
+
+  const pinResource = async ({ resource_id }: { resource_id: string }) => {
     const supabase = await createSupabaseBrowserClient()
     const {
       data: { user }
@@ -91,7 +160,9 @@ export function ResourceItem({
         'rounded-lg shadow-sm overflow-hidden border transition-colors duration-300 ease-in-out resource-item',
         isPinned
           ? 'border-orange-500/30 bg-orange-400/30 hover:bg-orange-600/30 dark:border-orange-200/40 dark:bg-orange-200/5 dark:hover:bg-orange-400/5'
-          : 'border-light-600/70 bg-light-600/20 hover:bg-light-600/70 dark:border-neutral-800/70 dark:bg-[#101010] dark:hover:bg-[#191919]'
+          : isTopPinned
+            ? 'bg-gradient-to-br bg-light-600/20 dark:from-neutral-950 dark:to-stone-900 border-light-600/70 dark:border-orange-300/20 dark:hover:border-orange-300/50'
+            : DEFAULT_STYLE
       )}
     >
       <div className='flex flex-col gap-5 p-3'>
@@ -139,23 +210,40 @@ export function ResourceItem({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
-              <DropdownMenuItem className='group'>
-                <ArrowBigUpIcon className='size-[21px] mr-[5px] group-hover:-translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
-                <span>Mark as Top Pin</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className='group' onClick={() => submit({ resource_id: id })}>
-                {!isPinned ? (
+              <DropdownMenuItem
+                className='group'
+                onClick={() => updatePinStatus({ resourceId: id })}
+              >
+                {!isTopPinned ? (
                   <>
-                    <PinIcon className='size-4 ml-[2px] mr-2 group-hover:animate-scale-pulse' />
-                    <span>Pin</span>
+                    <ArrowBigUpIcon className='size-[21px] mr-[5px] group-hover:-translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
+                    <span>Mark as Top Pin</span>
                   </>
                 ) : (
                   <>
-                    <RemoveIc className='size-4 ml-[3px] mr-[9px] overflow-visible' />
-                    <span>Remove pin</span>
+                    <ArrowBigDownIcon className='size-[21px] mr-2 group-hover:translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
+                    <span>Remove from Top</span>
                   </>
                 )}
               </DropdownMenuItem>
+              {!isTopPinned && (
+                <DropdownMenuItem
+                  className='group'
+                  onClick={() => pinResource({ resource_id: id })}
+                >
+                  {!isPinned ? (
+                    <>
+                      <PinIcon className='size-4 ml-[2px] mr-2 group-hover:animate-scale-pulse' />
+                      <span>Pin</span>
+                    </>
+                  ) : (
+                    <>
+                      <RemoveIc className='size-4 ml-[3px] mr-[9px] overflow-visible' />
+                      <span>Remove pin</span>
+                    </>
+                  )}
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
