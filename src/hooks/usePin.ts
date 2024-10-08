@@ -12,7 +12,7 @@ export function usePin() {
         data: { user }
       } = await supabase.auth.getUser()
       if (!user) {
-        toast.error('You need to be logged in to pin a resource.')
+        toast.info('You need to be logged in to pin a resource.')
         return
       }
 
@@ -23,24 +23,36 @@ export function usePin() {
       })
 
       if (response === 'ok') {
-        toast('🗑️ Pin removed successfully', {
-          duration: 1000
+        toast.info('Pin removed successfully', {
+          duration: 2000
         })
 
         await revalidate()
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast(error.message)
+        toast.error(error.message)
       }
     }
   }
 
   const updatePinStatus = async ({ id, action }: { id: string; action: 'add' | 'remove' }) => {
     try {
-      const response = await updateIsTopStatus({ pinId: id, action })
+      const supabase = await createSupabaseBrowserClient()
+
+      const {
+        data: { user }
+      } = await supabase.auth.getUser()
+      if (!user) {
+        toast.error('You need to be logged in to pin a resource.')
+        return
+      }
+
+      const { id: userId } = user
+
+      const response = await updateIsTopStatus({ pinId: id, action, userId })
       if (response === 'ok') {
-        toast('✅ Status updated successfully', {
+        toast.success('Status updated successfully', {
           duration: 2000
         })
 
@@ -49,7 +61,7 @@ export function usePin() {
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast(error.message)
+        toast.error(error.message)
       }
     }
   }

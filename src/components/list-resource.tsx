@@ -61,25 +61,26 @@ export function ResourceItem({
 
     try {
       const isPinnedResult = !isPinned
-      setIsPinned(isPinnedResult)
 
       if (isPinnedResult) {
         const response = await addPin(pin)
         if (response === 'ok') {
-          toast('📌  Pin added successfully', {
-            duration: 1000
+          toast.success('Pin added successfully', {
+            duration: 2000
           })
+          setIsPinned(isPinnedResult)
         }
         return
       }
 
       const response = await removePin(pin)
       if (response === 'ok') {
-        toast('🗑️  Pin removed successfully')
+        toast.info('Pin removed successfully')
+        setIsPinned(isPinnedResult)
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast(error.message)
+        toast.error(error.message)
       }
     }
   }
