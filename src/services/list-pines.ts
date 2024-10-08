@@ -33,6 +33,7 @@ export const getTopPines = async ({ userId }: { userId: string }) => {
     .from('resources')
     .select(
       `
+    resource_id:id,
     resource:title,
     url,
     summary,
@@ -53,13 +54,14 @@ export const getTopPines = async ({ userId }: { userId: string }) => {
   }
 
   const formattedData = data.map((pin) => {
-    const { resource, url, summary, categories, pines } = pin
+    const { resource_id, resource, url, summary, categories, pines } = pin
 
     const { category, category_color } = categories ?? {}
     const { id } = pines[0]
 
     return {
       id,
+      resourceId: resource_id,
       name: resource,
       url: url,
       summary: summary,
