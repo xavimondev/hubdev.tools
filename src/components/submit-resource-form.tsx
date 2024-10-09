@@ -80,7 +80,7 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
             <FormItem>
               <FormLabel>Website URL</FormLabel>
               <FormControl>
-                <Input placeholder='https://example.com' {...field} />
+                <Input placeholder='https://example.com' {...field} autoComplete='off' />
               </FormControl>
               <FormMessage />
             </FormItem>

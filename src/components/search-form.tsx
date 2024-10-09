@@ -119,6 +119,7 @@ export function FormSearch({
           aria-label='Search'
           defaultValue={query}
           placeholder='Typescript books'
+          autoComplete='off'
           onChange={() => {
             if (promptEvaluationResult) {
               setStatusForm('idle')

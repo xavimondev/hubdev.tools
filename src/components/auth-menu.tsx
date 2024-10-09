@@ -37,7 +37,7 @@ export function UserNavbar({ avatar_url, full_name, user_name }: UserNavbarProps
           <div className='flex flex-col space-y-1.5'>
             <p className='text-sm font-medium leading-none'>{full_name}</p>
             <p className='text-xs leading-none text-muted-foreground'>
-              {user_name ?? full_name.toLowerCase().replace(' ', '_')}
+              {user_name ?? full_name.toLowerCase().replaceAll(' ', '_')}
             </p>
           </div>
         </DropdownMenuLabel>
