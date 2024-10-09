@@ -7,12 +7,14 @@ import { embed } from 'ai'
 
 import { Resource } from '@/types/resource'
 
-import { supabase } from '@/services/client'
+import { createSupabaseServerClient } from '@/utils/supabase-server'
 
 const ratelimit =
   process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN ? uptash : false
 
 export async function getEmbeddings({ input, count }: { input: string; count?: number }) {
+  const supabase = await createSupabaseServerClient()
+
   try {
     if (process.env.NODE_ENV === 'production') {
       if (ratelimit) {
