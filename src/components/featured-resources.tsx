@@ -96,7 +96,7 @@ async function ListFeaturedResources() {
       <div className='bg-gradient-to-br from-blue-100 to-pink-100 dark:from-blue-200 dark:to-pink-200 border-2 border-indigo-300 hover:border-indigo-500 hover:dark:border-indigo-700 transition-colors rounded-lg row-span-1 col-span-1 lg:col-span-3 xl:col-span-2 flex flex-col gap-1 divide-y divide-gray-600/20 text-gray-900 dark:text-gray-800'>
         {nextThreeResources.map(({ id, title, url, summary }) => {
           return (
-            <div className='flex flex-col gap-4 p-6' key={id}>
+            <article className='flex flex-col gap-4 p-6' key={id}>
               <a
                 className='flex items-center gap-2'
                 href={`${HREF_PREFIX}${url}`}
@@ -114,7 +114,7 @@ async function ListFeaturedResources() {
                 <span className='text-base xl:text-lg font-semibold'>{title}</span>
               </a>
               <p className='text-sm line-clamp-3'>{summary}</p>
-            </div>
+            </article>
           )
         })}
       </div>

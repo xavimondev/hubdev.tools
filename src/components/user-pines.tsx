@@ -27,7 +27,7 @@ const PinCard = ({ pin, deletePin, updatePinStatus }: PinCardProps) => {
   const { name, resourceId, url, summary, category, categoryColor, id, image, placeholder } = pin
 
   return (
-    <div className='relative size-full overflow-hidden rounded-lg border border-light-600/70 dark:border-neutral-800/70 bg-light-600/20 hover:bg-light-600/70 dark:bg-[#101010] dark:hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'>
+    <article className='relative size-full overflow-hidden rounded-lg border border-light-600/70 dark:border-neutral-800/70 bg-light-600/20 hover:bg-light-600/70 dark:bg-[#101010] dark:hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item'>
       <div className='absolute right-5 top-0 h-px w-80 bg-gradient-to-l from-transparent via-orange-500/30 dark:via-orange-400/30 via-10% to-transparent' />
       <div className='flex flex-col gap-5 p-3'>
         <a
@@ -102,7 +102,7 @@ const PinCard = ({ pin, deletePin, updatePinStatus }: PinCardProps) => {
           </DropdownMenu>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 

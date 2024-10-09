@@ -155,7 +155,7 @@ export function ResourceItem({
   }
 
   return (
-    <div
+    <article
       className={cn(
         'rounded-lg shadow-sm overflow-hidden border transition-colors duration-300 ease-in-out resource-item',
         isPinned
@@ -248,7 +248,7 @@ export function ResourceItem({
           </DropdownMenu>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 
