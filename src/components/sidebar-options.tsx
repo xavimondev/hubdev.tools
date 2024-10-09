@@ -1,3 +1,5 @@
+import { getUser } from '@/auth/server'
+
 import { Categories } from '@/components/categories'
 import { Discover, Pins } from '@/components/list-category'
 
@@ -13,15 +15,25 @@ function SidebarItem({ children }: { children: React.ReactNode }) {
   return <div>{children}</div>
 }
 
+async function PinItem() {
+  const user = await getUser()
+
+  if (!user) return null
+
+  return (
+    <SidebarItem>
+      <OptionHeader title='Pins' />
+      <Pins />
+    </SidebarItem>
+  )
+}
+
 export function SidebarOptions() {
   return (
     <div className='space-y-1'>
+      <PinItem />
       <SidebarItem>
-        <OptionHeader title='Pins' />
-        <Pins />
-      </SidebarItem>
-      <SidebarItem>
-        <OptionHeader title='Discover' />
+        <OptionHeader title='Explore' />
         <Discover />
       </SidebarItem>
       <SidebarItem>
