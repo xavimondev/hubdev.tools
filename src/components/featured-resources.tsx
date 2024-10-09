@@ -33,22 +33,26 @@ async function ListFeaturedResources() {
         target='_blank'
         rel='noopener noreferrer'
       >
-        <div className='flex flex-row xl:flex-col items-center md:items-start gap-2 md:gap-4 xl:mt-40 mb-4'>
-          <Image
-            unoptimized
-            src={`https://www.google.com/s2/favicons?domain=${url}&sz=128`}
-            alt={`Logo for ${title}`}
-            className='rounded-md size-6 xl:size-16'
-            width={64}
-            height={64}
-          />
-          <h2 className='text-base xl:text-6xl font-bold text-gray-900 dark:text-gray-800'>
-            {title}
-          </h2>
+        <div className='flex size-full items-center'>
+          <div>
+            <div className='flex flex-row xl:flex-col items-center md:items-start gap-2 md:gap-4 mb-4'>
+              <Image
+                unoptimized
+                src={`https://www.google.com/s2/favicons?domain=${url}&sz=128`}
+                alt={`Logo for ${title}`}
+                className='rounded-md size-6 xl:size-16'
+                width={64}
+                height={64}
+              />
+              <h2 className='text-base xl:text-6xl font-bold text-gray-900 dark:text-gray-800'>
+                {title}
+              </h2>
+            </div>
+            <p className='text-sm xl:text-lg text-gray-700 line-clamp-3 sm:line-clamp-5 xl:mt-8'>
+              {summary}
+            </p>
+          </div>
         </div>
-        <p className='text-sm xl:text-lg text-gray-700 line-clamp-3 sm:line-clamp-5 xl:mt-8'>
-          {summary}
-        </p>
       </a>
       {/* Second place */}
       <a
