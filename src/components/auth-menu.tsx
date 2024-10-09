@@ -18,7 +18,7 @@ import { SubmitDialog } from '@/components/submit-dialog'
 type UserNavbarProps = {
   avatar_url: string
   full_name: string
-  user_name: string
+  user_name: string | undefined
 }
 
 export function UserNavbar({ avatar_url, full_name, user_name }: UserNavbarProps) {
@@ -27,7 +27,7 @@ export function UserNavbar({ avatar_url, full_name, user_name }: UserNavbarProps
       <DropdownMenuTrigger asChild>
         <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
           <Avatar className='h-8 w-8'>
-            <AvatarImage src={avatar_url} alt={user_name} />
+            <AvatarImage src={avatar_url} alt={`Picture of ${full_name}`} />
             <AvatarFallback>{full_name.substring(0, 2)}</AvatarFallback>
           </Avatar>
         </Button>
@@ -36,7 +36,9 @@ export function UserNavbar({ avatar_url, full_name, user_name }: UserNavbarProps
         <DropdownMenuLabel className='font-normal'>
           <div className='flex flex-col space-y-1.5'>
             <p className='text-sm font-medium leading-none'>{full_name}</p>
-            <p className='text-xs leading-none text-muted-foreground'>{user_name}</p>
+            <p className='text-xs leading-none text-muted-foreground'>
+              {user_name ?? full_name.toLowerCase().replace(' ', '_')}
+            </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

@@ -2,18 +2,10 @@
 
 import { type SVGProps } from 'react'
 import * as React from 'react'
-import { signInWithGithub } from '@/auth/client'
-import { LoaderIcon } from 'lucide-react'
-import { useFormState, useFormStatus } from 'react-dom'
+import { signInWithOAuth } from '@/auth/client'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-
-const initialState = {
-  message: null,
-  errors: null
-}
+import { GoogleIc } from '@/components/icons'
 
 function GithubIc(props: SVGProps<SVGSVGElement>) {
   return (
@@ -31,58 +23,39 @@ function GithubIc(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-export function SubmitButton() {
-  const { pending } = useFormStatus()
+export function GithubAuthButton() {
   return (
-    <Button type='submit' aria-disabled={pending} disabled={pending}>
-      {pending ? <LoaderIcon className='animate-spin size-5' /> : 'Sign In with Email'}
+    <Button
+      className='w-full'
+      variant='outline'
+      type='button'
+      onClick={() => signInWithOAuth({ provider: 'github' })}
+    >
+      <GithubIc className='mr-2 size-5' />
+      Github
     </Button>
   )
 }
 
-export function GithubAuthButton() {
+export function GoogleAuthButton() {
   return (
-    <Button className='w-full' variant='outline' type='button' onClick={signInWithGithub}>
-      <GithubIc className='mr-2 h-5 w-5' />
-      Github
+    <Button
+      className='w-full'
+      variant='outline'
+      type='button'
+      onClick={() => signInWithOAuth({ provider: 'google' })}
+    >
+      <GoogleIc className='mr-2 size-5' />
+      Google
     </Button>
   )
 }
 
 export function LoginForm() {
   return (
-    <div className='w-full flex flex-col gap-6'>
-      <form className='flex flex-col gap-4'>
-        <div className='grid gap-2 w-full'>
-          <div className='grid gap-1'>
-            <Label className='sr-only' htmlFor='email'>
-              Email
-            </Label>
-            <Input
-              name='email'
-              placeholder='name@example.com'
-              type='email'
-              autoCapitalize='none'
-              autoComplete='email'
-              autoCorrect='off'
-              required
-            />
-          </div>
-          <SubmitButton />
-          {/* <p aria-live='polite' className='sr-only' role='status'>
-            {state?.message}
-          </p> */}
-        </div>
-      </form>
-      <div className='relative w-full'>
-        <div className='absolute inset-0 flex items-center'>
-          <span className='w-full border-t' />
-        </div>
-        <div className='relative flex justify-center text-xs uppercase'>
-          <span className='bg-background px-2 text-muted-foreground'>Or continue with</span>
-        </div>
-      </div>
+    <div className='w-full flex flex-col gap-4'>
       <GithubAuthButton />
+      <GoogleAuthButton />
     </div>
   )
 }
