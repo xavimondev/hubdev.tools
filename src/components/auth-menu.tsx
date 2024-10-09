@@ -1,6 +1,3 @@
-import Link from 'next/link'
-import { PinIcon } from 'lucide-react'
-
 import { createSupabaseServerClient } from '@/utils/supabase-server'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -44,12 +41,6 @@ export function UserNavbar({ avatar_url, full_name, user_name }: UserNavbarProps
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link href='/pinned' className='flex items-center w-full'>
-              <PinIcon className='mr-2 size-4' />
-              <span>Pinned</span>
-            </Link>
-          </DropdownMenuItem>
           <DropdownMenuItem>
             <a
               href='https://github.com/xavimondev/hubdev.tools'

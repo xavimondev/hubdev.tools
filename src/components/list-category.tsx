@@ -20,7 +20,7 @@ const CategoryLink = memo(function CategoryLink({ name, slug, emoji }: CategoryP
     <Link
       href={slug}
       className={cn(
-        'flex items-center gap-1 md:gap-3 group bg-background p-2 rounded-md text-sm md:text-[15px] leading-normal text-light-900 dark:text-link transition-colors',
+        'flex items-center gap-1 md:gap-3 group bg-background p-2 rounded-md text-sm md:text-[15px] leading-normal text-light-900 dark:text-[#bdbdbd] transition-colors',
         isActive
           ? 'bg-light-700/50 dark:bg-neutral-500/30'
           : 'hover:bg-light-600/40 dark:hover:bg-neutral-600/20'
@@ -32,10 +32,16 @@ const CategoryLink = memo(function CategoryLink({ name, slug, emoji }: CategoryP
   )
 })
 
-function Home() {
+export function Discover() {
   const slug = '/'
 
-  return <CategoryLink name='Home' slug={slug} emoji={'🏠'} />
+  return <CategoryLink name='Discover' slug={slug} emoji={'🔎'} />
+}
+
+export function Pins() {
+  const slug = '/pins'
+
+  return <CategoryLink name='My Pins' slug={slug} emoji={'📌'} />
 }
 
 type Category = {
@@ -51,23 +57,20 @@ type ListCategoryProps = {
 
 export function ListCategory({ data }: ListCategoryProps) {
   return (
-    <aside className='w-full md:fixed md:h-full md:w-56 overflow-y-auto scrollbar-hide mb-8 md:mb-0'>
-      <nav className='flex gap-1 overflow-y-auto md:mb-32 md:flex-col md:overflow-y-visible md:pb-2 pt-0 px-0.5 md:px-0'>
-        <Home />
-        {data &&
-          data.length > 0 &&
-          data.map((category) => {
-            const slug = `/category/${category.slug}`
-            return (
-              <CategoryLink
-                key={category.id}
-                name={category.name}
-                slug={slug}
-                emoji={category.emoji}
-              />
-            )
-          })}
-      </nav>
-    </aside>
+    <div>
+      {data &&
+        data.length > 0 &&
+        data.map((category) => {
+          const slug = `/category/${category.slug}`
+          return (
+            <CategoryLink
+              key={category.id}
+              name={category.name}
+              slug={slug}
+              emoji={category.emoji}
+            />
+          )
+        })}
+    </div>
   )
 }
