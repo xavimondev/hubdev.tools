@@ -132,8 +132,8 @@ function ListTopPines({ topPines }: { topPines: Pin[] }) {
     <div className='mb-10'>
       <div className='flex items-center justify-between'>
         <SectionHeader
-          title='Top Pinned Cards'
-          description='Here are some of the most popular pines'
+          title='Highlighted Pins'
+          description='Selection of the most important pins.'
         />
         <div className='flex space-x-2 ml-4'>
           <SettingsPinesDialog />

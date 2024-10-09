@@ -111,7 +111,10 @@ function ListPines({ pines }: { pines: Pin[] }) {
 
   return (
     <div className='h-auto w-full shrink-0 rounded-md'>
-      <SectionHeader title='Pines' description='Here are some of the most popular pines' />
+      <SectionHeader
+        title='Pinned Resources'
+        description='Explore all the pins you have saved for quick access.'
+      />
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
         {pines.map((pin: Pin) => (
           <PinCard key={pin.id} pin={pin} deletePin={deletePin} updatePinStatus={updatePinStatus} />
