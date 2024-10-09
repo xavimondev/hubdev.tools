@@ -75,7 +75,7 @@ async function ListFeaturedResources() {
       {/* Third place */}
       <a
         className='bg-gradient-to-br from-neutral-700 to-gray-600 dark:from-neutral-900 dark:to-gray-800 border-2 border-gray-700 hover:border-gray-900 hover:dark:border-gray-500 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
-        href={`${HREF_PREFIX}${thirdPlace}`}
+        href={`${HREF_PREFIX}${thirdPlaceUrl}`}
         target='_blank'
         rel='noopener noreferrer'
       >
