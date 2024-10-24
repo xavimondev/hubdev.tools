@@ -20,7 +20,11 @@ export async function submitResource({ formData }: { formData: FormData }) {
       msg: 'This resource has already been submitted or added.'
     }
   } catch (error) {
-    console.error(error)
+    // @ts-ignore
+    const isAlreadyAdded = error.message.includes('duplicate key')
+    if (isAlreadyAdded) {
+      throw new Error('This resource has already been submitted or added.')
+    }
     throw new Error('An error ocurred while submitting the resource.')
   }
 }

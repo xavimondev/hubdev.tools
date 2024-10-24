@@ -15,6 +15,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { extractDomain } from '@/utils'
 
 const formSchema = z.object({
   url: z.string().url({
@@ -38,7 +39,8 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
   const hasErrors = Object.keys(errors).length > 0
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (isDomainInvalid({ url: values.url })) {
+    const domain = extractDomain(values.url)
+    if (isDomainInvalid({ url: domain })) {
       setError('url', {
         type: 'manual',
         message: 'Invalid URL.'
