@@ -178,9 +178,7 @@ export function TopPines({ topPines }: { topPines: Pin[] }) {
     <>
       {topPines.length > 0 ? (
         <ListTopPines topPines={topPines} />
-      ) : (
-        <div className='grid-cols-3'>No pines found</div>
-      )}
+      ) : null}
     </>
   )
 }

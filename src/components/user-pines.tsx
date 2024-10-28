@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { RemoveIc } from '@/components/icons'
 import { SectionHeader } from '@/components/section-header'
+import { NoPinsAdded } from '@/components/empty-state'
 
 type PinCardProps = {
   pin: Pin
@@ -130,7 +131,7 @@ export function UserPines({ userPines }: { userPines: Pin[] }) {
       {userPines.length > 0 ? (
         <ListPines pines={userPines} />
       ) : (
-        <div className='grid-cols-3'>No pines found</div>
+        <NoPinsAdded />
       )}
     </>
   )

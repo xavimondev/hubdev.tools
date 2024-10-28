@@ -1,31 +1,28 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Image from 'next/image'
-import { ArrowBigDownIcon, ArrowBigUpIcon, ArrowUpRight, MoreVertical, PinIcon } from 'lucide-react'
-import { toast } from 'sonner'
+import { useState } from 'react';
+import Image from 'next/image';
+import { ArrowBigDownIcon, ArrowBigUpIcon, ArrowUpRight, MoreVertical, PinIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
-import { Resource } from '@/types/resource'
 
-import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
-import { cn } from '@/utils/styles'
-import { createSupabaseBrowserClient } from '@/utils/supabase-client'
-import {
-  addPin,
-  getPin,
-  removePin,
-  updateIsTopStatus,
-  updateIsTopStatusByResourceId
-} from '@/services/pines'
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { EmptyState } from '@/components/empty-state'
-import { RemoveIc } from '@/components/icons'
+
+import { Resource } from '@/types/resource';
+
+
+
+import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants';
+import { cn } from '@/utils/styles';
+import { createSupabaseBrowserClient } from '@/utils/supabase-client';
+import { addPin, getPin, removePin, updateIsTopStatus, updateIsTopStatusByResourceId } from '@/services/pines';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { NoResultsSearch } from '@/components/empty-state'
+import { RemoveIc } from '@/components/icons';
+
+
+
+
 
 type ResourceItemProps = {
   id: string
@@ -275,7 +272,7 @@ export function ListResource({ data }: ListResourceProps) {
           })}
         </div>
       ) : (
-        <EmptyState />
+        <NoResultsSearch />
       )}
     </>
   )
