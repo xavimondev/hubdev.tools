@@ -157,7 +157,7 @@ export function ResourceItem({
   return (
     <article
       className={cn(
-        'rounded-lg shadow-sm overflow-hidden border transition-colors duration-300 ease-in-out resource-item',
+        'rounded-lg shadow-sm overflow-hidden border transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3',
         isPinned
           ? 'border-orange-500/30 bg-orange-400/30 hover:bg-orange-600/30 dark:border-orange-200/40 dark:bg-orange-200/5 dark:hover:bg-orange-400/5'
           : isTopPinned
@@ -165,12 +165,11 @@ export function ResourceItem({
             : DEFAULT_STYLE
       )}
     >
-      <div className='flex flex-col gap-5 p-3'>
-        <a
-          className='flex flex-col gap-3'
-          href={`${HREF_PREFIX}${url}`}
-          target='_blank'
-          rel='noopener noreferrer'
+      <a
+        className='flex flex-col gap-3'
+        href={`${HREF_PREFIX}${url}`}
+        target='_blank'
+        rel='noopener noreferrer'
         >
           <div className='relative w-full h-[160px] rounded-md overflow-hidden border'>
             <Image
@@ -247,7 +246,6 @@ export function ResourceItem({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      </div>
     </article>
   )
 }
