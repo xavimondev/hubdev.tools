@@ -12,7 +12,7 @@ export function usePin() {
         data: { user }
       } = await supabase.auth.getUser()
       if (!user) {
-        toast.info('You need to be logged in to pin a resource.')
+        toast.warning('You need to be logged in to pin a resource.')
         return
       }
 
@@ -44,7 +44,7 @@ export function usePin() {
         data: { user }
       } = await supabase.auth.getUser()
       if (!user) {
-        toast.error('You need to be logged in to pin a resource.')
+        toast.warning('You need to be logged in to pin a resource.')
         return
       }
 
@@ -57,7 +57,7 @@ export function usePin() {
         })
 
         // TODO: improve this, maybe move supabase operations to server
-        await revalidate()
+        revalidate()
       }
     } catch (error) {
       if (error instanceof Error) {
