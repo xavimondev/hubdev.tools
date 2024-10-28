@@ -16,8 +16,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { RemoveIc } from '@/components/icons'
+import { PinsPreferences } from '@/components/pins-preferences'
 import { SectionHeader } from '@/components/section-header'
-import { SettingsPinesDialog } from '@/components/settings-pines-dialog'
 
 type PinCardProps = {
   pin: Pin
@@ -102,7 +102,7 @@ function PinCard({ pin, deletePin, updatePinStatus }: PinCardProps) {
   )
 }
 
-function ListTopPines({ topPines }: { topPines: Pin[] }) {
+function ListTopPines({ topPines, isPinsVisible }: { topPines: Pin[]; isPinsVisible: boolean }) {
   const { deletePin, updatePinStatus } = usePin()
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start', loop: false })
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
@@ -136,7 +136,7 @@ function ListTopPines({ topPines }: { topPines: Pin[] }) {
           description='Selection of the most important pins.'
         />
         <div className='flex space-x-2 ml-4'>
-          <SettingsPinesDialog />
+          <PinsPreferences isPinsVisible={isPinsVisible} />
           <Button
             className='bg-light-800 dark:bg-neutral-800 text-white'
             size='icon'
@@ -173,11 +173,11 @@ function ListTopPines({ topPines }: { topPines: Pin[] }) {
   )
 }
 
-export function TopPines({ topPines }: { topPines: Pin[] }) {
+export function TopPines({ topPines, isPinsVisible }: { topPines: Pin[]; isPinsVisible: boolean }) {
   return (
     <>
       {topPines.length > 0 ? (
-        <ListTopPines topPines={topPines} />
+        <ListTopPines topPines={topPines} isPinsVisible={isPinsVisible} />
       ) : null}
     </>
   )
