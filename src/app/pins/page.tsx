@@ -1,27 +1,24 @@
 import { getUser } from '@/auth/server'
 
-import { getTopPines, getUserPines } from '@/services/list-pines'
-import { getPinsPreferences } from '@/services/server-pins-preferences'
+import { getUserPines } from '@/services/list-pines'
 import { Container } from '@/components/container'
 import { ErrorState } from '@/components/error-state'
-import { TopPines } from '@/components/top-pines'
+import { TopPins } from '@/components/top-pins'
 import { UserPines } from '@/components/user-pines'
 
+// @ts-ignore
 export default async function Page() {
   const user = await getUser()
 
   if (!user) return <ErrorState error='You need to be logged in to view your pinned resources' />
 
   const pines = await getUserPines({ userId: user.id })
-  const topPines = await getTopPines({ userId: user.id })
 
-  if (!topPines || !pines) return <ErrorState error='Something went wrong' />
-
-  const isPinsVisible = await getPinsPreferences()
+  if (!pines) return <ErrorState error='Something went wrong' />
 
   return (
     <Container>
-      <TopPines topPines={topPines} isPinsVisible={isPinsVisible} />
+      <TopPins />
       <UserPines userPines={pines} />
     </Container>
   )

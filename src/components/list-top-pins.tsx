@@ -102,7 +102,13 @@ function PinCard({ pin, deletePin, updatePinStatus }: PinCardProps) {
   )
 }
 
-function ListTopPines({ topPines, isPinsVisible }: { topPines: Pin[]; isPinsVisible: boolean }) {
+export function ListTopPins({
+  topPines,
+  isPinsVisible
+}: {
+  topPines: Pin[]
+  isPinsVisible: boolean
+}) {
   const { deletePin, updatePinStatus } = usePin()
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start', loop: false })
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
@@ -170,15 +176,5 @@ function ListTopPines({ topPines, isPinsVisible }: { topPines: Pin[]; isPinsVisi
         </div>
       </div>
     </div>
-  )
-}
-
-export function TopPines({ topPines, isPinsVisible }: { topPines: Pin[]; isPinsVisible: boolean }) {
-  return (
-    <>
-      {topPines.length > 0 ? (
-        <ListTopPines topPines={topPines} isPinsVisible={isPinsVisible} />
-      ) : null}
-    </>
   )
 }

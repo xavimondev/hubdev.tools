@@ -13,7 +13,14 @@ export async function middleware(request: NextRequest) {
   const resourceLink = searchParams.get('ref')
 
   if (!resourceLink) {
-    return NextResponse.next()
+    const requestHeaders = new Headers(request.headers)
+    requestHeaders.set('X-Pathname', request.nextUrl.pathname)
+
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders
+      }
+    })
   }
 
   if (process.env.NODE_ENV === 'production') {
