@@ -9,9 +9,7 @@ export const updatePreferences = async ({
 }) => {
   const supabase = await createSupabaseBrowserClient()
   const { error } = await supabase
-    // @ts-ignore
     .from('preferences')
-    // @ts-ignore
     .update({ isPinsVisible })
     .eq('user_id', user_id)
 
