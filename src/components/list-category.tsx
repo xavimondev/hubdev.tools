@@ -41,7 +41,7 @@ export function Discover() {
 export function Pins() {
   const slug = '/pins'
 
-  return <CategoryLink name='My Pins' slug={slug} emoji={'📌'} />
+  return <CategoryLink name='Pins' slug={slug} emoji={'📌'} />
 }
 
 type Category = {
@@ -57,7 +57,7 @@ type ListCategoryProps = {
 
 export function ListCategory({ data }: ListCategoryProps) {
   return (
-    <div>
+    <>
       {data &&
         data.length > 0 &&
         data.map((category) => {
@@ -71,6 +71,6 @@ export function ListCategory({ data }: ListCategoryProps) {
             />
           )
         })}
-    </div>
+    </>
   )
 }
