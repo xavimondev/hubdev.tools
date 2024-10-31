@@ -30,7 +30,7 @@ function PinCard({ pin, deletePin, updatePinStatus }: PinCardProps) {
   return (
     <a
       className='group 
-      flex-[0_0_31.90%] 
+      flex-[0_0_100%] sm:flex-[0_0_45%] lg:flex-[0_0_31.90%] 
       rounded-lg 
       shadow-sm 
       overflow-hidden 
