@@ -1,5 +1,3 @@
-'use server'
-
 import { headers } from 'next/headers'
 import { uptash } from '@/ratelimit'
 import { openai } from '@ai-sdk/openai'

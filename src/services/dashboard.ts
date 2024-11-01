@@ -1,7 +1,8 @@
 import { cookies } from 'next/headers'
-import { getEmbeddings } from '@/actions/ai/embeddings'
 import { openai } from '@ai-sdk/openai'
 import { generateText } from 'ai'
+
+import { getEmbeddings } from '@/services/embeddings'
 
 import { supabase } from './client'
 

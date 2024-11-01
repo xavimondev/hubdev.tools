@@ -2,6 +2,7 @@ import { getUser } from '@/auth/server'
 
 import { Resource } from '@/types/resource'
 
+import { getEmbeddings } from '@/services/embeddings'
 import {
   getData,
   getResourcesBasedOnUser,
@@ -9,8 +10,6 @@ import {
   getResourcesByCategorySlugBasedOnUser
 } from '@/services/list'
 import { getCache, saveCache } from '@/services/redis-cache'
-
-import { getEmbeddings } from './embeddings'
 
 export type QueryData = {
   resources: Resource[] | undefined

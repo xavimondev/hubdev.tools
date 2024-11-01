@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction, useState } from 'react'
-import { submitResource } from '@/actions/submit-resource'
+import { extractDomain } from '@/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { isDomainInvalid } from '@/utils/isDomainInvalid'
+import { submitResource } from '@/services/request'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -15,7 +16,6 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { extractDomain } from '@/utils'
 
 const formSchema = z.object({
   url: z.string().url({

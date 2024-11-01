@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { queryClassify } from '@/actions/ai/query-classify'
 import { AlertCircleIcon, LoaderCircleIcon } from 'lucide-react'
 import { isMobile } from 'react-device-detect'
 import { toast } from 'sonner'
@@ -60,7 +59,16 @@ export function FormSearch({
 
     setIsClassifying(true)
 
-    const { category, error } = await queryClassify({ input: prompt })
+    const response = await fetch('/api/query-classify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        input: prompt
+      })
+    })
+    const { category, error } = await response.json()
 
     setIsClassifying(false)
 
