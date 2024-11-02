@@ -102,13 +102,7 @@ function PinCard({ pin, deletePin, updatePinStatus }: PinCardProps) {
   )
 }
 
-export function ListTopPins({
-  topPines,
-  isPinsVisible
-}: {
-  topPines: Pin[]
-  isPinsVisible: boolean
-}) {
+export function ListTopPins({ topPins, isPinVisible }: { topPins: Pin[]; isPinVisible: boolean }) {
   const { deletePin, updatePinStatus } = usePin()
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start', loop: false })
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
@@ -142,7 +136,7 @@ export function ListTopPins({
           description='Selection of the most important pins.'
         />
         <div className='flex space-x-2 ml-4'>
-          <PinsPreferences isPinsVisible={isPinsVisible} />
+          <PinsPreferences isPinVisible={isPinVisible} />
           <Button
             className='bg-light-800 dark:bg-neutral-800 text-white'
             size='icon'
@@ -164,7 +158,7 @@ export function ListTopPins({
       <div className='mt-4'>
         <div className='overflow-hidden' ref={emblaRef}>
           <div className='flex gap-6'>
-            {topPines.map((pin) => (
+            {topPins.map((pin) => (
               <PinCard
                 key={pin.id}
                 pin={pin}

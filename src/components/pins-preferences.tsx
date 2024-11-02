@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { SettingsPinsForm } from '@/components/settings-pins-form'
 
-export function PinsPreferences({ isPinsVisible }: { isPinsVisible: boolean }) {
+export function PinsPreferences({ isPinVisible }: { isPinVisible: boolean }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -18,7 +18,7 @@ export function PinsPreferences({ isPinsVisible }: { isPinsVisible: boolean }) {
             <h4 className='font-medium leading-none'>Top Pins Settings</h4>
             <p className='text-sm text-muted-foreground'>Adjust the settings for top pinned cards display.</p>
           </div> */}
-          <SettingsPinsForm isPinsVisible={isPinsVisible} />
+          <SettingsPinsForm isPinVisible={isPinVisible} />
         </div>
       </PopoverContent>
     </Popover>

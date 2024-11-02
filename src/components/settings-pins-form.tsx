@@ -21,15 +21,15 @@ const FormSchema = z.object({
   showTopPinnedOnCategories: z.boolean()
 })
 
-export function SettingsPinsForm({ isPinsVisible }: { isPinsVisible: boolean }) {
+export function SettingsPinsForm({ isPinVisible }: { isPinVisible: boolean }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      showTopPinnedOnCategories: isPinsVisible
+      showTopPinnedOnCategories: isPinVisible
     }
   })
 
-  const onSubmit = async ({ isPinsVisible }: { isPinsVisible: boolean }) => {
+  const onSubmit = async ({ isPinVisible }: { isPinVisible: boolean }) => {
     const supabase = await createSupabaseBrowserClient()
     const {
       data: { user }
@@ -39,7 +39,7 @@ export function SettingsPinsForm({ isPinsVisible }: { isPinsVisible: boolean }) 
       return
     }
 
-    await updatePreferences({ user_id: user.id, isPinsVisible: isPinsVisible })
+    await updatePreferences({ user_id: user.id, isPinVisible: isPinVisible })
     revalidate()
   }
 
@@ -59,7 +59,7 @@ export function SettingsPinsForm({ isPinsVisible }: { isPinsVisible: boolean }) 
                 <Switch
                   checked={field.value}
                   onCheckedChange={(e) => {
-                    onSubmit({ isPinsVisible: e })
+                    onSubmit({ isPinVisible: e })
                     // console.log('checked', e)
                     field.onChange(e)
                   }}

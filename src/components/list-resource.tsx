@@ -16,7 +16,7 @@ import {
   removePin,
   updateIsTopStatus,
   updateIsTopStatusByResourceId
-} from '@/services/pines'
+} from '@/services/pins'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,

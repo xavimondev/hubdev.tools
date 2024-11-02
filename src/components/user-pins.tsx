@@ -14,9 +14,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { NoPinsAdded } from '@/components/empty-state'
 import { RemoveIc } from '@/components/icons'
 import { SectionHeader } from '@/components/section-header'
-import { NoPinsAdded } from '@/components/empty-state'
 
 type PinCardProps = {
   pin: Pin
@@ -107,7 +107,7 @@ const PinCard = ({ pin, deletePin, updatePinStatus }: PinCardProps) => {
   )
 }
 
-function ListPines({ pines }: { pines: Pin[] }) {
+function ListPins({ pins }: { pins: Pin[] }) {
   const { deletePin, updatePinStatus } = usePin()
 
   return (
@@ -117,7 +117,7 @@ function ListPines({ pines }: { pines: Pin[] }) {
         description='Explore all the pins you have saved for quick access.'
       />
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 gap-6 mt-6'>
-        {pines.map((pin: Pin) => (
+        {pins.map((pin: Pin) => (
           <PinCard key={pin.id} pin={pin} deletePin={deletePin} updatePinStatus={updatePinStatus} />
         ))}
       </div>
@@ -125,14 +125,6 @@ function ListPines({ pines }: { pines: Pin[] }) {
   )
 }
 
-export function UserPines({ userPines }: { userPines: Pin[] }) {
-  return (
-    <>
-      {userPines.length > 0 ? (
-        <ListPines pines={userPines} />
-      ) : (
-        <NoPinsAdded />
-      )}
-    </>
-  )
+export function UserPins({ userPins }: { userPins: Pin[] }) {
+  return <>{userPins.length > 0 ? <ListPins pins={userPins} /> : <NoPinsAdded />}</>
 }

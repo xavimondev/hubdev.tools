@@ -1,4 +1,4 @@
-import { MAX_PINES, MAX_TOP_PINES } from '@/constants'
+import { MAX_PINS, MAX_TOP_PINS } from '@/constants'
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
 
 type Pin = {
@@ -11,7 +11,7 @@ export const addPin = async (pin: Pin) => {
   const hasReachedLimit = await hasReachedMaxPins({ userId: pin.user_id })
   if (hasReachedLimit) {
     throw new Error(
-      `You have reached your pin limit of ${MAX_PINES}. Please remove a pin before adding a new one.`
+      `You have reached your pin limit of ${MAX_PINS}. Please remove a pin before adding a new one.`
     )
   }
 
@@ -54,7 +54,7 @@ export const updateIsTopStatus = async ({
     const hasReachedLimit = await hasReachedMaxTopPins({ userId })
     if (hasReachedLimit) {
       throw new Error(
-        `You have reached your pin limit of ${MAX_TOP_PINES}. Please remove a pin before adding a new one.`
+        `You have reached your pin limit of ${MAX_TOP_PINS}. Please remove a pin before adding a new one.`
       )
     }
   }
@@ -82,7 +82,7 @@ export const updateIsTopStatusByResourceId = async ({
     const hasReachedLimit = await hasReachedMaxTopPins({ userId })
     if (hasReachedLimit) {
       throw new Error(
-        `You have reached your pin limit of ${MAX_TOP_PINES}. Please remove a pin before adding a new one.`
+        `You have reached your pin limit of ${MAX_TOP_PINS}. Please remove a pin before adding a new one.`
       )
     }
   }
@@ -114,7 +114,7 @@ export const getTotalPinsByUser = async ({ userId }: { userId: string }) => {
 
 export const hasReachedMaxPins = async ({ userId }: { userId: string }) => {
   const count = (await getTotalPinsByUser({ userId })) ?? 0
-  return count + 1 > MAX_PINES
+  return count + 1 > MAX_PINS
 }
 
 export const getTotalTopPinsByUser = async ({ userId }: { userId: string }) => {
@@ -133,7 +133,7 @@ export const getTotalTopPinsByUser = async ({ userId }: { userId: string }) => {
 
 export const hasReachedMaxTopPins = async ({ userId }: { userId: string }) => {
   const count = (await getTotalTopPinsByUser({ userId })) ?? 0
-  return count + 1 > MAX_TOP_PINES
+  return count + 1 > MAX_TOP_PINS
 }
 
 export const getPin = async ({ resourceId, userId }: { resourceId: string; userId: string }) => {

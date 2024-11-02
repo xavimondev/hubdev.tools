@@ -1,7 +1,7 @@
 import { headers } from 'next/headers'
 import { getUser } from '@/auth/server'
 
-import { getTopPines } from '@/services/list-pines'
+import { getTopPins } from '@/services/list-pins'
 import { getPinsPreferences } from '@/services/server-pins-preferences'
 import { ErrorState } from '@/components/error-state'
 import { ListTopPins } from '@/components/list-top-pins'
@@ -18,10 +18,8 @@ export async function TopPins() {
   const user = await getUser()
   if (!user) return null
 
-  const topPines = await getTopPines({ userId: user.id })
-  if (!topPines) return <ErrorState error='Something went wrong' />
+  const topPins = await getTopPins({ userId: user.id })
+  if (!topPins) return <ErrorState error='Something went wrong' />
 
-  return (
-    <>{topPines.length > 0 && <ListTopPins topPines={topPines} isPinsVisible={isPinsVisible} />}</>
-  )
+  return <>{topPins.length > 0 && <ListTopPins topPins={topPins} isPinVisible={isPinsVisible} />}</>
 }

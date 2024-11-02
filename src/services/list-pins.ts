@@ -1,6 +1,6 @@
 import { createSupabaseServerClient } from '@/utils/supabase-server'
 
-export const getUserPines = async ({ userId }: { userId: string }) => {
+export const getUserPins = async ({ userId }: { userId: string }) => {
   const supabaseServer = await createSupabaseServerClient()
 
   const { data, error } = await supabaseServer
@@ -46,7 +46,7 @@ export const getUserPines = async ({ userId }: { userId: string }) => {
   return formattedData
 }
 
-export const getTopPines = async ({ userId }: { userId: string }) => {
+export const getTopPins = async ({ userId }: { userId: string }) => {
   const supabaseServer = await createSupabaseServerClient()
   const { data, error } = await supabaseServer
     .from('pines')

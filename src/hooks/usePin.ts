@@ -2,7 +2,7 @@ import { revalidate } from '@/actions/revalidate'
 import { toast } from 'sonner'
 
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
-import { removePin, updateIsTopStatus } from '@/services/pines'
+import { removePin, updateIsTopStatus } from '@/services/pins'
 
 export function usePin() {
   const deletePin = async ({ resourceId }: { resourceId: string }) => {
