@@ -88,3 +88,19 @@ export const getTopPins = async ({ userId }: { userId: string }) => {
 
   return formattedData
 }
+
+export const getPinsIdsByUser = async ({ userId }: { userId: string }) => {
+  const supabaseServer = await createSupabaseServerClient()
+
+  const { data, error } = await supabaseServer
+    .from('pines')
+    .select('resource_id')
+    .eq('user_id', userId)
+
+  if (error) {
+    console.error(error)
+    return
+  }
+
+  return data
+}

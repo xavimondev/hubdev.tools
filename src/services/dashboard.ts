@@ -66,7 +66,7 @@ export const getAISuggestions = async () => {
   - Start directly with the summary; avoid phrases like "the requirement."
   - Exclude any symbols, special characters, or unnecessary punctuation from the summary.`
   })
-  // console.log(query)
+
   const { data, error } = await getEmbeddings({ input: query, count: 6 })
 
   if (error || !data || data.length === 0) {
