@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const history = cookieStore.get('history')
     if (!history) {
       cookieStore.set('history', JSON.stringify([input]), { secure: true })
-      return
+      return NextResponse.json({ msg: 'History updated successfully' })
     }
 
     // max length of history is 5
