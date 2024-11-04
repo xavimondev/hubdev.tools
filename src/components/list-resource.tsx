@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { revalidate } from '@/actions/revalidate'
 import { ArrowBigDownIcon, ArrowBigUpIcon, ArrowUpRight, MoreVertical, PinIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -10,13 +11,7 @@ import { Resource } from '@/types/resource'
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { cn } from '@/utils/styles'
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
-import {
-  addPin,
-  getPin,
-  removePin,
-  updateIsTopStatus,
-  updateIsTopStatusByResourceId
-} from '@/services/pins'
+import { addPin, getPin, removePin, updateIsTopStatus } from '@/services/pins'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -72,19 +67,17 @@ export function ResourceItem({
 
       // At this point this resources is not pin, so let's added to database and then update its status
       if (pinData.length === 0) {
-        const response = await addPin({ resource_id: resourceId, user_id: userId })
+        const response = await addPin({
+          resource_id: resourceId,
+          user_id: userId,
+          isTop: true
+        })
         if (response === 'ok') {
-          const response = await updateIsTopStatusByResourceId({
-            resourceId,
-            action: 'add',
-            userId
+          toast.success('Top Pin Added', {
+            duration: 2000
           })
-          if (response === 'ok') {
-            toast.success('Status updated successfully', {
-              duration: 2000
-            })
-            setIsTopPinned(isPinnedResult)
-          }
+          setIsTopPinned(isPinnedResult)
+          revalidate()
         }
 
         return
@@ -94,6 +87,7 @@ export function ResourceItem({
       const action = isPinnedResult ? 'add' : 'remove'
       const response = await updateIsTopStatus({ pinId, action, userId })
       if (response === 'ok') {
+        // Top Pin Removed
         toast.success('Status updated successfully', {
           duration: 2000
         })
@@ -103,6 +97,7 @@ export function ResourceItem({
         }
 
         setIsTopPinned(isPinnedResult)
+        revalidate()
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -111,7 +106,7 @@ export function ResourceItem({
     }
   }
 
-  const pinResource = async ({ resource_id }: { resource_id: string }) => {
+  const pinResource = async ({ resourceId }: { resourceId: string }) => {
     const supabase = await createSupabaseBrowserClient()
     const {
       data: { user }
@@ -124,7 +119,7 @@ export function ResourceItem({
     const { id } = user
 
     const pin = {
-      resource_id,
+      resource_id: resourceId,
       user_id: id
     }
 
@@ -221,7 +216,7 @@ export function ResourceItem({
               )}
             </DropdownMenuItem>
             {!isTopPinned && (
-              <DropdownMenuItem className='group' onClick={() => pinResource({ resource_id: id })}>
+              <DropdownMenuItem className='group' onClick={() => pinResource({ resourceId: id })}>
                 {!isPinned ? (
                   <>
                     <PinIcon className='size-4 ml-[2px] mr-2 group-hover:animate-scale-pulse' />

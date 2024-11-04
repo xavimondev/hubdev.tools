@@ -4,6 +4,7 @@ import { createSupabaseBrowserClient } from '@/utils/supabase-client'
 type Pin = {
   resource_id: string
   user_id: string
+  isTop?: boolean
 }
 
 export const addPin = async (pin: Pin) => {
@@ -60,37 +61,6 @@ export const updateIsTopStatus = async ({
   }
 
   const { error } = await supabase.from('pines').update({ isTop }).eq('id', pinId)
-
-  if (error) throw error
-
-  return 'ok'
-}
-
-export const updateIsTopStatusByResourceId = async ({
-  resourceId,
-  action,
-  userId
-}: {
-  resourceId: string
-  action: 'add' | 'remove'
-  userId: string
-}) => {
-  const supabase = await createSupabaseBrowserClient()
-  const isTop = action === 'add'
-
-  if (isTop) {
-    const hasReachedLimit = await hasReachedMaxTopPins({ userId })
-    if (hasReachedLimit) {
-      throw new Error(
-        `You have reached your pin limit of ${MAX_TOP_PINS}. Please remove a pin before adding a new one.`
-      )
-    }
-  }
-
-  const { error } = await supabase
-    .from('pines')
-    .update({ isTop })
-    .match({ resource_id: resourceId, user_id: userId })
 
   if (error) throw error
 
