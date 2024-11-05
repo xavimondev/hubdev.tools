@@ -150,7 +150,10 @@ export function ResourceItem({
   }
 
   return (
-    <article
+    <a
+      href={`${HREF_PREFIX}${url}`}
+      target='_blank'
+      rel='noopener noreferrer'
       className={cn(
         'rounded-lg shadow-sm overflow-hidden border transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3',
         isPinned
@@ -160,12 +163,7 @@ export function ResourceItem({
             : DEFAULT_STYLE
       )}
     >
-      <a
-        className='flex flex-col gap-3'
-        href={`${HREF_PREFIX}${url}`}
-        target='_blank'
-        rel='noopener noreferrer'
-      >
+      <div className='flex flex-col gap-3'>
         <div className='relative w-full h-[160px] rounded-md overflow-hidden border'>
           <Image
             loading={order < 4 ? 'eager' : 'lazy'}
@@ -183,7 +181,7 @@ export function ResourceItem({
           <h2 className='text-base md:text-lg font-semibold text-balance'>{title}</h2>
           <p className='text-sm text-gray-700 dark:text-link line-clamp-4 text-pretty'>{summary}</p>
         </div>
-      </a>
+      </div>
       <div className='flex justify-between'>
         <a
           className='group flex gap-1 items-center text-sm text-blue-700 dark:text-anchor transition-colors duration-300 ease-in-out resource-item hover:underline underline-offset-2'
@@ -233,7 +231,7 @@ export function ResourceItem({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </article>
+    </a>
   )
 }
 
