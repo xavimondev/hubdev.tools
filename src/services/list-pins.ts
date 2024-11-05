@@ -67,7 +67,7 @@ export const getTopPins = async ({ userId }: { userId: string }) => {
     `
     )
     .match({ user_id: userId, isTop: true })
-    .order('created_at', { ascending: false })
+    .order('updated_at', { ascending: false })
 
   if (error) {
     console.error(error)
