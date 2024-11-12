@@ -28,14 +28,10 @@ const PinCard = ({ pin, deletePin, updatePinStatus }: PinCardProps) => {
   const { name, resourceId, url, summary, category, categoryColor, id, image, placeholder } = pin
 
   return (
-    <a
-      href={`${HREF_PREFIX}${url}`}
-      target='_blank'
-      rel='noopener noreferrer'
-      className='relative size-full overflow-hidden rounded-lg border border-light-600/70 dark:border-neutral-800/70 bg-light-600/20 hover:bg-light-600/70 dark:bg-[#101010] dark:hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3'
-    >
+    <article className='relative size-full overflow-hidden rounded-lg border border-light-600/70 dark:border-neutral-800/70 bg-light-600/20 hover:bg-light-600/70 dark:bg-[#101010] dark:hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3'>
       <div className='absolute right-5 top-0 h-px w-80 bg-gradient-to-l from-transparent via-orange-500/30 dark:via-orange-400/30 via-10% to-transparent' />
       <div className='flex flex-col gap-3'>
+        {/* TODO: Add sizes property to Image component */}
         {image && (
           <div className='relative w-full h-[160px] rounded-md overflow-hidden border'>
             <Image
@@ -99,7 +95,7 @@ const PinCard = ({ pin, deletePin, updatePinStatus }: PinCardProps) => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </a>
+    </article>
   )
 }
 

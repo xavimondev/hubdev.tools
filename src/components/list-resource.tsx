@@ -150,10 +150,7 @@ export function ResourceItem({
   }
 
   return (
-    <a
-      href={`${HREF_PREFIX}${url}`}
-      target='_blank'
-      rel='noopener noreferrer'
+    <article
       className={cn(
         'rounded-lg shadow-sm overflow-hidden border transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3',
         isPinned
@@ -231,7 +228,7 @@ export function ResourceItem({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </a>
+    </article>
   )
 }
 
