@@ -1,11 +1,13 @@
 'use client'
 
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { ArrowBigUpIcon, ArrowUpRight, MoreVertical } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { Pin } from '@/types/pin'
 
-import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
+import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX, NUMBER_OF_GENERATIONS_TO_FETCH } from '@/constants'
 import { usePin } from '@/hooks/usePin'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,6 +18,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { NoPinsAdded } from '@/components/empty-state'
 import { RemoveIc } from '@/components/icons'
+import { LoadMore } from '@/components/load-more'
 import { SectionHeader } from '@/components/section-header'
 
 type PinCardProps = {
@@ -100,7 +103,44 @@ const PinCard = ({ pin, deletePin, updatePinStatus }: PinCardProps) => {
 }
 
 function ListPins({ pins }: { pins: Pin[] }) {
+  const [data, setData] = useState<Pin[]>(pins)
+  const isLastRequest = useRef(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasResources, setHasResources] = useState(data.length > NUMBER_OF_GENERATIONS_TO_FETCH)
   const { deletePin, updatePinStatus } = usePin()
+
+  const loadMorePins = async () => {
+    if (isLastRequest.current || !data) return
+
+    let results: any = []
+    const from = data.length
+    const to = data.length + NUMBER_OF_GENERATIONS_TO_FETCH
+
+    setIsLoading(true)
+
+    const response = await fetch(`/api/pins?from=${from}&to=${to}`)
+    if (response.status !== 200) {
+      toast.error('Unable to fetch pinned resources')
+      return
+    }
+
+    const pins = await response.json()
+    results = pins.data
+
+    setIsLoading(false)
+
+    if (!results) return
+
+    if (results.length > 0) {
+      setData((prevData) => prevData.concat(results))
+    }
+
+    // Hidding the load more button
+    if (results.length < NUMBER_OF_GENERATIONS_TO_FETCH + 1) {
+      isLastRequest.current = true
+      setHasResources(false)
+    }
+  }
 
   return (
     <div className='h-auto w-full shrink-0 rounded-md'>
@@ -109,10 +149,11 @@ function ListPins({ pins }: { pins: Pin[] }) {
         description='Explore all the pins you have saved for quick access.'
       />
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
-        {pins.map((pin: Pin) => (
+        {data.map((pin: Pin) => (
           <PinCard key={pin.id} pin={pin} deletePin={deletePin} updatePinStatus={updatePinStatus} />
         ))}
       </div>
+      {hasResources && <LoadMore loadMoreResources={loadMorePins} isLoading={isLoading} />}
     </div>
   )
 }

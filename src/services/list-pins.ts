@@ -1,6 +1,14 @@
 import { createSupabaseServerClient } from '@/utils/supabase-server'
 
-export const getUserPins = async ({ userId }: { userId: string }) => {
+export const getUserPins = async ({
+  userId,
+  from,
+  to
+}: {
+  userId: string
+  from: number
+  to: number
+}) => {
   const supabaseServer = await createSupabaseServerClient()
 
   const { data, error } = await supabaseServer
@@ -23,6 +31,7 @@ export const getUserPins = async ({ userId }: { userId: string }) => {
     `
     )
     .match({ user_id: userId, isTop: false })
+    .range(from, to)
     .order('created_at', { ascending: false })
 
   if (error) {
