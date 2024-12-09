@@ -23,10 +23,6 @@ export function usePin() {
       })
 
       if (response === 'ok') {
-        toast.info('Pin removed successfully', {
-          duration: 2000
-        })
-
         await revalidate()
       }
     } catch (error) {
@@ -52,12 +48,12 @@ export function usePin() {
 
       const response = await updateIsTopStatus({ pinId: id, action, userId })
       if (response === 'ok') {
-        toast.success('Status updated successfully', {
+        toast.success('Pin Updated', {
           duration: 2000
         })
 
         // TODO: improve this, maybe move supabase operations to server
-        revalidate()
+        await revalidate()
       }
     } catch (error) {
       if (error instanceof Error) {
