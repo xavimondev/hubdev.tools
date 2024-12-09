@@ -105,16 +105,3 @@ export const hasReachedMaxTopPins = async ({ userId }: { userId: string }) => {
   const count = (await getTotalTopPinsByUser({ userId })) ?? 0
   return count + 1 > MAX_TOP_PINS
 }
-
-export const getPin = async ({ resourceId, userId }: { resourceId: string; userId: string }) => {
-  const supabase = await createSupabaseBrowserClient()
-
-  const { error, data } = await supabase
-    .from('pines')
-    .select('id')
-    .match({ resource_id: resourceId, user_id: userId })
-
-  if (error) throw error
-
-  return data
-}

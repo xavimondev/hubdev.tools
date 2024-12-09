@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { revalidate } from '@/actions/revalidate'
-import { ArrowBigDownIcon, ArrowBigUpIcon, ArrowUpRight, MoreVertical, PinIcon } from 'lucide-react'
+import { ArrowUpRight, PinIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Resource } from '@/types/resource'
@@ -11,16 +10,9 @@ import { Resource } from '@/types/resource'
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { cn } from '@/utils/styles'
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
-import { addPin, getPin, removePin, updateIsTopStatus } from '@/services/pins'
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
+import { addPin, removePin } from '@/services/pins'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { NoResultsSearch } from '@/components/empty-state'
-import { RemoveIc } from '@/components/icons'
 
 type ResourceItemProps = {
   id: string
@@ -43,68 +35,6 @@ export function ResourceItem({
   placeholder
 }: ResourceItemProps) {
   const [isPinned, setIsPinned] = useState(false)
-  const [isTopPinned, setIsTopPinned] = useState(false)
-
-  // TODO: update this function, maybe remove the option to set a top pin
-  const updatePinStatus = async ({ resourceId }: { resourceId: string }) => {
-    setIsPinned(false)
-    try {
-      const supabase = await createSupabaseBrowserClient()
-
-      const {
-        data: { user }
-      } = await supabase.auth.getUser()
-      if (!user) {
-        toast.warning('You need to be logged in to pin a resource.')
-        return
-      }
-
-      const { id: userId } = user
-
-      const isPinnedResult = !isTopPinned
-
-      const pinData = await getPin({ resourceId, userId })
-
-      // At this point this resources is not pin, so let's added to database and then update its status
-      if (pinData.length === 0) {
-        const response = await addPin({
-          resource_id: resourceId,
-          user_id: userId,
-          isTop: true
-        })
-        if (response === 'ok') {
-          toast.success('Top Pin Added', {
-            duration: 2000
-          })
-          setIsTopPinned(isPinnedResult)
-          revalidate()
-        }
-
-        return
-      }
-
-      const pinId = pinData[0].id
-      const action = isPinnedResult ? 'add' : 'remove'
-      const response = await updateIsTopStatus({ pinId, action, userId })
-      if (response === 'ok') {
-        // Top Pin Removed
-        toast.success('Status updated successfully', {
-          duration: 2000
-        })
-
-        if (action === 'remove') {
-          setIsPinned(true)
-        }
-
-        setIsTopPinned(isPinnedResult)
-        revalidate()
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message)
-      }
-    }
-  }
 
   const pinResource = async ({ resourceId }: { resourceId: string }) => {
     const supabase = await createSupabaseBrowserClient()
@@ -126,22 +56,20 @@ export function ResourceItem({
     try {
       const isPinnedResult = !isPinned
 
+      // TODO: update using useOptimistic
+      setIsPinned(isPinnedResult)
+
       if (isPinnedResult) {
         const response = await addPin(pin)
         if (response === 'ok') {
-          toast.success('Pin added successfully', {
+          toast.success('Added to your Pins', {
             duration: 2000
           })
-          setIsPinned(isPinnedResult)
         }
         return
       }
 
-      const response = await removePin(pin)
-      if (response === 'ok') {
-        toast.info('Pin removed successfully')
-        setIsPinned(isPinnedResult)
-      }
+      await removePin(pin)
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
@@ -152,10 +80,10 @@ export function ResourceItem({
   return (
     <article
       className={cn(
-        'rounded-lg shadow-sm overflow-hidden border transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3',
+        'rounded-lg shadow-sm border transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3',
         isPinned
           ? 'border-orange-500/30 bg-orange-400/30 hover:bg-orange-600/30 dark:border-orange-200/40 dark:bg-orange-200/5 dark:hover:bg-orange-400/5'
-          : isTopPinned
+          : isPinned
             ? 'bg-gradient-to-br bg-light-600/20 dark:from-neutral-950 dark:to-stone-900 border-light-600/70 dark:border-orange-300/20 dark:hover:border-orange-300/50'
             : DEFAULT_STYLE
       )}
@@ -189,44 +117,23 @@ export function ResourceItem({
           <span>Go to resource</span>
           <ArrowUpRight className='size-4 duration-200 group-hover:translate-x-[1.5px] group-hover:opacity-100' />
         </a>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button size='icon' variant='outline' className='h-8 w-8'>
-              <MoreVertical className='size-3.5' />
-              <span className='sr-only'>More</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuItem className='group' onClick={() => updatePinStatus({ resourceId: id })}>
-              {!isTopPinned ? (
-                <>
-                  <ArrowBigUpIcon className='size-[21px] mr-[5px] group-hover:-translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
-                  <span>Mark as Top Pin</span>
-                </>
-              ) : (
-                <>
-                  <ArrowBigDownIcon className='size-[21px] mr-2 group-hover:translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
-                  <span>Remove from Top</span>
-                </>
-              )}
-            </DropdownMenuItem>
-            {!isTopPinned && (
-              <DropdownMenuItem className='group' onClick={() => pinResource({ resourceId: id })}>
-                {!isPinned ? (
-                  <>
-                    <PinIcon className='size-4 ml-[2px] mr-2 group-hover:animate-scale-pulse' />
-                    <span>Pin</span>
-                  </>
-                ) : (
-                  <>
-                    <RemoveIc className='size-4 ml-[3px] mr-[9px] overflow-visible' />
-                    <span>Remove pin</span>
-                  </>
-                )}
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className='cursor-pointer' onClick={() => pinResource({ resourceId: id })}>
+                <PinIcon
+                  className={cn(
+                    'size-[22px] mr-2 hover:scale-110 text-orange-300',
+                    isPinned && 'fill-orange-200/80'
+                  )}
+                />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side='left' className='border-light-600 dark:border-neutral-800/70'>
+              <p>{isPinned ? 'Remove from Pins' : 'Mark as a Pin'}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </article>
   )
