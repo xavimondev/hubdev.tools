@@ -19,7 +19,9 @@ const resourcesWithCategoryQuery = supabase.from('resources').select(`
 type ResourcesWithCategory = QueryData<typeof resourcesWithCategoryQuery>
 
 export const getData = async ({ from, to }: { from: number; to: number }) => {
-  const { data, error } = await resourcesWithCategoryQuery.range(from, to).order('title')
+  const { data, error } = await resourcesWithCategoryQuery
+    .range(from, to)
+    .order('created_at', { ascending: false })
   if (error) {
     console.error(error)
     return
