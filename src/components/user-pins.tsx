@@ -73,7 +73,7 @@ const PinCard = ({ pin, deletePin, updatePinStatus }: PinCardProps) => {
           <span>Go to resource</span>
           <ArrowUpRight className='size-4 duration-200 group-hover:translate-x-[1.5px] group-hover:opacity-100' />
         </a>
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button size='icon' variant='outline' className='h-8 w-8'>
               <MoreVertical className='size-3.5' />

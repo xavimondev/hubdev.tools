@@ -22,7 +22,7 @@ type UserNavbarProps = {
 
 export function UserNavbar({ avatar_url, full_name, user_name }: UserNavbarProps) {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
           <Avatar className='h-8 w-8'>
