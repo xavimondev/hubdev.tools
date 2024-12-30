@@ -142,8 +142,6 @@ type CarouselPinsProps = {
 }
 
 export function CarouselPins({ topPins, isPinsVisible }: CarouselPinsProps) {
-  if (topPins.length === 0) return null
-
   return (
     <Carousel>
       <div className='flex items-center justify-between'>
