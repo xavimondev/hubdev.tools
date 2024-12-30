@@ -23,16 +23,29 @@ export const addPin = async (pin: Pin) => {
   return 'ok'
 }
 
-export const removePin = async ({
-  resource_id,
-  user_id
+export const removePin = async ({ id }: { id: string }) => {
+  const supabase = await createSupabaseBrowserClient()
+
+  const { error } = await supabase.from('pines').delete().eq('id', id)
+
+  if (error) throw error
+
+  return 'ok'
+}
+
+export const removePinByResourceAndUser = async ({
+  resourceId,
+  userId
 }: {
-  resource_id: string
-  user_id: string
+  resourceId: string
+  userId: string
 }) => {
   const supabase = await createSupabaseBrowserClient()
 
-  const { error } = await supabase.from('pines').delete().match({ resource_id, user_id })
+  const { error } = await supabase
+    .from('pines')
+    .delete()
+    .match({ user_id: userId, resource_id: resourceId })
 
   if (error) throw error
 

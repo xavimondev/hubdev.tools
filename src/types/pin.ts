@@ -8,4 +8,5 @@ export type Pin = {
   placeholder?: string
   category: string
   categoryColor: string
+  isTop?: boolean
 }

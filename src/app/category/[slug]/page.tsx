@@ -7,7 +7,7 @@ import { ErrorState } from '@/components/error-state'
 import { Hero } from '@/components/hero'
 import { Home } from '@/components/home'
 import Loading from '@/components/loading'
-import { TopPins } from '@/components/top-pins'
+import { ServerTopPins } from '@/components/server-top-pins'
 
 export const maxDuration = 60
 
@@ -76,7 +76,7 @@ export default async function Page({
 
   return (
     <Container>
-      <TopPins />
+      <ServerTopPins />
       <Hero title={heroTitle} description={heroDescription!} />
       <Suspense fallback={<Loading />} key={query}>
         <Home query={query} slug={slug} />

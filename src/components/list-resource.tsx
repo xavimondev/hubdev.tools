@@ -4,13 +4,14 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { ArrowUpRight, PinIcon } from 'lucide-react'
 import { toast } from 'sonner'
+import { useDebouncedCallback } from 'use-debounce'
 
 import { Resource } from '@/types/resource'
 
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { cn } from '@/utils/styles'
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
-import { addPin, removePin } from '@/services/pins'
+import { addPin, removePinByResourceAndUser } from '@/services/pins'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { NoResultsSearch } from '@/components/empty-state'
 
@@ -36,6 +37,21 @@ export function ResourceItem({
 }: ResourceItemProps) {
   const [isPinned, setIsPinned] = useState(false)
 
+  const debounced = useDebouncedCallback(async (isPinnedResult, pin) => {
+    const { resource_id, user_id } = pin
+    if (isPinnedResult) {
+      const response = await addPin(pin)
+      if (response === 'ok') {
+        toast.success('Added to your Pins', {
+          duration: 2000
+        })
+      }
+      return
+    }
+
+    await removePinByResourceAndUser({ resourceId: resource_id, userId: user_id })
+  }, 200)
+
   const pinResource = async ({ resourceId }: { resourceId: string }) => {
     const supabase = await createSupabaseBrowserClient()
     const {
@@ -59,17 +75,7 @@ export function ResourceItem({
       // TODO: update using useOptimistic
       setIsPinned(isPinnedResult)
 
-      if (isPinnedResult) {
-        const response = await addPin(pin)
-        if (response === 'ok') {
-          toast.success('Added to your Pins', {
-            duration: 2000
-          })
-        }
-        return
-      }
-
-      await removePin(pin)
+      debounced(isPinnedResult, pin)
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
@@ -100,6 +106,7 @@ export function ResourceItem({
             decoding='async'
             placeholder='blur'
             blurDataURL={placeholder ?? DEFAULT_BLUR_DATA_URL}
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           />
         </div>
         <div className='flex flex-col gap-2'>

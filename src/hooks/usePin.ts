@@ -1,29 +1,21 @@
-import { revalidate } from '@/actions/revalidate'
 import { toast } from 'sonner'
 
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
 import { removePin, updateIsTopStatus } from '@/services/pins'
+import { usePinsContext } from '@/app/provider/use-pins-context'
 
 export function usePin() {
-  const deletePin = async ({ resourceId }: { resourceId: string }) => {
-    try {
-      const supabase = await createSupabaseBrowserClient()
-      const {
-        data: { user }
-      } = await supabase.auth.getUser()
-      if (!user) {
-        toast.warning('You need to be logged in to pin a resource.')
-        return
-      }
+  const removePinState = usePinsContext((store) => store.removePinState)
+  const updatePinState = usePinsContext((store) => store.updatePinState)
 
-      const { id } = user
+  const deletePin = async ({ id }: { id: string }) => {
+    try {
       const response = await removePin({
-        resource_id: resourceId,
-        user_id: id
+        id
       })
 
       if (response === 'ok') {
-        await revalidate()
+        removePinState(id)
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -52,8 +44,7 @@ export function usePin() {
           duration: 2000
         })
 
-        // TODO: improve this, maybe move supabase operations to server
-        await revalidate()
+        updatePinState(id)
       }
     } catch (error) {
       if (error instanceof Error) {

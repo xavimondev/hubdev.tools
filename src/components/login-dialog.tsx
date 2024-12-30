@@ -1,9 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import { redirect } from 'next/navigation'
 import { LogInIcon } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -12,20 +11,9 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog'
-// import { getSession } from '@/services/auth-server'
 import { LoginForm } from '@/components/login-form'
 
-import { Button } from './ui/button'
-
 export function LoginDialog() {
-  // const {
-  //   data: { session }
-  // } = await getSession()
-  // if (session) {
-  //   return redirect('/dashboard')
-  // }
-  const [open, setOpen] = useState(false)
-
   return (
     <Dialog>
       <DialogTrigger asChild>

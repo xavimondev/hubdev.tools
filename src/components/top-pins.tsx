@@ -1,25 +1,20 @@
-import { headers } from 'next/headers'
-import { getUser } from '@/auth/server'
+'use client'
 
-import { getTopPins } from '@/services/list-pins'
-import { getPinsPreferences } from '@/services/server-pins-preferences'
-import { ErrorState } from '@/components/error-state'
-import { ListTopPins } from '@/components/list-top-pins'
+import { usePinsContext } from '@/app/provider/use-pins-context'
 
-export async function TopPins() {
-  const pathname = headers().get('x-pathname')
+import { CarouselPins } from './carousel-pins'
 
-  const isPinsVisible = await getPinsPreferences()
+type TopPinsProps = {
+  isPinsVisible: boolean
+}
 
-  const showTopPins = isPinsVisible || pathname === '/pins'
+export function TopPins({ isPinsVisible }: TopPinsProps) {
+  const pins = usePinsContext((store) => store.pins)
+  const topPins = pins.filter((pin) => pin.isTop)
 
-  if (!showTopPins) return null
-
-  const user = await getUser()
-  if (!user) return null
-
-  const topPins = await getTopPins({ userId: user.id })
-  if (!topPins) return <ErrorState error='Something went wrong' />
-
-  return <>{topPins.length > 0 && <ListTopPins topPins={topPins} isPinVisible={isPinsVisible} />}</>
+  return (
+    <div className='mb-10'>
+      <CarouselPins topPins={topPins} isPinsVisible={isPinsVisible} />
+    </div>
+  )
 }

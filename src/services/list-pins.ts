@@ -1,3 +1,5 @@
+import { Pin } from '@/types/pin'
+
 import { createSupabaseServerClient } from '@/utils/supabase-server'
 
 export const getUserPins = async ({
@@ -8,7 +10,7 @@ export const getUserPins = async ({
   userId: string
   from: number
   to: number
-}) => {
+}): Promise<Pin[] | undefined> => {
   const supabaseServer = await createSupabaseServerClient()
 
   const { data, error } = await supabaseServer
@@ -49,25 +51,28 @@ export const getUserPins = async ({
       summary: pin.summary,
       placeholder: pin.placeholder as string,
       category: pin.category,
-      categoryColor: pin.category_color as string
+      categoryColor: pin.category_color as string,
+      isTop: false
     }
   })
 
   return formattedData
 }
 
-export const getTopPins = async ({ userId }: { userId: string }) => {
+export const getTopPins = async ({ userId }: { userId: string }): Promise<Pin[] | undefined> => {
   const supabaseServer = await createSupabaseServerClient()
   const { data, error } = await supabaseServer
     .from('pines')
     .select(
       `
-    id,
+   id,
     ...resources!inner(
       resource_id:id,
       resource:title,
       url,
+      image,
       summary,
+      placeholder,
       ...categories!inner(
         category:name,
         category_color:bg_color
@@ -89,9 +94,12 @@ export const getTopPins = async ({ userId }: { userId: string }) => {
       resourceId: pin.resource_id,
       name: pin.resource,
       url: pin.url,
+      image: pin.image,
       summary: pin.summary,
+      placeholder: pin.placeholder as string,
       category: pin.category,
-      categoryColor: pin.category_color as string
+      categoryColor: pin.category_color as string,
+      isTop: true
     }
   })
 
