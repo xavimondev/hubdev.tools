@@ -14,6 +14,7 @@ import { createSupabaseBrowserClient } from '@/utils/supabase-client'
 import { addPin, removePinByResourceAndUser } from '@/services/pins'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { NoResultsSearch } from '@/components/empty-state'
+import { PinParticles } from '@/components/pin-particles'
 
 type ResourceItemProps = {
   id: string
@@ -36,6 +37,7 @@ export function ResourceItem({
   placeholder
 }: ResourceItemProps) {
   const [isPinned, setIsPinned] = useState(false)
+  const [isClicked, setIsClicked] = useState(false)
 
   const debounced = useDebouncedCallback(async (isPinnedResult, pin) => {
     const { resource_id, user_id } = pin
@@ -76,6 +78,11 @@ export function ResourceItem({
       setIsPinned(isPinnedResult)
 
       debounced(isPinnedResult, pin)
+
+      if (isPinnedResult) {
+        setIsClicked(true)
+        setTimeout(() => setIsClicked(false), 800)
+      }
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
@@ -127,13 +134,16 @@ export function ResourceItem({
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className='cursor-pointer' onClick={() => pinResource({ resourceId: id })}>
-                <PinIcon
-                  className={cn(
-                    'size-[22px] mr-2 hover:scale-110 text-orange-300',
-                    isPinned && 'fill-orange-200/80'
-                  )}
-                />
+              <div className='relative'>
+                <div className='cursor-pointer' onClick={() => pinResource({ resourceId: id })}>
+                  <PinIcon
+                    className={cn(
+                      'size-[22px] mr-2 hover:scale-110 text-light-800 dark:text-orange-300',
+                      isPinned && 'fill-light-800 dark:fill-orange-300'
+                    )}
+                  />
+                </div>
+                {isClicked && <PinParticles />}
               </div>
             </TooltipTrigger>
             <TooltipContent side='left' className='border-light-600 dark:border-neutral-800/70'>
