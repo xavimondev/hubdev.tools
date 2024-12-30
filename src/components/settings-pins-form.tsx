@@ -40,7 +40,7 @@ export function SettingsPinsForm({ isPinsVisible }: { isPinsVisible: boolean }) 
     }
 
     await updatePreferences({ user_id: user.id, isPinVisible: isPinsVisible })
-    revalidate()
+    revalidate({ path: '/category' })
   }
 
   return (

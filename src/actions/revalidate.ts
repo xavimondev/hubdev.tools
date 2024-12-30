@@ -2,6 +2,6 @@
 
 import { revalidatePath } from 'next/cache'
 
-export const revalidate = () => {
-  revalidatePath('/category')
+export const revalidate = ({ path }: { path: string }) => {
+  revalidatePath(path)
 }

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { revalidate } from '@/actions/revalidate'
 import { ArrowUpRight, PinIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { useDebouncedCallback } from 'use-debounce'
@@ -47,11 +48,15 @@ export function ResourceItem({
         toast.success('Added to your Pins', {
           duration: 2000
         })
+
+        revalidate({ path: '/pins' })
       }
       return
     }
 
     await removePinByResourceAndUser({ resourceId: resource_id, userId: user_id })
+
+    revalidate({ path: '/pins' })
   }, 200)
 
   const pinResource = async ({ resourceId }: { resourceId: string }) => {
