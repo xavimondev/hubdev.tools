@@ -1,13 +1,26 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
+import { updateSession } from '@/utils/supabase-middleware'
 import { updateClicks } from '@/services/updateClicks'
 
 export async function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname === '/pins') {
+    const supabaseResponse = await updateSession(request)
+    return supabaseResponse
+  }
+
   const searchParams = request.nextUrl.searchParams
   const resourceLink = searchParams.get('ref')
 
   if (!resourceLink) {
-    return NextResponse.next()
+    const requestHeaders = new Headers(request.headers)
+    requestHeaders.set('X-Pathname', request.nextUrl.pathname)
+
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders
+      }
+    })
   }
 
   if (process.env.NODE_ENV === 'production') {

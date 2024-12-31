@@ -1,5 +1,4 @@
-import { generateSearchSuggestionsAI, getHistory } from '@/actions/history'
-
+import { generateSearchSuggestionsAI, getHistory } from '@/services/history'
 import { Toolbar } from '@/components/toolbar'
 
 export async function AISearch() {

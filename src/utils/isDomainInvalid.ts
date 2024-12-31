@@ -32,6 +32,5 @@ export const INVALID_DOMAINS = [
 ]
 
 export const isDomainInvalid = ({ url }: { url: string }) => {
-  const domain = new URL(url).hostname
-  return INVALID_DOMAINS.some((invalidDomain) => domain.includes(invalidDomain))
+  return Boolean(INVALID_DOMAINS.find(d => d === url))
 }

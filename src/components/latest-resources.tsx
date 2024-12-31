@@ -1,8 +1,10 @@
 import { Suspense } from 'react'
+import { getUser } from '@/auth/server'
 import { ArrowRightCircleIcon } from 'lucide-react'
 import { Link } from 'next-view-transitions'
 
 import { getLatestResourcesCached } from '@/services/cached-queries'
+import { getPinsIdsByUser } from '@/services/list-pins'
 import { ErrorState } from '@/components/error-state'
 import { ListResource } from '@/components/list-resource'
 import { LoadingCards } from '@/components/loading'
@@ -14,7 +16,17 @@ async function ListLatestResources() {
     return <ErrorState error='Something went wrong' />
   }
 
-  return <ListResource data={data} />
+  // Let's remove resources already pinned
+  const user = await getUser()
+  const { id } = user ?? {}
+
+  const pinIds = !id
+    ? []
+    : ((await getPinsIdsByUser({ userId: id }))?.map((pin) => pin.resource_id) ?? [])
+
+  const resources = data.filter((suggestion) => !pinIds.includes(suggestion.id))
+
+  return <ListResource data={resources} />
 }
 
 export function LatestResources() {

@@ -1,5 +1,3 @@
-'use server'
-
 import { cookies } from 'next/headers'
 import { openai } from '@ai-sdk/openai'
 import { generateObject } from 'ai'
@@ -8,26 +6,6 @@ import { z } from 'zod'
 const AISchema = z.object({
   searchSuggestions: z.array(z.string())
 })
-
-export async function addSearch({ input }: { input: string }) {
-  const cookieStore = cookies()
-  const history = cookieStore.get('history')
-  if (!history) {
-    cookieStore.set('history', JSON.stringify([input]), { secure: true })
-    return
-  }
-
-  // max length of history is 5
-  const data = JSON.parse(history.value) as string[]
-  if (data.length === 5) {
-    data.shift()
-  }
-
-  if (!data.includes(input)) {
-    const newHistory = [input, ...data]
-    cookies().set('history', JSON.stringify(newHistory), { secure: true })
-  }
-}
 
 export async function getHistory(): Promise<string[]> {
   const cookieStore = cookies()

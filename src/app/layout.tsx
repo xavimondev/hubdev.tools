@@ -78,7 +78,16 @@ export default function RootLayout({
               <AISearch />
             </div>
           </ThemeProvider>
-          <Toaster theme='dark' />
+          <Toaster
+            theme='system'
+            toastOptions={{
+              classNames: {
+                toast: 'bg-background dark:border-input border-light-700/60',
+                title: 'dark:text-white text-light-900',
+                icon: 'dark:text-white text-light-900'
+              }
+            }}
+          />
           <Analytics />
         </body>
       </html>

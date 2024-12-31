@@ -1,9 +1,10 @@
 'use client'
 
+import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AsteriskIcon, FrownIcon } from 'lucide-react'
 
-export function EmptyState() {
+export function NoResultsSearch() {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter()
@@ -81,6 +82,43 @@ export function EmptyState() {
             </span>
           </li>
         </ul>
+      </div>
+    </div>
+  )
+}
+
+export function NoPinsAdded() {
+  return (
+    <div className='flex items-center justify-center w-full h-full bg-background mt-[190px]'>
+      <div className='flex flex-col items-center justify-center p-8 max-w-md w-full text-center'>
+        <div className='size-48 mb-8 text-muted-foreground'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+            className='size-full'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={1}
+              d='M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z'
+            />
+            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1} d='M9 10h6m-3-3v6' />
+          </svg>
+        </div>
+        <h2 className='text-2xl sm:text-4xl font-semibold text-foreground mb-2'>No pins yet</h2>
+        <p className='text-muted-foreground mb-6'>
+          Start pinning important resources to keep them easily accessible. Pinned items will appear
+          here for quick reference.
+        </p>
+        <Link
+          href='/category/ai'
+          className='rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2'
+        >
+          Pin a Resource
+        </Link>
       </div>
     </div>
   )

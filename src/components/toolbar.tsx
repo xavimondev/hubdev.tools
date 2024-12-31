@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { addSearch } from '@/actions/history'
 
 import { ClassifyStatus } from '@/types/classify'
 
@@ -22,6 +21,21 @@ function getStatusStyles({ status }: { status: ClassifyStatus }) {
   }
 
   return styles[status]
+}
+
+export async function addSearch({ input }: { input: string }) {
+  const response = await fetch('/api/update-history', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      input
+    })
+  })
+
+  const data = await response.json()
+  return data
 }
 
 export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {

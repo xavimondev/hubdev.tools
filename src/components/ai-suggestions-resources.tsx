@@ -1,6 +1,8 @@
 import { Suspense } from 'react'
+import { getUser } from '@/auth/server'
 
 import { getAISuggestions } from '@/services/dashboard'
+import { getPinsIdsByUser } from '@/services/list-pins'
 import { ErrorState } from '@/components/error-state'
 import { ListResource } from '@/components/list-resource'
 import { LoadingCards } from '@/components/loading'
@@ -18,6 +20,16 @@ async function ListAISuggestions() {
     return null
   }
 
+  // Let's remove resources already pinned from the suggestions
+  const user = await getUser()
+  const { id } = user ?? {}
+
+  const pinIds = !id
+    ? []
+    : ((await getPinsIdsByUser({ userId: id }))?.map((pin) => pin.resource_id) ?? [])
+
+  const suggestions = data.filter((suggestion) => !pinIds.includes(suggestion.id))
+
   return (
     <section>
       <div className='flex flex-col gap-4 mt-8'>
@@ -28,7 +40,7 @@ async function ListAISuggestions() {
           Tailored recommendations powered by AI.
         </p>
       </div>
-      <ListResource data={data} />
+      <ListResource data={suggestions} />
     </section>
   )
 }

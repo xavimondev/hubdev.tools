@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction, useState } from 'react'
-import { submitResource } from '@/actions/submit-resource'
+import { extractDomain } from '@/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { isDomainInvalid } from '@/utils/isDomainInvalid'
+import { submitResource } from '@/services/request'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -38,7 +39,8 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
   const hasErrors = Object.keys(errors).length > 0
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (isDomainInvalid({ url: values.url })) {
+    const domain = extractDomain(values.url)
+    if (isDomainInvalid({ url: domain })) {
       setError('url', {
         type: 'manual',
         message: 'Invalid URL.'
@@ -80,7 +82,7 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
             <FormItem>
               <FormLabel>Website URL</FormLabel>
               <FormControl>
-                <Input placeholder='https://example.com' {...field} />
+                <Input placeholder='https://example.com' {...field} autoComplete='off' />
               </FormControl>
               <FormMessage />
             </FormItem>

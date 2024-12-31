@@ -1,5 +1,4 @@
-import { search } from '@/actions/ai/search'
-
+import { search } from '@/services/search'
 import { ErrorState } from '@/components/error-state'
 import { PanelResources } from '@/components/panel-resources'
 

@@ -1,5 +1,4 @@
-'use server'
-
+import { NextRequest, NextResponse } from 'next/server'
 import { createOpenAI } from '@ai-sdk/openai'
 import { generateObject } from 'ai'
 import { z } from 'zod'
@@ -9,7 +8,10 @@ const groq = createOpenAI({
   apiKey: process.env.GROQ_API_KEY
 })
 
-export async function queryClassify({ input }: { input: string }) {
+export async function POST(request: NextRequest) {
+  const data = await request.json()
+  const input = data.input
+
   try {
     const result = await generateObject({
       model: groq('llama-3.1-8b-instant'),
@@ -22,10 +24,10 @@ export async function queryClassify({ input }: { input: string }) {
       User's Input: ${input}`
     })
 
-    return {
+    return NextResponse.json({
       category: result.object.category
-    }
+    })
   } catch (error) {
-    return { error: 'Something went wrong while classifying the prompt' }
+    return NextResponse.json({ error: 'Something went wrong while classifying the prompt' })
   }
 }
