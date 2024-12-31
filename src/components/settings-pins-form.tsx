@@ -5,8 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { Preferences } from '@/types/preferences'
+
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
-import { updatePreferences } from '@/services/preferences'
+import { getPreferences, updatePreferences } from '@/services/preferences'
 import {
   Form,
   FormControl,
@@ -39,7 +41,18 @@ export function SettingsPinsForm({ isPinsVisible }: { isPinsVisible: boolean }) 
       return
     }
 
-    await updatePreferences({ user_id: user.id, isPinVisible: isPinsVisible })
+    const preferences: Preferences = {
+      isPinsVisible,
+      user_id: user.id
+    }
+
+    const pref = await getPreferences()
+
+    if (pref) {
+      preferences.id = pref.id
+    }
+
+    await updatePreferences(preferences)
     revalidate({ path: '/category' })
   }
 

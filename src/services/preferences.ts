@@ -1,19 +1,21 @@
+import { Preferences } from '@/types/preferences'
+
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
 
-export const updatePreferences = async ({
-  user_id,
-  isPinVisible
-}: {
-  user_id: string
-  isPinVisible: boolean
-}) => {
+export const getPreferences = async () => {
   const supabase = await createSupabaseBrowserClient()
-  const { error } = await supabase
-    .from('preferences')
-    .update({ isPinsVisible: isPinVisible })
-    .eq('user_id', user_id)
+  const { error, data } = await supabase.from('preferences').select('id')
 
   if (error) throw error
 
-  return 'ok'
+  return data[0]
+}
+
+export const updatePreferences = async (preferences: Preferences) => {
+  const supabase = await createSupabaseBrowserClient()
+  const { error, data } = await supabase.from('preferences').upsert(preferences)
+
+  if (error) throw error
+
+  return data
 }
