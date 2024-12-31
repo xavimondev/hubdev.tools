@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
@@ -7,6 +8,7 @@ import { usePinsContext } from '@/app/provider/use-pins-context'
 export function usePin() {
   const removePinState = usePinsContext((store) => store.removePinState)
   const updatePinState = usePinsContext((store) => store.updatePinState)
+  const router = useRouter()
 
   const deletePin = async ({ id }: { id: string }) => {
     try {
@@ -16,6 +18,7 @@ export function usePin() {
 
       if (response === 'ok') {
         removePinState(id)
+        router.refresh()
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -45,6 +48,7 @@ export function usePin() {
         })
 
         updatePinState(id)
+        router.refresh()
       }
     } catch (error) {
       if (error instanceof Error) {
