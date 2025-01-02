@@ -13,6 +13,8 @@ export async function ServerTopPins() {
 
   const topPins = (await getTopPins({ userId: user.id })) ?? []
 
+  if (topPins.length === 0) return null
+
   return (
     <div className='mb-10'>
       <CarouselPins topPins={topPins} />
