@@ -1,11 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { startTransition, useOptimistic, useState } from 'react'
 import Image from 'next/image'
 import { revalidate } from '@/actions/revalidate'
 import { ArrowUpRight, PinIcon } from 'lucide-react'
 import { toast } from 'sonner'
-import { useDebouncedCallback } from 'use-debounce'
 
 import { Resource } from '@/types/resource'
 
@@ -38,26 +37,8 @@ export function ResourceItem({
   placeholder
 }: ResourceItemProps) {
   const [isPinned, setIsPinned] = useState(false)
+  const [optimisticState, setOptimisticState] = useOptimistic(isPinned)
   const [isClicked, setIsClicked] = useState(false)
-
-  const debounced = useDebouncedCallback(async (isPinnedResult, pin) => {
-    const { resource_id, user_id } = pin
-    if (isPinnedResult) {
-      const response = await addPin(pin)
-      if (response === 'ok') {
-        toast.success('Added to your Pins', {
-          duration: 2000
-        })
-
-        revalidate({ path: '/pins' })
-      }
-      return
-    }
-
-    await removePinByResourceAndUser({ resourceId: resource_id, userId: user_id })
-
-    revalidate({ path: '/pins' })
-  }, 200)
 
   const pinResource = async ({ resourceId }: { resourceId: string }) => {
     const supabase = await createSupabaseBrowserClient()
@@ -76,32 +57,49 @@ export function ResourceItem({
       user_id: id
     }
 
-    try {
-      const isPinnedResult = !isPinned
+    const originalState = isPinned
 
-      // TODO: update using useOptimistic
-      setIsPinned(isPinnedResult)
+    const isPinnedResult = !optimisticState
 
-      debounced(isPinnedResult, pin)
-
-      if (isPinnedResult) {
-        setIsClicked(true)
-        setTimeout(() => setIsClicked(false), 800)
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message)
-      }
+    // Let's show particles once user clicks on the pin icon
+    if (isPinnedResult) {
+      setIsClicked(true)
+      setTimeout(() => setIsClicked(false), 400)
     }
+
+    // Optimistic update
+    startTransition(async () => {
+      setOptimisticState(isPinnedResult)
+
+      try {
+        const { resource_id, user_id } = pin
+        let response: string = ''
+        if (isPinnedResult) {
+          response = await addPin(pin)
+        } else {
+          response = await removePinByResourceAndUser({ resourceId: resource_id, userId: user_id })
+        }
+
+        if (response === 'ok') {
+          setIsPinned(isPinnedResult)
+          revalidate({ path: '/pins' })
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message)
+        }
+        setOptimisticState(originalState)
+      }
+    })
   }
 
   return (
     <article
       className={cn(
         'rounded-lg shadow-sm border transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3',
-        isPinned
+        optimisticState
           ? 'border-orange-500/30 bg-orange-400/30 hover:bg-orange-600/30 dark:border-orange-200/40 dark:bg-orange-200/5 dark:hover:bg-orange-400/5'
-          : isPinned
+          : optimisticState
             ? 'bg-gradient-to-br bg-light-600/20 dark:from-neutral-950 dark:to-stone-900 border-light-600/70 dark:border-orange-300/20 dark:hover:border-orange-300/50'
             : DEFAULT_STYLE
       )}
@@ -144,7 +142,7 @@ export function ResourceItem({
                   <PinIcon
                     className={cn(
                       'size-[22px] mr-2 hover:scale-110 text-light-800 dark:text-orange-300',
-                      isPinned && 'fill-light-800 dark:fill-orange-300'
+                      optimisticState && 'fill-light-800 dark:fill-orange-300'
                     )}
                   />
                 </div>
@@ -152,7 +150,7 @@ export function ResourceItem({
               </div>
             </TooltipTrigger>
             <TooltipContent side='left' className='border-light-600 dark:border-neutral-800/70'>
-              <p>{isPinned ? 'Remove from Pins' : 'Mark as a Pin'}</p>
+              <p>{optimisticState ? 'Remove from Pins' : 'Mark as a Pin'}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
