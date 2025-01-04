@@ -53,7 +53,7 @@ export function SettingsPinsForm({ isPinsVisible }: { isPinsVisible: boolean }) 
     }
 
     await updatePreferences(preferences)
-    revalidate({ path: '/category' })
+    revalidate({ key: '/category', type: 'path' })
   }
 
   return (

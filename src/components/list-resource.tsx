@@ -82,7 +82,7 @@ export function ResourceItem({
 
         if (response === 'ok') {
           setIsPinned(isPinnedResult)
-          revalidate({ path: '/pins' })
+          revalidate({ key: 'user_pins', type: 'tag' })
         }
       } catch (error) {
         if (error instanceof Error) {

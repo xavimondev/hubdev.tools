@@ -11,7 +11,7 @@ export const getUserPins = async ({
   from: number
   to: number
 }): Promise<Pin[] | undefined> => {
-  const supabaseServer = await createSupabaseServerClient()
+  const supabaseServer = await createSupabaseServerClient('user_pins')
 
   const { data, error } = await supabaseServer
     .from('pines')
