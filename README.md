@@ -5,7 +5,6 @@
   <img src='https://hubdev.tools/assets/banner.jpg' width="100%" alt="Banner" />
 </a>
 
-<p>Empowering Developers with Essential Tools and Seamless Semantic Search.</p> 
 <img src="https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white" alt="Nextjs" />
 <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript"  />
 <img src="https://img.shields.io/badge/Tailwind%20CSS-0F172A?logo=tailwind-css&logoColor=38BDF9" alt="TailwindCSS"  />
