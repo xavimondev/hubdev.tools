@@ -1,13 +1,11 @@
 'use client'
 
-import { useRef, useState } from 'react'
 import Image from 'next/image'
-import { ArrowBigUpIcon, ArrowUpRight, MoreVertical } from 'lucide-react'
-import { toast } from 'sonner'
+import { ArrowUpRight, MoreVertical } from 'lucide-react'
 
 import { Pin } from '@/types/pin'
 
-import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX, NUMBER_OF_GENERATIONS_TO_FETCH } from '@/constants'
+import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { usePin } from '@/hooks/usePin'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,11 +14,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { MapPinOffIcon } from '@/components/animated-icons/map-pin-off'
+import { SparklesIcon } from '@/components/animated-icons/sparkles'
 import { NoPinsAdded } from '@/components/empty-state'
-import { RemoveIc } from '@/components/icons'
-import { LoadMore } from '@/components/load-more'
 import { SectionHeader } from '@/components/section-header'
-import { usePinsContext } from '@/app/provider/use-pins-context'
 
 function PinCardActions({ id }: { id: string }) {
   const { deletePin, updatePinStatus } = usePin()
@@ -35,12 +32,14 @@ function PinCardActions({ id }: { id: string }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         <DropdownMenuItem className='group' onClick={() => updatePinStatus({ id, action: 'add' })}>
-          <ArrowBigUpIcon className='size-[21px] mr-[7px] group-hover:-translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
-          <span>Add to Top</span>
+          <SparklesIcon>
+            <span>Add to Highlights</span>
+          </SparklesIcon>
         </DropdownMenuItem>
         <DropdownMenuItem className='group' onClick={() => deletePin({ id })}>
-          <RemoveIc className='size-4 ml-[3px] mr-[9px] overflow-visible' />
-          <span>Remove pin</span>
+          <MapPinOffIcon>
+            <span>Unpin</span>
+          </MapPinOffIcon>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -117,58 +116,18 @@ function ListPins({ pins }: ListPinsProps) {
   )
 }
 
-export function UserPins() {
-  const addPins = usePinsContext((store) => store.addPins)
-  const pins = usePinsContext((store) => store.pins)
-  const userPins = pins.filter((pin) => !pin.isTop)
+type UserPinsProps = {
+  userPins: Pin[]
+}
 
-  const isLastRequest = useRef(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [hasResources, setHasResources] = useState(userPins.length > NUMBER_OF_GENERATIONS_TO_FETCH)
-
-  const loadMorePins = async () => {
-    if (isLastRequest.current || !userPins) return
-
-    let results: any = []
-    const from = userPins.length
-    const to = userPins.length + NUMBER_OF_GENERATIONS_TO_FETCH
-
-    setIsLoading(true)
-
-    const response = await fetch(`/api/pins?from=${from}&to=${to}`)
-    if (response.status !== 200) {
-      toast.error('Unable to fetch pinned resources')
-      return
-    }
-
-    const data = await response.json()
-    results = data.data
-
-    setIsLoading(false)
-
-    if (!results) return
-
-    if (results.length > 0) {
-      addPins(results)
-    }
-
-    // Hidding the load more button
-    if (results.length < NUMBER_OF_GENERATIONS_TO_FETCH + 1) {
-      isLastRequest.current = true
-      setHasResources(false)
-    }
-  }
-
+export function UserPins({ userPins }: UserPinsProps) {
   return (
     <div className='h-auto w-full shrink-0 rounded-md'>
       <SectionHeader
         title='Pinned Resources'
         description='Explore all the pins you have saved for quick access.'
       />
-      <>
-        {userPins.length > 0 ? <ListPins pins={userPins} /> : <NoPinsAdded />}
-        {hasResources && <LoadMore loadMoreResources={loadMorePins} isLoading={isLoading} />}
-      </>
+      <>{userPins.length > 0 ? <ListPins pins={userPins} /> : <NoPinsAdded />}</>
     </div>
   )
 }

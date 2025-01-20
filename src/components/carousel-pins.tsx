@@ -21,7 +21,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { RemoveIc } from '@/components/icons'
+import { CancelIcon } from '@/components/animated-icons/cancel'
+import { MapPinOffIcon } from '@/components/animated-icons/map-pin-off'
 import { PinsPreferences } from '@/components/pins-preferences'
 import { SectionHeader } from '@/components/section-header'
 
@@ -41,16 +42,18 @@ function PinCardActions({ id }: PinCardActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
-        <DropdownMenuItem className='group' onClick={() => deletePin({ id })}>
-          <RemoveIc className='size-4 ml-[3px] mr-[9px] overflow-visible' />
-          <span>Remove pin</span>
-        </DropdownMenuItem>
         <DropdownMenuItem
           className='group'
           onClick={() => updatePinStatus({ id, action: 'remove' })}
         >
-          <ArrowBigDownIcon className='size-[21px] mr-2 group-hover:translate-y-[2.5px] transition-transform duration-300 ease-in-out' />
-          <span>Remove from Top</span>
+          <CancelIcon>
+            <span>Remove from Highlights</span>
+          </CancelIcon>
+        </DropdownMenuItem>
+        <DropdownMenuItem className='group' onClick={() => deletePin({ id })}>
+          <MapPinOffIcon>
+            <span>Unpin</span>
+          </MapPinOffIcon>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

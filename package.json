@@ -1,6 +1,6 @@
 {
   "name": "hubdev.tools",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -33,10 +33,10 @@
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
     "embla-carousel-react": "8.3.0",
-    "framer-motion": "11.8.0",
     "geist": "1.3.1",
     "lucide-react": "0.412.0",
     "mini-svg-data-uri": "1.4.4",
+    "motion": "11.18.1",
     "next": "14.2.15",
     "next-themes": "0.3.0",
     "next-view-transitions": "0.2.0",
@@ -49,8 +49,7 @@
     "tailwind-merge": "2.4.0",
     "tailwind-scrollbar-hide": "1.1.7",
     "tailwindcss-animate": "1.0.7",
-    "zod": "3.23.8",
-    "zustand": "5.0.2"
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.3.1",

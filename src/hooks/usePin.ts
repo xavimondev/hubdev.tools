@@ -1,15 +1,10 @@
-import { useRouter } from 'next/navigation'
+import { revalidate } from '@/actions/revalidate'
 import { toast } from 'sonner'
 
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
 import { removePin, updateIsTopStatus } from '@/services/pins'
-import { usePinsContext } from '@/app/provider/use-pins-context'
 
 export function usePin() {
-  const removePinState = usePinsContext((store) => store.removePinState)
-  const updatePinState = usePinsContext((store) => store.updatePinState)
-  const router = useRouter()
-
   const deletePin = async ({ id }: { id: string }) => {
     try {
       const response = await removePin({
@@ -17,8 +12,10 @@ export function usePin() {
       })
 
       if (response === 'ok') {
-        removePinState(id)
-        router.refresh()
+        revalidate({
+          key: '/pins',
+          type: 'path'
+        })
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -43,12 +40,13 @@ export function usePin() {
 
       const response = await updateIsTopStatus({ pinId: id, action, userId })
       if (response === 'ok') {
-        toast.success('Pin Updated', {
-          duration: 2000
+        revalidate({
+          key: '/pins',
+          type: 'path'
         })
-
-        updatePinState(id)
-        router.refresh()
+        // toast.success('Pin Updated', {
+        //   duration: 2000
+        // })
       }
     } catch (error) {
       if (error instanceof Error) {

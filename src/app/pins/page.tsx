@@ -1,7 +1,6 @@
 import { headers } from 'next/headers'
 import { getUser } from '@/auth/server'
 
-import { NUMBER_OF_GENERATIONS_TO_FETCH } from '@/constants'
 import { getTopPins, getUserPins } from '@/services/list-pins'
 import { getPinsPreferences } from '@/services/server-pins-preferences'
 import { Container } from '@/components/container'
@@ -14,9 +13,7 @@ export default async function Page() {
   if (!user) return <ErrorState error='You need to be logged in to view your pinned resources' />
 
   const userPins = await getUserPins({
-    userId: user.id,
-    from: 0,
-    to: NUMBER_OF_GENERATIONS_TO_FETCH
+    userId: user.id
   })
   const topPins = await getTopPins({ userId: user.id })
 

@@ -1,17 +1,15 @@
 'use client'
 
-import { usePinsContext } from '@/app/provider/use-pins-context'
+import { Pin } from '@/types/pin'
 
 import { CarouselPins } from './carousel-pins'
 
 type TopPinsProps = {
+  topPins: Pin[]
   isPinsVisible: boolean
 }
 
-export function TopPins({ isPinsVisible }: TopPinsProps) {
-  const pins = usePinsContext((store) => store.pins)
-  const topPins = pins.filter((pin) => pin.isTop)
-
+export function TopPins({ topPins, isPinsVisible }: TopPinsProps) {
   if (topPins.length === 0) return null
 
   return (
