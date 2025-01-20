@@ -2,7 +2,7 @@
 <div align="center">
 
 <a href=https://github.com/xavimondev/hubdev.tools target="_blank">
-  <img src='https://hubdev.tools/assets/banner.png' width="100%" alt="Banner" />
+  <img src='https://hubdev.tools/assets/banner.jpg' width="100%" alt="Banner" />
 </a>
 
 <p>Empowering Developers with Essential Tools and Seamless Semantic Search.</p> 
