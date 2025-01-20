@@ -3,13 +3,13 @@ import { Pin } from '@/types/pin'
 import { createSupabaseServerClient } from '@/utils/supabase-server'
 
 export const getUserPins = async ({
-  userId,
-  from,
-  to
+  userId
+  // from,
+  // to
 }: {
   userId: string
-  from: number
-  to: number
+  // from: number
+  // to: number
 }): Promise<Pin[] | undefined> => {
   const supabaseServer = await createSupabaseServerClient('user_pins')
 
@@ -33,8 +33,8 @@ export const getUserPins = async ({
     `
     )
     .match({ user_id: userId, isTop: false })
-    .range(from, to)
     .order('created_at', { ascending: false })
+  // .range(from, to)
 
   if (error) {
     console.error(error)

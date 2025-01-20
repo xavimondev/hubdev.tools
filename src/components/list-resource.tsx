@@ -14,7 +14,6 @@ import { createSupabaseBrowserClient } from '@/utils/supabase-client'
 import { addPin, removePinByResourceAndUser } from '@/services/pins'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { NoResultsSearch } from '@/components/empty-state'
-import { PinParticles } from '@/components/pin-particles'
 
 type ResourceItemProps = {
   id: string
@@ -38,7 +37,6 @@ export function ResourceItem({
 }: ResourceItemProps) {
   const [isPinned, setIsPinned] = useState(false)
   const [optimisticState, setOptimisticState] = useOptimistic(isPinned)
-  const [isClicked, setIsClicked] = useState(false)
 
   const pinResource = async ({ resourceId }: { resourceId: string }) => {
     const supabase = await createSupabaseBrowserClient()
@@ -60,12 +58,6 @@ export function ResourceItem({
     const originalState = isPinned
 
     const isPinnedResult = !optimisticState
-
-    // Let's show particles once user clicks on the pin icon
-    if (isPinnedResult) {
-      setIsClicked(true)
-      setTimeout(() => setIsClicked(false), 400)
-    }
 
     // Optimistic update
     startTransition(async () => {
@@ -141,12 +133,11 @@ export function ResourceItem({
                 <div className='cursor-pointer' onClick={() => pinResource({ resourceId: id })}>
                   <PinIcon
                     className={cn(
-                      'size-[22px] mr-2 hover:scale-110 text-light-800 dark:text-orange-300',
-                      optimisticState && 'fill-light-800 dark:fill-orange-300'
+                      'size-[22px] mr-2 hover:scale-110 text-light-800 dark:text-[#FFC107]',
+                      optimisticState && 'fill-light-800 dark:fill-[#FFC107]'
                     )}
                   />
                 </div>
-                {isClicked && <PinParticles />}
               </div>
             </TooltipTrigger>
             <TooltipContent side='left' className='border-light-600 dark:border-neutral-800/70'>
