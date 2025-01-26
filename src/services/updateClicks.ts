@@ -11,14 +11,13 @@ export const updateClicks = async ({ url }: { url: string }) => {
     }
   }
 
-  const { id } = data[0]
-
+  const { id } = data
   return await incrementClicks({ id })
 }
 
 const verifyUrl = async ({ url }: { url: string }) => {
   const supabase = await createSupabaseServerClient()
-  const { data, error } = await supabase.from('resources').select('id').eq('url', url)
+  const { data, error } = await supabase.from('resources').select('id').eq('url', url).single()
   if (error) {
     console.error(error)
     return {
@@ -28,7 +27,7 @@ const verifyUrl = async ({ url }: { url: string }) => {
     }
   }
 
-  if (data.length === 0) {
+  if (!data) {
     return {
       success: false,
       code: 404,
