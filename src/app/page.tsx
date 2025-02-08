@@ -9,10 +9,10 @@ import Loading from '@/components/loading'
 export const maxDuration = 60
 
 export async function generateMetadata(
-  { searchParams }: { searchParams: { query: string | undefined } },
+  { searchParams }: { searchParams: Promise<{ query: string | undefined }> },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const { query } = searchParams
+  const { query } = await searchParams
 
   const images = []
   if (query) {
@@ -32,8 +32,12 @@ export async function generateMetadata(
   }
 }
 
-export default async function MainPage({ searchParams }: { searchParams: { query: string } }) {
-  const { query } = searchParams
+export default async function MainPage({
+  searchParams
+}: {
+  searchParams: Promise<{ query: string }>
+}) {
+  const { query } = await searchParams
   return (
     <>
       <Container>

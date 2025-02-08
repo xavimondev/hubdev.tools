@@ -14,9 +14,9 @@ export const maxDuration = 60
 export async function generateMetadata({
   params
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const { slug } = params
+  const { slug } = await params
 
   if (slug == 'all') {
     return {
@@ -51,10 +51,10 @@ export default async function Page({
   params,
   searchParams
 }: {
-  params: { slug: string }
-  searchParams: { query: string }
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ query: string }>
 }) {
-  const { slug } = params
+  const { slug } = await params
   let heroTitle = ''
   let heroDescription = ''
 
@@ -72,7 +72,7 @@ export default async function Page({
     heroDescription = categoryDescription as string
   }
 
-  const { query } = searchParams
+  const { query } = await searchParams
 
   return (
     <Container>

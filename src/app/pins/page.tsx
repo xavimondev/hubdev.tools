@@ -17,7 +17,7 @@ export default async function Page() {
   })
   const topPins = await getTopPins({ userId: user.id })
 
-  const pathname = headers().get('x-pathname')
+  const pathname = (await headers()).get('x-pathname')
 
   const isPinsVisible = await getPinsPreferences()
 

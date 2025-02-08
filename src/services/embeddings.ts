@@ -16,7 +16,7 @@ export async function getEmbeddings({ input, count }: { input: string; count?: n
   try {
     if (process.env.NODE_ENV === 'production') {
       if (ratelimit) {
-        const ip = headers().get('x-forwarded-for') ?? 'local'
+        const ip = (await headers()).get('x-forwarded-for') ?? 'local'
 
         const { success } = await ratelimit.limit(ip)
         if (!success) {
