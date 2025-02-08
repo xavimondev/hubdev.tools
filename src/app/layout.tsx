@@ -15,7 +15,7 @@ import { Sidebar } from '@/components/sidebar'
 
 const title = 'hubdev.tools - Developer Tools and Resources | Find Everything Here'
 const description =
-  'A great collection of essential resources and tools for developers, thoughtfully categorized. Simplify your searches with our powerful semantic search engine. Discover UI inspiration, books, courses, testing tools, icons, and much more.'
+  'A great collection of resources and tools for developers. Discover UI inspiration, books, courses, testing tools, icons, and much more.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/assets/og.jpg',
+        url: '/assets/banner.jpg',
         width: 1835,
         height: 1000,
         type: 'image/jpeg'
