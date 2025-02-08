@@ -15,8 +15,8 @@ export async function GET(request: Request) {
   const hasQuery = searchParams.has('query')
 
   if (!hasQuery) {
-    const ogSrc = await fetch(new URL(`${APP_URL}/assets/og.jpg`, import.meta.url)).then((res) =>
-      res.arrayBuffer()
+    const ogSrc = await fetch(new URL(`${APP_URL}/assets/banner.jpg`, import.meta.url)).then(
+      (res) => res.arrayBuffer()
     )
 
     return new ImageResponse(
