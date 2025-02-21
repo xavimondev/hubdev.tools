@@ -1,46 +1,39 @@
 import { ImageResponse } from 'next/og'
 
 import { APP_URL } from '@/constants'
+import { getCategoryDetails } from '@/services/list'
 
 export const runtime = 'edge'
 
-export async function GET(request: Request) {
+export default async function Image({ params }: { params: { slug: string } }) {
   const size = {
     width: 1200,
     height: 630
   }
+
   const contentType = 'image/png'
-
-  const { searchParams } = new URL(request.url)
-  const hasQuery = searchParams.has('query')
-
-  if (!hasQuery) {
-    const ogSrc = await fetch(new URL(`${APP_URL}/assets/banner.jpg`, import.meta.url)).then(
-      (res) => res.arrayBuffer()
-    )
-
+  const details = await getCategoryDetails({ slug: params.slug })
+  if (!details) {
     return new ImageResponse(
       (
         <div
           style={{
-            display: 'flex',
+            background: '#100E0E',
             width: '100%',
             height: '100%',
-            background: '#151313'
+            display: 'flex',
+            alignItems: 'center',
+            color: '#B9B9B9',
+            fontSize: '5rem'
           }}
         >
-          <img
-            // @ts-ignore
-            src={ogSrc}
-            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-            alt='logo'
-          />
+          Category not found
         </div>
       )
     )
   }
 
-  const query = searchParams.get('query')
+  const { name, description } = details[0]
 
   const iconSrc = await fetch(new URL(`${APP_URL}/assets/icon.png`, import.meta.url)).then((res) =>
     res.arrayBuffer()
@@ -91,22 +84,34 @@ export async function GET(request: Request) {
         </div>
         <div
           style={{
+            backgroundColor: 'transparent',
+            backgroundImage: `radial-gradient(ellipse 80% 35% at 65% -25%, rgba(70,100,180,0.2), rgba(255, 255, 255, 0))`,
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            top: '0'
+          }}
+        ></div>
+        <div
+          style={{
             display: 'flex',
             flexDirection: 'column',
             gap: '10px',
             margin: '35px'
           }}
         >
-          <p
+          <div
             style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
               color: '#fde047',
-              fontSize: '3rem',
-              display: 'block',
-              lineClamp: 4
+              fontSize: '6rem'
             }}
           >
-            [🔍] {query}
-          </p>
+            <span>{name}</span>
+          </div>
+          <p style={{ color: '#B9B9B9', fontSize: '3rem' }}>{description}</p>
         </div>
         <div
           style={{

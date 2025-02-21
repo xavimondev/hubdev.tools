@@ -5,11 +5,12 @@ import { getCategoryDetails } from '@/services/list'
 
 export const runtime = 'edge'
 
-export async function GET(request: Request, { params }: { params: { slug: string } }) {
+export default async function Image({ params }: { params: { slug: string } }) {
   const size = {
     width: 1200,
     height: 630
   }
+
   const contentType = 'image/png'
   const details = await getCategoryDetails({ slug: params.slug })
   if (!details) {

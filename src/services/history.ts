@@ -8,7 +8,7 @@ const AISchema = z.object({
 })
 
 export async function getHistory(): Promise<string[]> {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const history = cookieStore.get('history')
   if (!history) {
     return []
@@ -19,7 +19,7 @@ export async function getHistory(): Promise<string[]> {
 }
 
 export async function generateSearchSuggestionsAI() {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const history = cookieStore.get('history')
   if (!history) {
     return []

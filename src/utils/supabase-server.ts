@@ -20,7 +20,7 @@ const fetchWithTags = (
 }
 
 export const createSupabaseServerClient = async (tag?: string) => {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,

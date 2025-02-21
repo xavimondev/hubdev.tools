@@ -9,7 +9,7 @@ export function getLatestResourcesCached() {
     },
     ['latest_resources'],
     {
-      revalidate: 3600 * 2
+      revalidate: 3600 * 24 // 1 day
     }
   )()
 }
@@ -21,7 +21,7 @@ export function getFeaturedResourcesCached() {
     },
     ['featured_resources'],
     {
-      revalidate: 1800
+      revalidate: 3600 * 24 // 1 day
     }
   )()
 }

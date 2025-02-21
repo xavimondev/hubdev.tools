@@ -5,21 +5,24 @@ import './globals.css'
 
 import { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react'
+import { ThemeProvider } from 'next-themes'
 import { Toaster } from 'sonner'
 
 import { APP_URL } from '@/constants'
 import { AISearch } from '@/components/ai-search'
 import { Header } from '@/components/header'
 import { Sidebar } from '@/components/sidebar'
-import { ThemeProvider } from '@/components/theme-provider'
 
-const title = 'hubdev.tools - Developer Tools and Resources | Find Everything Here'
+const title = 'hubdev.tools - Developer Tools and Resources'
 const description =
-  'A great collection of essential resources and tools for developers, thoughtfully categorized. Simplify your searches with our powerful semantic search engine. Discover UI inspiration, books, courses, testing tools, icons, and much more.'
+  'A great collection of resources and tools for developers. Discover UI inspiration, books, courses, testing tools, icons, and much more.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
-  title,
+  title: {
+    template: `%s | ${title}`,
+    default: title
+  },
   description,
   keywords: [
     'dev resources',
@@ -47,7 +50,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/assets/og.jpg',
+        url: '/assets/banner.jpg',
         width: 1835,
         height: 1000,
         type: 'image/jpeg'

@@ -44,7 +44,7 @@ export const getFeaturedResources = async () => {
 }
 
 export const getAISuggestions = async () => {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const history = cookieStore.get('history')
   if (!history) {
     return {
