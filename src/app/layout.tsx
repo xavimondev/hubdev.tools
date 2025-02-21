@@ -13,13 +13,16 @@ import { AISearch } from '@/components/ai-search'
 import { Header } from '@/components/header'
 import { Sidebar } from '@/components/sidebar'
 
-const title = 'hubdev.tools - Developer Tools and Resources | Find Everything Here'
+const title = 'hubdev.tools - Developer Tools and Resources'
 const description =
   'A great collection of resources and tools for developers. Discover UI inspiration, books, courses, testing tools, icons, and much more.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
-  title,
+  title: {
+    template: `%s | ${title}`,
+    default: title
+  },
   description,
   keywords: [
     'dev resources',
