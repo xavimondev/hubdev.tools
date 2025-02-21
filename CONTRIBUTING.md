@@ -1,15 +1,5 @@
 # Conference Data Contributing Guidelines
 
-## Setting Up
-
-### OPENAI_API_KEY
-
-- Go to the [OpenAI website](https://openai.com/).
-- Sign in to your account or create a new one.
-- Navigate to your [API settings](https://platform.openai.com/account/api-keys).
-- Generate an Secret key.
-- Copy the generated Secret key.
-
 ### UPSTASH_REDIS_REST_URL - UPSTASH_REDIS_REST_TOKEN
 
 - Go to the Uptash [console](https://console.upstash.com/).
@@ -17,7 +7,7 @@
 - Navigate to your database.
 - Copy the generated keys.
 
-### SUPABASE_URL - SUPABASE_SERVICE_ROLE_KEY
+### SUPABASE KEYS
 
 - Go to the [Supabase website](https://supabase.com/).
 - Sign in to your account or create a new one.
