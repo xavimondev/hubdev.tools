@@ -21,7 +21,7 @@ export function getFeaturedResourcesCached() {
     },
     ['featured_resources'],
     {
-      revalidate: 3600 * 24 // 1 day
+      revalidate: 3600 * 2 // 2 hours
     }
   )()
 }
