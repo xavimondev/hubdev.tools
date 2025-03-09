@@ -9,7 +9,7 @@ export function getLatestResourcesCached() {
     },
     ['latest_resources'],
     {
-      revalidate: 3600 * 24 // 1 day
+      revalidate: 3600 * 12 // 12 hours
     }
   )()
 }
