@@ -3,14 +3,14 @@ import { getUser } from '@/auth/server'
 import { ArrowRightCircleIcon } from 'lucide-react'
 import { Link } from 'next-view-transitions'
 
-import { getLatestResourcesCached } from '@/services/cached-queries'
+import { getLatestResources } from '@/services/dashboard'
 import { getPinsIdsByUser } from '@/services/list-pins'
 import { ErrorState } from '@/components/error-state'
 import { ListResource } from '@/components/list-resource'
 import { LoadingCards } from '@/components/loading'
 
 async function ListLatestResources() {
-  const data = await getLatestResourcesCached()
+  const data = await getLatestResources()
 
   if (!data) {
     return <ErrorState error='Something went wrong' />
