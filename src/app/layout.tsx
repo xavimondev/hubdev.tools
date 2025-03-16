@@ -23,9 +23,13 @@ export const metadata: Metadata = {
     template: `%s | ${title}`,
     default: title
   },
+  alternates: {
+    canonical: '/'
+  },
   description,
   keywords: [
     'dev resources',
+    'developers tools',
     'developer resources',
     'tools',
     'libraries',
