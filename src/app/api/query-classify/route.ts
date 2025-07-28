@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createOpenAI } from '@ai-sdk/openai'
+import { createGroq } from '@ai-sdk/groq'
 import { generateObject } from 'ai'
 import { z } from 'zod'
 
-const groq = createOpenAI({
+const groq = createGroq({
   baseURL: 'https://api.groq.com/openai/v1',
   apiKey: process.env.GROQ_API_KEY
 })
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       }),
       prompt: `You are a classification assistant designed to categorize user input based on its relevance to technological subjects. 
       Your job is to analyze the user's input and classify it.
-      
+
       User's Input: ${input}`
     })
 

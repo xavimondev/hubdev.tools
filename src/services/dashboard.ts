@@ -1,10 +1,15 @@
 import { cookies } from 'next/headers'
-import { openai } from '@ai-sdk/openai'
+import { createGroq } from '@ai-sdk/groq'
 import { generateText } from 'ai'
 
 import { getEmbeddings } from '@/services/embeddings'
 
 import { supabase } from './client'
+
+const groq = createGroq({
+  baseURL: 'https://api.groq.com/openai/v1',
+  apiKey: process.env.GROQ_API_KEY
+})
 
 export const getFeaturedResources = async () => {
   const { data, error } = await supabase
@@ -55,7 +60,7 @@ export const getAISuggestions = async () => {
   const historyValue = JSON.parse(history.value)
 
   const { text: query } = await generateText({
-    model: openai('gpt-4o-mini'),
+    model: groq('llama-3.1-8b-instant'),
     prompt: `You are a helpful assistant that summarizes the user's search history.
   Based on the following search history:
   ${historyValue.join('\n')}
