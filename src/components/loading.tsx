@@ -1,7 +1,7 @@
 export default function Loading() {
   return (
     <div>
-      <div className='h-72 w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
+      <div className='h-72 w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900 mt-6' />
       <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
         <div className='h-[200px] w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
         <div className='h-[200px] w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
