@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { createGroq } from '@ai-sdk/groq'
 import { generateObject } from 'ai'
-import { z } from 'zod'
+import * as z from 'zod'
 
 const groq = createGroq({
   baseURL: 'https://api.groq.com/openai/v1',

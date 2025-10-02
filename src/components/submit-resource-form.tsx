@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { extractDomain } from '@/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import * as z from 'zod'
 
 import { isDomainInvalid } from '@/utils/isDomainInvalid'
 import { submitResource } from '@/services/request'
@@ -18,7 +18,7 @@ import {
 import { Input } from '@/components/ui/input'
 
 const formSchema = z.object({
-  url: z.string().url({
+  url: z.url({
     message: 'Invalid URL.'
   })
 })
