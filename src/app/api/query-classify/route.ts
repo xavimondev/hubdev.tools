@@ -28,6 +28,8 @@ export async function POST(request: NextRequest) {
       category: result.object.category
     })
   } catch (error) {
-    return NextResponse.json({ error: 'Something went wrong while classifying the prompt' })
+    return NextResponse.json({
+      error: 'Something went wrong while classifying the prompt'
+    })
   }
 }

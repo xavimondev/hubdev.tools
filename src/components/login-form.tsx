@@ -29,7 +29,11 @@ export function GithubAuthButton() {
       className='w-full'
       variant='outline'
       type='button'
-      onClick={() => signInWithOAuth({ provider: 'github' })}
+      onClick={() =>
+        signInWithOAuth({
+          provider: 'github'
+        })
+      }
     >
       <GithubIc className='mr-2 size-5' />
       Github
@@ -43,7 +47,11 @@ export function GoogleAuthButton() {
       className='w-full'
       variant='outline'
       type='button'
-      onClick={() => signInWithOAuth({ provider: 'google' })}
+      onClick={() =>
+        signInWithOAuth({
+          provider: 'google'
+        })
+      }
     >
       <GoogleIc className='mr-2 size-5' />
       Google

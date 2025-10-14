@@ -15,7 +15,9 @@ export default async function Page() {
   const userPins = await getUserPins({
     userId: user.id
   })
-  const topPins = await getTopPins({ userId: user.id })
+  const topPins = await getTopPins({
+    userId: user.id
+  })
 
   const pathname = (await headers()).get('x-pathname')
 
@@ -27,7 +29,11 @@ export default async function Page() {
 
   return (
     <Container>
-      <PinsContainer userPins={userPins} topPins={topPins} isPinsVisible={isPinsVisible} />
+      <PinsContainer
+        userPins={userPins}
+        topPins={topPins}
+        isPinsVisible={isPinsVisible}
+      />
     </Container>
   )
 }

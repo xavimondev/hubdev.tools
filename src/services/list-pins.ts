@@ -32,8 +32,13 @@ export const getUserPins = async ({
     )
     `
     )
-    .match({ user_id: userId, isTop: false })
-    .order('created_at', { ascending: false })
+    .match({
+      user_id: userId,
+      isTop: false
+    })
+    .order('created_at', {
+      ascending: false
+    })
   // .range(from, to)
 
   if (error) {
@@ -80,8 +85,13 @@ export const getTopPins = async ({ userId }: { userId: string }): Promise<Pin[] 
     )
     `
     )
-    .match({ user_id: userId, isTop: true })
-    .order('updated_at', { ascending: false })
+    .match({
+      user_id: userId,
+      isTop: true
+    })
+    .order('updated_at', {
+      ascending: false
+    })
 
   if (error) {
     console.error(error)

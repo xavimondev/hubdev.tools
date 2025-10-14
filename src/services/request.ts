@@ -40,9 +40,13 @@ export const submitResource = async ({ formData }: { formData: FormData }) => {
   }
 
   try {
-    const isAdded = await isAlreadySubmittedOrAdded({ url: request.website })
+    const isAdded = await isAlreadySubmittedOrAdded({
+      url: request.website
+    })
     if (!isAdded) {
-      const response = await addRequest({ request })
+      const response = await addRequest({
+        request
+      })
       return {
         msg: response
       }

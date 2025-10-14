@@ -9,7 +9,13 @@ import Loading from '@/components/loading'
 export const maxDuration = 60
 
 export async function generateMetadata(
-  { searchParams }: { searchParams: Promise<{ query: string | undefined }> },
+  {
+    searchParams
+  }: {
+    searchParams: Promise<{
+      query: string | undefined
+    }>
+  },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { query } = await searchParams
@@ -35,7 +41,9 @@ export async function generateMetadata(
 export default async function MainPage({
   searchParams
 }: {
-  searchParams: Promise<{ query: string }>
+  searchParams: Promise<{
+    query: string
+  }>
 }) {
   const { query } = await searchParams
   return (
@@ -54,7 +62,10 @@ export default async function MainPage({
                 </p>
               </div>
             </div>
-            <Suspense key={query} fallback={<Loading />}>
+            <Suspense
+              key={query}
+              fallback={<Loading />}
+            >
               <Home query={query} />
             </Suspense>
           </>

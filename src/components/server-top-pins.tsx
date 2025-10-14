@@ -11,7 +11,10 @@ export async function ServerTopPins() {
   const user = await getUser()
   if (!user) return null
 
-  const topPins = (await getTopPins({ userId: user.id })) ?? []
+  const topPins =
+    (await getTopPins({
+      userId: user.id
+    })) ?? []
 
   if (topPins.length === 0) return null
 

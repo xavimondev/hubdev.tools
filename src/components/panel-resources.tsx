@@ -17,7 +17,9 @@ export function PanelResources({ resources }: { resources: Resource[] }) {
     resources.length > NUMBER_OF_GENERATIONS_TO_FETCH
   )
   const [isLoading, setIsLoading] = useState(false)
-  const params = useParams<{ slug: string }>()
+  const params = useParams<{
+    slug: string
+  }>()
 
   const loadMoreResources = async () => {
     if (isLastRequest.current || !data) return
@@ -60,7 +62,12 @@ export function PanelResources({ resources }: { resources: Resource[] }) {
   return (
     <>
       <ListResource data={data} />
-      {hasResources && <LoadMore loadMoreResources={loadMoreResources} isLoading={isLoading} />}
+      {hasResources && (
+        <LoadMore
+          loadMoreResources={loadMoreResources}
+          isLoading={isLoading}
+        />
+      )}
     </>
   )
 }

@@ -70,7 +70,11 @@ export default function RootLayout({
 }>) {
   return (
     <ViewTransitions>
-      <html lang='en' className={`${GeistSans.variable}`} suppressHydrationWarning>
+      <html
+        lang='en'
+        className={`${GeistSans.variable}`}
+        suppressHydrationWarning
+      >
         <body className={`flex flex-col min-h-screen px-1 !sm:px-2`}>
           <ThemeProvider
             attribute='class'

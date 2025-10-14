@@ -35,13 +35,25 @@ const CategoryLink = memo(function CategoryLink({ name, slug, emoji }: CategoryP
 export function Discover() {
   const slug = '/'
 
-  return <CategoryLink name='Discover' slug={slug} emoji={'🔎'} />
+  return (
+    <CategoryLink
+      name='Discover'
+      slug={slug}
+      emoji={'🔎'}
+    />
+  )
 }
 
 export function Pins() {
   const slug = '/pins'
 
-  return <CategoryLink name='Pins' slug={slug} emoji={'📌'} />
+  return (
+    <CategoryLink
+      name='Pins'
+      slug={slug}
+      emoji={'📌'}
+    />
+  )
 }
 
 type Category = {

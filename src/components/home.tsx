@@ -8,7 +8,10 @@ type HomeProps = {
 }
 
 export async function Home({ query, slug }: HomeProps) {
-  const data = await search({ q: query, slug })
+  const data = await search({
+    q: query,
+    slug
+  })
   // @ts-ignore
   const { resources, error } = data
   if (error) {

@@ -22,7 +22,11 @@ async function ListLatestResources() {
 
   const pinIds = !id
     ? []
-    : ((await getPinsIdsByUser({ userId: id }))?.map((pin) => pin.resource_id) ?? [])
+    : ((
+        await getPinsIdsByUser({
+          userId: id
+        })
+      )?.map((pin) => pin.resource_id) ?? [])
 
   const resources = data.filter((suggestion) => !pinIds.includes(suggestion.id))
 

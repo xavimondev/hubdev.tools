@@ -12,7 +12,10 @@ export function LoadMore({
   isLoading: boolean
 }) {
   return (
-    <Button className='mt-2 rounded-full mx-auto flex justify-center' onClick={loadMoreResources}>
+    <Button
+      className='mt-2 rounded-full mx-auto flex justify-center'
+      onClick={loadMoreResources}
+    >
       {isLoading ? (
         <LoaderCircleIcon className='animate-spin size-4 md:size-5 mr-2' />
       ) : (

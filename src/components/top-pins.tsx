@@ -14,7 +14,10 @@ export function TopPins({ topPins, isPinsVisible }: TopPinsProps) {
 
   return (
     <div className='mb-10'>
-      <CarouselPins topPins={topPins} isPinsVisible={isPinsVisible} />
+      <CarouselPins
+        topPins={topPins}
+        isPinsVisible={isPinsVisible}
+      />
     </div>
   )
 }

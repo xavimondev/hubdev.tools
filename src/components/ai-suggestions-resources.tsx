@@ -26,7 +26,11 @@ async function ListAISuggestions() {
 
   const pinIds = !id
     ? []
-    : ((await getPinsIdsByUser({ userId: id }))?.map((pin) => pin.resource_id) ?? [])
+    : ((
+        await getPinsIdsByUser({
+          userId: id
+        })
+      )?.map((pin) => pin.resource_id) ?? [])
 
   const suggestions = data.filter((suggestion) => !pinIds.includes(suggestion.id))
 

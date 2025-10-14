@@ -112,7 +112,10 @@ export function SearchSuggestions({
               searchSuggestionsAI={searchSuggestionsAI}
               handleSearch={handleSearch}
             />
-            <SearchHistory searchHistory={searchHistory} handleSearch={handleSearch} />
+            <SearchHistory
+              searchHistory={searchHistory}
+              handleSearch={handleSearch}
+            />
           </>
         )}
       </>

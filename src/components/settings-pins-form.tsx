@@ -53,7 +53,10 @@ export function SettingsPinsForm({ isPinsVisible }: { isPinsVisible: boolean }) 
     }
 
     await updatePreferences(preferences)
-    revalidate({ key: '/category', type: 'path' })
+    revalidate({
+      key: '/category',
+      type: 'path'
+    })
   }
 
   return (
@@ -72,7 +75,9 @@ export function SettingsPinsForm({ isPinsVisible }: { isPinsVisible: boolean }) 
                 <Switch
                   checked={field.value}
                   onCheckedChange={(e) => {
-                    onSubmit({ isPinsVisible: e })
+                    onSubmit({
+                      isPinsVisible: e
+                    })
                     field.onChange(e)
                   }}
                 />

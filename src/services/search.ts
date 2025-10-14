@@ -44,13 +44,12 @@ const formatDataWithCategories = ({ resources }: { resources: ResourcesWithCateg
   })
 }
 
-export async function search({
-  q,
-  slug
-}: {
-  q?: string
-  slug?: string
-}): Promise<QueryData | { error: string }> {
+export async function search({ q, slug }: { q?: string; slug?: string }): Promise<
+  | QueryData
+  | {
+      error: string
+    }
+> {
   const query = q ?? 'all'
   const user = await getUser()
 
@@ -59,29 +58,45 @@ export async function search({
 
     if (!slug || slug === 'all') {
       if (!user) {
-        const result = await getData({ from: 0, to: 11 })
+        const result = await getData({
+          from: 0,
+          to: 11
+        })
 
         if (!result) {
-          return { error: 'An error occured. Please try again later.' }
+          return {
+            error: 'An error occured. Please try again later.'
+          }
         }
 
         data = formatDataWithCategories({
           resources: result
         })
       } else {
-        const result = await getResourcesBasedOnUser({ page_number: 1, user_id: user.id })
+        const result = await getResourcesBasedOnUser({
+          page_number: 1,
+          user_id: user.id
+        })
 
         if (!result) {
-          return { error: 'An error occured. Please try again later.' }
+          return {
+            error: 'An error occured. Please try again later.'
+          }
         }
 
         data = result
       }
     } else {
       if (!user) {
-        const result = await getResourcesByCategorySlug({ from: 0, to: 11, slug })
+        const result = await getResourcesByCategorySlug({
+          from: 0,
+          to: 11,
+          slug
+        })
         if (!result) {
-          return { error: 'An error occured. Please try again later.' }
+          return {
+            error: 'An error occured. Please try again later.'
+          }
         }
 
         data = formatDataWithCategories({
@@ -94,7 +109,9 @@ export async function search({
           user_id: user.id
         })
         if (!result) {
-          return { error: 'An error occured. Please try again later.' }
+          return {
+            error: 'An error occured. Please try again later.'
+          }
         }
 
         data = result
@@ -105,9 +122,13 @@ export async function search({
     }
   }
 
-  const cache = await getCache({ input: query })
+  const cache = await getCache({
+    input: query
+  })
   if (!cache) {
-    const { data, error: errorSearch } = await getEmbeddings({ input: query })
+    const { data, error: errorSearch } = await getEmbeddings({
+      input: query
+    })
     if (errorSearch || !data || data.length === 0) {
       return {
         resources: [],
@@ -123,7 +144,9 @@ export async function search({
       }
     }
 
-    await saveCache({ cache })
+    await saveCache({
+      cache
+    })
 
     return {
       resources: data

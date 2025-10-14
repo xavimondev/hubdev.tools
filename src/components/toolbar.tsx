@@ -43,7 +43,9 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
   const pathname = usePathname()
   const { replace } = useRouter()
   const [statusForm, setStatusForm] = useState<ClassifyStatus>('idle')
-  const styles = getStatusStyles({ status: statusForm })
+  const styles = getStatusStyles({
+    status: statusForm
+  })
   const [promptEvaluationResult, setPromptEvaluationResult] = useState<string | undefined>()
 
   const handleSearch = async (term: string, save?: boolean) => {
@@ -57,7 +59,9 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
 
     setTimeout(async () => {
       if (save) {
-        await addSearch({ input: term })
+        await addSearch({
+          input: term
+        })
       }
     }, 2000)
   }

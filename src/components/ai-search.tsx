@@ -5,5 +5,10 @@ export async function AISearch() {
   const history = await getHistory()
   const searchSuggestions = await generateSearchSuggestionsAI()
 
-  return <Toolbar searchHistory={history} searchSuggestionsAI={searchSuggestions} />
+  return (
+    <Toolbar
+      searchHistory={history}
+      searchSuggestionsAI={searchSuggestions}
+    />
+  )
 }

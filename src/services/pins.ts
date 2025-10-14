@@ -9,7 +9,9 @@ type Pin = {
 
 export const addPin = async (pin: Pin) => {
   const supabase = await createSupabaseBrowserClient()
-  const hasReachedLimit = await hasReachedMaxPins({ userId: pin.user_id })
+  const hasReachedLimit = await hasReachedMaxPins({
+    userId: pin.user_id
+  })
   if (hasReachedLimit) {
     throw new Error(
       `You have reached your pin limit of ${MAX_PINS}. Please remove a pin before adding a new one.`
@@ -42,10 +44,10 @@ export const removePinByResourceAndUser = async ({
 }) => {
   const supabase = await createSupabaseBrowserClient()
 
-  const { error } = await supabase
-    .from('pines')
-    .delete()
-    .match({ user_id: userId, resource_id: resourceId })
+  const { error } = await supabase.from('pines').delete().match({
+    user_id: userId,
+    resource_id: resourceId
+  })
 
   if (error) throw error
 
@@ -65,7 +67,9 @@ export const updateIsTopStatus = async ({
   const isTop = action === 'add'
 
   if (isTop) {
-    const hasReachedLimit = await hasReachedMaxTopPins({ userId })
+    const hasReachedLimit = await hasReachedMaxTopPins({
+      userId
+    })
     if (hasReachedLimit) {
       throw new Error(
         `You have reached your pin limit of ${MAX_TOP_PINS}. Please remove a pin before adding a new one.`
@@ -73,7 +77,12 @@ export const updateIsTopStatus = async ({
     }
   }
 
-  const { error } = await supabase.from('pines').update({ isTop }).eq('id', pinId)
+  const { error } = await supabase
+    .from('pines')
+    .update({
+      isTop
+    })
+    .eq('id', pinId)
 
   if (error) throw error
 
@@ -89,14 +98,19 @@ export const getTotalPinsByUser = async ({ userId }: { userId: string }) => {
       count: 'exact',
       head: true
     })
-    .match({ user_id: userId })
+    .match({
+      user_id: userId
+    })
 
   if (error) throw error
   return count
 }
 
 export const hasReachedMaxPins = async ({ userId }: { userId: string }) => {
-  const count = (await getTotalPinsByUser({ userId })) ?? 0
+  const count =
+    (await getTotalPinsByUser({
+      userId
+    })) ?? 0
   return count + 1 > MAX_PINS
 }
 
@@ -108,13 +122,19 @@ export const getTotalTopPinsByUser = async ({ userId }: { userId: string }) => {
       count: 'exact',
       head: true
     })
-    .match({ user_id: userId, isTop: true })
+    .match({
+      user_id: userId,
+      isTop: true
+    })
 
   if (error) throw error
   return count
 }
 
 export const hasReachedMaxTopPins = async ({ userId }: { userId: string }) => {
-  const count = (await getTotalTopPinsByUser({ userId })) ?? 0
+  const count =
+    (await getTotalTopPinsByUser({
+      userId
+    })) ?? 0
   return count + 1 > MAX_TOP_PINS
 }

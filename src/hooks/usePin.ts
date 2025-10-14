@@ -38,7 +38,11 @@ export function usePin() {
 
       const { id: userId } = user
 
-      const response = await updateIsTopStatus({ pinId: id, action, userId })
+      const response = await updateIsTopStatus({
+        pinId: id,
+        action,
+        userId
+      })
       if (response === 'ok') {
         revalidate({
           key: '/pins',

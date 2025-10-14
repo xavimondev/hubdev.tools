@@ -28,7 +28,9 @@ export const getFeaturedResources = async () => {
     )
   `
     )
-    .order('clicks', { ascending: false })
+    .order('clicks', {
+      ascending: false
+    })
     .limit(6)
 
   if (error) {
@@ -72,7 +74,10 @@ export const getAISuggestions = async () => {
   - Exclude any symbols, special characters, or unnecessary punctuation from the summary.`
   })
 
-  const { data, error } = await getEmbeddings({ input: query, count: 6 })
+  const { data, error } = await getEmbeddings({
+    input: query,
+    count: 6
+  })
 
   if (error || !data || data.length === 0) {
     return {
@@ -102,7 +107,9 @@ export const getLatestResources = async () => {
     )
   `
     )
-    .order('created_at', { ascending: false })
+    .order('created_at', {
+      ascending: false
+    })
     .limit(6)
 
   if (error) {

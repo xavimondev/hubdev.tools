@@ -8,7 +8,10 @@ export function PinsPreferences({ isPinsVisible }: { isPinsVisible: boolean }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className='bg-light-800 dark:bg-neutral-800 text-white' size='icon'>
+        <Button
+          className='bg-light-800 dark:bg-neutral-800 text-white'
+          size='icon'
+        >
           <SettingsIcon className='size-4' />
         </Button>
       </PopoverTrigger>

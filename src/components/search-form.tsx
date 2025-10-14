@@ -93,9 +93,15 @@ export function FormSearch({
   }
 
   return (
-    <form className='flex w-full items-center px-2 py-1' onSubmit={handleSubmit}>
+    <form
+      className='flex w-full items-center px-2 py-1'
+      onSubmit={handleSubmit}
+    >
       <div className='relative w-full'>
-        <label className='sr-only' htmlFor='prompt'>
+        <label
+          className='sr-only'
+          htmlFor='prompt'
+        >
           Prompt
         </label>
         <Input
@@ -170,7 +176,10 @@ function ToolTipError({ promptEvaluationResult }: { promptEvaluationResult: stri
             </Button>
           </div>
         </TooltipTrigger>
-        <TooltipContent side='right' className='border-light-600 dark:border-neutral-800/70'>
+        <TooltipContent
+          side='right'
+          className='border-light-600 dark:border-neutral-800/70'
+        >
           <p>{promptEvaluationResult}</p>
         </TooltipContent>
       </Tooltip>

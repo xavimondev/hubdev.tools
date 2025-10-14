@@ -36,7 +36,11 @@ function PinCardActions({ id }: PinCardActionsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size='icon' variant='outline' className='h-8 w-8'>
+        <Button
+          size='icon'
+          variant='outline'
+          className='h-8 w-8'
+        >
           <MoreVertical className='size-3.5' />
           <span className='sr-only'>More</span>
         </Button>
@@ -44,13 +48,25 @@ function PinCardActions({ id }: PinCardActionsProps) {
       <DropdownMenuContent align='end'>
         <DropdownMenuItem
           className='group'
-          onClick={() => updatePinStatus({ id, action: 'remove' })}
+          onClick={() =>
+            updatePinStatus({
+              id,
+              action: 'remove'
+            })
+          }
         >
           <CancelIcon>
             <span>Remove from Highlights</span>
           </CancelIcon>
         </DropdownMenuItem>
-        <DropdownMenuItem className='group' onClick={() => deletePin({ id })}>
+        <DropdownMenuItem
+          className='group'
+          onClick={() =>
+            deletePin({
+              id
+            })
+          }
+        >
           <MapPinOffIcon>
             <span>Unpin</span>
           </MapPinOffIcon>
@@ -69,7 +85,11 @@ function PinCard({ pin }: PinCardProps) {
   const pathname = usePathname()
 
   return (
-    <a href={`${HREF_PREFIX}${url}`} target='_blank' rel='noopener noreferrer'>
+    <a
+      href={`${HREF_PREFIX}${url}`}
+      target='_blank'
+      rel='noopener noreferrer'
+    >
       <div className='flex flex-col gap-3 p-3'>
         <div className='flex items-center justify-between'>
           <img
@@ -130,7 +150,10 @@ function ListTopPins({ topPins }: ListTopPinsProps) {
           dark:border-orange-300/20 
           dark:hover:border-orange-300/50'
         >
-          <PinCard key={pin.id} pin={pin} />
+          <PinCard
+            key={pin.id}
+            pin={pin}
+          />
         </CarouselItem>
       ))}
     </CarouselContent>

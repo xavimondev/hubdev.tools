@@ -45,7 +45,9 @@ export function SparklesIcon({ children }: PropsWithChildren) {
       className='flex items-center size-full'
       onMouseEnter={() => {
         sparkleControls.start('hover')
-        starControls.start('blink', { delay: 1 })
+        starControls.start('blink', {
+          delay: 1
+        })
       }}
       onMouseLeave={() => {
         sparkleControls.start('initial')
@@ -70,10 +72,26 @@ export function SparklesIcon({ children }: PropsWithChildren) {
             variants={sparkleVariants}
             animate={sparkleControls}
           />
-          <motion.path d='M20 3v4' variants={starVariants} animate={starControls} />
-          <motion.path d='M22 5h-4' variants={starVariants} animate={starControls} />
-          <motion.path d='M4 17v2' variants={starVariants} animate={starControls} />
-          <motion.path d='M5 18H3' variants={starVariants} animate={starControls} />
+          <motion.path
+            d='M20 3v4'
+            variants={starVariants}
+            animate={starControls}
+          />
+          <motion.path
+            d='M22 5h-4'
+            variants={starVariants}
+            animate={starControls}
+          />
+          <motion.path
+            d='M4 17v2'
+            variants={starVariants}
+            animate={starControls}
+          />
+          <motion.path
+            d='M5 18H3'
+            variants={starVariants}
+            animate={starControls}
+          />
         </svg>
       </div>
       {children}

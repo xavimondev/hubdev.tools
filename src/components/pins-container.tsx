@@ -17,7 +17,14 @@ export function PinsContainer({ userPins, topPins, isPinsVisible }: ListPinsProp
 
   return (
     <>
-      {topPins ? <TopPins topPins={topPins} isPinsVisible={isPinsVisible} /> : ErrorMessage}
+      {topPins ? (
+        <TopPins
+          topPins={topPins}
+          isPinsVisible={isPinsVisible}
+        />
+      ) : (
+        ErrorMessage
+      )}
       {userPins ? <UserPins userPins={userPins} /> : ErrorMessage}
     </>
   )

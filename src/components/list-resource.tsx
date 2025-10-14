@@ -69,12 +69,18 @@ export function ResourceItem({
         if (isPinnedResult) {
           response = await addPin(pin)
         } else {
-          response = await removePinByResourceAndUser({ resourceId: resource_id, userId: user_id })
+          response = await removePinByResourceAndUser({
+            resourceId: resource_id,
+            userId: user_id
+          })
         }
 
         if (response === 'ok') {
           setIsPinned(isPinnedResult)
-          revalidate({ key: 'user_pins', type: 'tag' })
+          revalidate({
+            key: 'user_pins',
+            type: 'tag'
+          })
         }
       } catch (error) {
         if (error instanceof Error) {
@@ -130,7 +136,14 @@ export function ResourceItem({
           <Tooltip>
             <TooltipTrigger asChild>
               <div className='relative'>
-                <div className='cursor-pointer' onClick={() => pinResource({ resourceId: id })}>
+                <div
+                  className='cursor-pointer'
+                  onClick={() =>
+                    pinResource({
+                      resourceId: id
+                    })
+                  }
+                >
                   <PinIcon
                     className={cn(
                       'size-[22px] mr-2 hover:scale-110 text-light-800 dark:text-[#FFC107]',
@@ -140,7 +153,10 @@ export function ResourceItem({
                 </div>
               </div>
             </TooltipTrigger>
-            <TooltipContent side='left' className='border-light-600 dark:border-neutral-800/70'>
+            <TooltipContent
+              side='left'
+              className='border-light-600 dark:border-neutral-800/70'
+            >
               <p>{optimisticState ? 'Remove from Pins' : 'Mark as a Pin'}</p>
             </TooltipContent>
           </Tooltip>

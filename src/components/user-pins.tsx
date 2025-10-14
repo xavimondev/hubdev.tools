@@ -25,18 +25,37 @@ function PinCardActions({ id }: { id: string }) {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button size='icon' variant='outline' className='h-8 w-8'>
+        <Button
+          size='icon'
+          variant='outline'
+          className='h-8 w-8'
+        >
           <MoreVertical className='size-3.5' />
           <span className='sr-only'>More</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
-        <DropdownMenuItem className='group' onClick={() => updatePinStatus({ id, action: 'add' })}>
+        <DropdownMenuItem
+          className='group'
+          onClick={() =>
+            updatePinStatus({
+              id,
+              action: 'add'
+            })
+          }
+        >
           <SparklesIcon>
             <span>Add to Highlights</span>
           </SparklesIcon>
         </DropdownMenuItem>
-        <DropdownMenuItem className='group' onClick={() => deletePin({ id })}>
+        <DropdownMenuItem
+          className='group'
+          onClick={() =>
+            deletePin({
+              id
+            })
+          }
+        >
           <MapPinOffIcon>
             <span>Unpin</span>
           </MapPinOffIcon>
@@ -110,7 +129,10 @@ function ListPins({ pins }: ListPinsProps) {
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 py-6'>
       {pins.map((pin: Pin) => (
-        <PinCard key={pin.id} pin={pin} />
+        <PinCard
+          key={pin.id}
+          pin={pin}
+        />
       ))}
     </div>
   )

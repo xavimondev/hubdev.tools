@@ -21,7 +21,10 @@ export const listResources = async ({
 }): Promise<Resource[] | undefined> => {
   const user = await getUser()
   if (!user) {
-    const data = await getData({ from, to })
+    const data = await getData({
+      from,
+      to
+    })
 
     if (!data) return
 
@@ -58,7 +61,11 @@ export const listResourcesBySlug = async ({
   const user = await getUser()
 
   if (!user) {
-    const data = await getResourcesByCategorySlug({ from, to, slug })
+    const data = await getResourcesByCategorySlug({
+      from,
+      to,
+      slug
+    })
     if (!data) return
     const formattedData = data.map((item) => {
       const { categories, ...resource } = item
