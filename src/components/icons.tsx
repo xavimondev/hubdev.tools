@@ -38,7 +38,7 @@ export function RemoveIc(props: SVGProps<SVGSVGElement>) {
       <path d='M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6' />
       <path d='M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2' />
       <path
-        className='origin-[20%_50%] transition-transform duration-300 ease-in-out group-hover:-rotate-45 group-hover:-translate-y-[1px]'
+        className='origin-[20%_50%] transition-transform duration-300 ease-in-out group-hover:-rotate-45 group-hover:-translate-y-px'
         d='M4 6h16'
       />
     </svg>

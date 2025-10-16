@@ -41,7 +41,7 @@ export function LatestResources() {
           The latest
         </h2>
         <div className='flex items-center justify-between'>
-          <p className='text-base md:text-lg text-transparent bg-clip-text bg-gradient-to-t from-gray-600 to-gray-800 dark:from-gray-100 dark:to-gray-400'>
+          <p className='text-base md:text-lg text-transparent bg-clip-text bg-linear-to-t from-gray-600 to-gray-800 dark:from-gray-100 dark:to-gray-400'>
             Check out the freshest resources right now.
           </p>
           <Link

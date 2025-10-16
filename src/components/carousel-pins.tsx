@@ -109,7 +109,7 @@ function PinCard({ pin }: PinCardProps) {
               '--text-color': categoryColor,
               '--border-color': categoryColor
             }}
-            className='text-xs font-medium rounded-sm px-2 py-1 w-fit text-[var(--text-color)] border border-dashed border-[var(--border-color)]'
+            className='text-xs font-medium rounded-sm px-2 py-1 w-fit text-(--text-color) border border-dashed border-(--border-color)'
           >
             {category}
           </span>
@@ -136,12 +136,12 @@ function ListTopPins({ topPins }: ListTopPinsProps) {
           p-0 
           group 
           rounded-lg 
-          shadow-sm 
+          shadow-xs 
           overflow-hidden 
           transition-colors 
           duration-300 
           ease-in-out 
-          bg-gradient-to-br 
+          bg-linear-to-br 
           bg-light-600/20 
           dark:from-neutral-950 
           dark:to-stone-900 

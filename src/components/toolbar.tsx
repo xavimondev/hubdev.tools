@@ -16,7 +16,7 @@ type ToolbarProps = {
 
 function getStatusStyles({ status }: { status: ClassifyStatus }) {
   const styles = {
-    idle: 'shadow-sm',
+    idle: 'shadow-xs',
     error: 'shadow-[0_0_12px_2px_rgba(179,64,43,0.5)] border border-red-700 dark:border-red-400/50'
   }
 
@@ -78,8 +78,8 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
          z-50 
          rounded-xl 
          h-[50px] 
-         w-[min(450px,calc(100%_-_90px))] 
-         bg-gradient-to-br 
+         w-[min(450px,calc(100%-90px))] 
+         bg-linear-to-br 
          dark:from-stone-800 
          dark:to-neutral-900 
          from-stone-50
@@ -90,8 +90,8 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
          border 
          border-light-600 
          dark:border-neutral-800/70 
-         focus-within:w-[calc(100%_-_8px)] 
-         focus-within:md:w-[600px] 
+         focus-within:w-[calc(100%-8px)] 
+         md:focus-within:w-[600px] 
          focus-within:h-[270px] 
          group`,
         styles

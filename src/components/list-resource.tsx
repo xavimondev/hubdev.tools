@@ -94,11 +94,11 @@ export function ResourceItem({
   return (
     <article
       className={cn(
-        'rounded-lg shadow-sm border transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3',
+        'rounded-lg shadow-xs border transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3',
         optimisticState
           ? 'border-orange-500/30 bg-orange-400/30 hover:bg-orange-600/30 dark:border-orange-200/40 dark:bg-orange-200/5 dark:hover:bg-orange-400/5'
           : optimisticState
-            ? 'bg-gradient-to-br bg-light-600/20 dark:from-neutral-950 dark:to-stone-900 border-light-600/70 dark:border-orange-300/20 dark:hover:border-orange-300/50'
+            ? 'bg-linear-to-br bg-light-600/20 dark:from-neutral-950 dark:to-stone-900 border-light-600/70 dark:border-orange-300/20 dark:hover:border-orange-300/50'
             : DEFAULT_STYLE
       )}
     >

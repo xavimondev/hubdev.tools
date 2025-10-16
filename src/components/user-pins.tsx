@@ -74,7 +74,7 @@ function PinCard({ pin }: PinCardProps) {
 
   return (
     <article className='relative size-full overflow-hidden rounded-lg border border-light-600/70 dark:border-neutral-800/70 bg-light-600/20 hover:bg-light-600/70 dark:bg-[#101010] dark:hover:bg-[#191919] transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-5 p-3'>
-      <div className='absolute right-5 top-0 h-px w-80 bg-gradient-to-l from-transparent via-orange-500/30 dark:via-orange-400/30 via-10% to-transparent' />
+      <div className='absolute right-5 top-0 h-px w-80 bg-linear-to-l from-transparent via-orange-500/30 dark:via-orange-400/30 via-10% to-transparent' />
       <div className='flex flex-col gap-3'>
         {image && (
           <div className='relative w-full h-[160px] rounded-md overflow-hidden border'>
@@ -98,7 +98,7 @@ function PinCard({ pin }: PinCardProps) {
               '--text-color': categoryColor,
               '--border-color': categoryColor
             }}
-            className='text-xs font-medium rounded-sm px-2 py-1 w-fit text-[var(--text-color)] border border-dashed border-[var(--border-color)]'
+            className='text-xs font-medium rounded-sm px-2 py-1 w-fit text-(--text-color) border border-dashed border-(--border-color)'
           >
             {category}
           </span>

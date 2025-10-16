@@ -115,7 +115,7 @@ export function FormSearch({
           bg-transparent 
           border 
           border-input 
-          focus-visible:outline-none 
+          focus-visible:outline-hidden 
           focus-visible:ring-0 
           focus-visible:ring-offset-0 
           whitespace-nowrap 

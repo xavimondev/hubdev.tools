@@ -41,7 +41,7 @@ export function LoadingCards() {
 
 export function LoadingBentoGrid() {
   return (
-    <div className='mt-4 grid grid-cols-1 lg:grid-cols-[350px_repeat(2,_1fr)] xl:grid-cols-[450px_repeat(2,_1fr)] gap-4'>
+    <div className='mt-4 grid grid-cols-1 lg:grid-cols-[350px_repeat(2,1fr)] xl:grid-cols-[450px_repeat(2,1fr)] gap-4'>
       {/* First place */}
       <div className='bg-neutral-200 dark:bg-neutral-900 animate-pulse rounded-lg col-span-1 md:row-span-3'></div>
       {/* Second place */}

@@ -24,10 +24,10 @@ async function ListFeaturedResources() {
   const { summary: thirdPlaceSummary, title: thirdPlaceTitle, url: thirdPlaceUrl } = thirdPlace
 
   return (
-    <div className='py-6 grid grid-cols-1 lg:grid-cols-[350px_repeat(2,_1fr)] xl:grid-cols-[450px_repeat(2,_1fr)] gap-4'>
+    <div className='py-6 grid grid-cols-1 lg:grid-cols-[350px_repeat(2,1fr)] xl:grid-cols-[450px_repeat(2,1fr)] gap-4'>
       {/* First place */}
       <a
-        className='size-full bg-gradient-to-br from-yellow-50 to-amber-200 dark:from-yellow-100 dark:to-amber-300 border-2 border-yellow-200 hover:border-yellow-500 hover:dark:border-yellow-700 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
+        className='size-full bg-linear-to-br from-yellow-50 to-amber-200 dark:from-yellow-100 dark:to-amber-300 border-2 border-yellow-200 hover:border-yellow-500 dark:hover:border-yellow-700 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2 xl:row-span-3'
         href={`${HREF_PREFIX}${url}`}
         target='_blank'
         rel='noopener noreferrer'
@@ -54,7 +54,7 @@ async function ListFeaturedResources() {
       </a>
       {/* Second place */}
       <a
-        className='bg-gradient-to-br from-cyan-100 to-blue-100 dark:from-cyan-200 dark:via-red-50 dark:to-blue-200 border-2 border-blue-200 hover:border-blue-700 hover:dark:border-blue-600 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
+        className='bg-linear-to-br from-cyan-100 to-blue-100 dark:from-cyan-200 dark:via-red-50 dark:to-blue-200 border-2 border-blue-200 hover:border-blue-700 dark:hover:border-blue-600 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
         href={`${HREF_PREFIX}${secondPlaceUrl}`}
         target='_blank'
         rel='noopener noreferrer'
@@ -75,7 +75,7 @@ async function ListFeaturedResources() {
       </a>
       {/* Third place */}
       <a
-        className='bg-gradient-to-br from-neutral-700 to-gray-600 dark:from-neutral-900 dark:to-gray-800 border-2 border-gray-700 hover:border-gray-900 hover:dark:border-gray-500 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
+        className='bg-linear-to-br from-neutral-700 to-gray-600 dark:from-neutral-900 dark:to-gray-800 border-2 border-gray-700 hover:border-gray-900 dark:hover:border-gray-500 transition-colors p-6 rounded-lg col-span-1 row-span-1 lg:row-span-2'
         href={`${HREF_PREFIX}${thirdPlaceUrl}`}
         target='_blank'
         rel='noopener noreferrer'
@@ -93,7 +93,7 @@ async function ListFeaturedResources() {
         <p className='text-sm text-gray-200 line-clamp-4'>{thirdPlaceSummary}</p>
       </a>
       {/* Next three */}
-      <div className='bg-gradient-to-br from-blue-100 to-pink-100 dark:from-blue-200 dark:to-pink-200 border-2 border-indigo-300 hover:border-indigo-500 hover:dark:border-indigo-700 transition-colors rounded-lg row-span-1 col-span-1 lg:col-span-3 xl:col-span-2 flex flex-col gap-1 divide-y divide-gray-600/20 text-gray-900 dark:text-gray-800'>
+      <div className='bg-linear-to-br from-blue-100 to-pink-100 dark:from-blue-200 dark:to-pink-200 border-2 border-indigo-300 hover:border-indigo-500 dark:hover:border-indigo-700 transition-colors rounded-lg row-span-1 col-span-1 lg:col-span-3 xl:col-span-2 flex flex-col gap-1 divide-y divide-gray-600/20 text-gray-900 dark:text-gray-800'>
         {nextThreeResources.map(({ id, title, url, summary }) => {
           return (
             <article
@@ -131,7 +131,7 @@ export async function FeaturedResources() {
         <h2 className='text-2xl md:text-4xl text-balance text-yellow-800 dark:text-yellow-50 font-bold'>
           Featured
         </h2>
-        <p className='text-base md:text-lg text-transparent bg-clip-text bg-gradient-to-t from-gray-600 to-gray-800 dark:from-orange-100 dark:to-orange-400'>
+        <p className='text-base md:text-lg text-transparent bg-clip-text bg-linear-to-t from-gray-600 to-gray-800 dark:from-orange-100 dark:to-orange-400'>
           Discover the most popular resources.
         </p>
       </div>

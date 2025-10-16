@@ -52,7 +52,7 @@ export default async function MainPage({
         {query ? (
           <>
             <div className='flex flex-col gap-4'>
-              <h1 className='text-2xl md:text-4xl text-balance font-bold bg-gradient-to-br from-light-800 to-light-900 dark:from-white dark:to-white/50 bg-clip-text text-transparent'>
+              <h1 className='text-2xl md:text-4xl text-balance font-bold bg-linear-to-br from-light-800 to-light-900 dark:from-white dark:to-white/50 bg-clip-text text-transparent'>
                 Results
               </h1>
               <div className='flex items-center justify-between'>
