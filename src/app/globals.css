@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @import "tw-animate-css";
 
@@ -12,6 +12,32 @@
   }
   @media (width >= 1400px) {
     max-width: 1400px;
+  }
+}
+
+@utility scrollbar-hide {
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* IE and Edge */
+  -ms-overflow-style: none;
+
+  /* Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-default {
+  /* Firefox */
+  scrollbar-width: auto;
+
+  /* IE and Edge */
+  -ms-overflow-style: auto;
+
+  /* Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: block;
   }
 }
 
@@ -160,10 +186,6 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
-}
-
-@layer base {
-
 }
 
 @layer base {
