@@ -112,9 +112,6 @@ export function FormSearch({
           w-full 
           p-2 
           border-none 
-          bg-transparent 
-          border 
-          border-input 
           focus-visible:outline-hidden 
           focus-visible:ring-0 
           focus-visible:ring-offset-0 
@@ -151,7 +148,7 @@ export function FormSearch({
           </div>
           {isClassifying && <LoaderCircleIcon className='size-5 animate-spin' />}
           {!isMobile && !isClassifying && !promptEvaluationResult && (
-            <kbd className='bg-light-600 dark:bg-neutral-700 text-light-900 dark:text-white rounded-sm px-2 py-1 text-xs'>
+            <kbd className='bg-light-600 dark:bg-neutral-700 text-light-900 dark:text-white rounded-md px-2 py-1 text-xs'>
               S
             </kbd>
           )}
