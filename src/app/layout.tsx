@@ -1,4 +1,3 @@
-import { GeistSans } from 'geist/font/sans'
 import { ViewTransitions } from 'next-view-transitions'
 
 import './globals.css'
@@ -72,7 +71,6 @@ export default function RootLayout({
     <ViewTransitions>
       <html
         lang='en'
-        className={`${GeistSans.variable}`}
         suppressHydrationWarning
       >
         <body className={`flex flex-col min-h-screen px-1 !sm:px-2`}>

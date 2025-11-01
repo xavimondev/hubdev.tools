@@ -149,8 +149,6 @@
 
   --transition-property-multiple: width, height;
 
-  --font-sans: var(--font-geist-sans);
-
   @keyframes accordion-down {
     from {
       height: 0;
