@@ -10,7 +10,7 @@ import { PinsContainer } from '@/components/pins-container'
 export default async function Page() {
   const user = await getUser()
 
-  if (!user) return <ErrorState error='You need to be logged in to view your pinned resources' />
+  if (!user) return <ErrorState error='You need to be logged in to view your favorites resources' />
 
   const userPins = await getUserPins({
     userId: user.id
@@ -23,7 +23,7 @@ export default async function Page() {
 
   const isPinsVisible = await getPinsPreferences()
 
-  const showTopPins = isPinsVisible || pathname === '/pins'
+  const showTopPins = isPinsVisible || pathname === '/favorites'
 
   if (!showTopPins) return null
 

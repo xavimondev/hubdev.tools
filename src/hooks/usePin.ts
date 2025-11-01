@@ -13,7 +13,7 @@ export function usePin() {
 
       if (response === 'ok') {
         revalidate({
-          key: '/pins',
+          key: '/favorites',
           type: 'path'
         })
       }
@@ -45,7 +45,7 @@ export function usePin() {
       })
       if (response === 'ok') {
         revalidate({
-          key: '/pins',
+          key: '/favorites',
           type: 'path'
         })
         // toast.success('Pin Updated', {

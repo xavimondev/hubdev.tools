@@ -99,7 +99,7 @@ function PinCard({ pin }: PinCardProps) {
             width={32}
             height={32}
           />
-          {pathname.includes('/pins') && <PinCardActions id={id} />}
+          {pathname.includes('/favorites') && <PinCardActions id={id} />}
         </div>
         <div className='flex flex-col gap-2'>
           <h2 className='text-base font-semibold text-balance'>{name}</h2>

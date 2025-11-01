@@ -83,7 +83,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Header />
-            <div className='px-4 py-8 md:px-6 md:py-10 container'>
+            <div className='px-4 py-6 md:px-6 md:py-8 mx-auto max-w-8xl'>
               <Sidebar />
               {children}
               <AISearch />

@@ -1,25 +1,38 @@
 import { getUser } from '@/auth/server'
 
-import { Categories } from '@/components/categories'
-import { Discover, Pins } from '@/components/list-category'
+import { ListCategories } from './list-categories'
+import { CategoryPill } from './category-pill'
 
 function OptionHeader({ title }: { title: string }) {
   return (
-    <div className='hidden md:flex h-9 items-center px-2'>
+    <div className='hidden md:flex h-9 items-center px-4'>
       <span className='font-normal text-light-800 dark:text-gray-400 text-sm'>{title}</span>
     </div>
   )
 }
 
-async function PinItem() {
+function Discover() {
+  return (
+    <CategoryPill
+      name='Discover'
+      slug='discover'
+      href='/'
+    />
+  )
+}
+
+async function Favorites() {
   const user = await getUser()
 
   if (!user) return null
 
   return (
     <>
-      <OptionHeader title='Saved' />
-      <Pins />
+      <CategoryPill
+        name='Favorites'
+        slug='favorites'
+        href='/favorites'
+      />
     </>
   )
 }
@@ -27,11 +40,10 @@ async function PinItem() {
 export function SidebarOptions() {
   return (
     <div className='flex space-y-1 overflow-y-auto md:flex-col md:overflow-y-visible pt-0 px-0.5 md:px-0'>
-      <PinItem />
-      <OptionHeader title='Explore' />
+      <Favorites />
       <Discover />
       <OptionHeader title='Categories' />
-      <Categories />
+      <ListCategories />
     </div>
   )
 }

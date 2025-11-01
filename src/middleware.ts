@@ -4,7 +4,7 @@ import { updateSession } from '@/utils/supabase-middleware'
 import { updateClicks } from '@/services/updateClicks'
 
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname === '/pins') {
+  if (request.nextUrl.pathname === '/favorites') {
     const supabaseResponse = await updateSession(request)
     return supabaseResponse
   }
