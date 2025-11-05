@@ -100,6 +100,7 @@ export const getLatestResources = async () => {
     url, 
     image, 
     summary, 
+    brief, 
     placeholder, 
     categories!inner(
       slug,

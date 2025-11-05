@@ -10,6 +10,7 @@ const resourcesWithCategoryQuery = supabase.from('resources').select(`
     url, 
     image, 
     summary, 
+    brief,
     placeholder, 
     categories(
       name
@@ -77,6 +78,7 @@ export const getResourcesByCategorySlug = async ({
     url, 
     image, 
     summary, 
+    brief, 
     placeholder, 
     categories!inner(
       slug,

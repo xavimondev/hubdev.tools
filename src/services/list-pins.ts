@@ -24,6 +24,7 @@ export const getUserPins = async ({
       url,
       image,
       summary,
+      brief,
       placeholder,
       ...categories!inner(
         category:name,
@@ -54,6 +55,7 @@ export const getUserPins = async ({
       url: pin.url,
       image: pin.image,
       summary: pin.summary,
+      brief: pin.brief,
       placeholder: pin.placeholder as string,
       category: pin.category,
       categoryColor: pin.category_color as string,
@@ -77,6 +79,7 @@ export const getTopPins = async ({ userId }: { userId: string }): Promise<Pin[] 
       url,
       image,
       summary,
+      brief,
       placeholder,
       ...categories!inner(
         category:name,
@@ -106,6 +109,7 @@ export const getTopPins = async ({ userId }: { userId: string }): Promise<Pin[] 
       url: pin.url,
       image: pin.image,
       summary: pin.summary,
+      brief: pin.brief,
       placeholder: pin.placeholder as string,
       category: pin.category,
       categoryColor: pin.category_color as string,

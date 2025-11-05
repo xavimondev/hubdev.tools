@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { ArrowBigDownIcon, MoreVertical } from 'lucide-react'
+import { MoreVertical } from 'lucide-react'
 
 import { Pin } from '@/types/pin'
 
@@ -81,7 +81,7 @@ type PinCardProps = {
 }
 
 function PinCard({ pin }: PinCardProps) {
-  const { name, url, summary, category, categoryColor, id } = pin
+  const { name, url, summary, brief, category, categoryColor, id } = pin
   const pathname = usePathname()
 
   return (
@@ -113,7 +113,9 @@ function PinCard({ pin }: PinCardProps) {
           >
             {category}
           </span>
-          <p className='text-sm text-muted-foreground line-clamp-4 text-pretty'>{summary}</p>
+          <p className='text-sm text-muted-foreground line-clamp-4 text-pretty'>
+            {brief ?? summary}
+          </p>
         </div>
       </div>
     </a>

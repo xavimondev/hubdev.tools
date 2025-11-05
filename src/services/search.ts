@@ -21,6 +21,7 @@ type ResourcesWithCategories = {
   url: string
   image: string
   summary: string
+  brief: string | null
   placeholder: string | null
   categories:
     | {

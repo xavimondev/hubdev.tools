@@ -127,11 +127,11 @@ async function ListFeaturedResources() {
 export async function FeaturedResources() {
   return (
     <section>
-      <div className='flex flex-col gap-4'>
-        <h2 className='text-2xl md:text-4xl text-balance text-yellow-800 dark:text-yellow-50 font-bold'>
+      <div className='flex flex-col gap-2'>
+        <h2 className='text-2xl text-balance font-semibold text-light-800 dark:text-primary'>
           Featured
         </h2>
-        <p className='text-base md:text-lg text-transparent bg-clip-text bg-linear-to-t from-gray-600 to-gray-800 dark:from-orange-100 dark:to-orange-400'>
+        <p className='text-sm text-pretty max-w-lg text-muted-foreground'>
           Discover the most popular resources.
         </p>
       </div>
