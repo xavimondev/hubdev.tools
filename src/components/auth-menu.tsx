@@ -26,9 +26,9 @@ export function UserNavbar({ avatar_url, full_name, user_name }: UserNavbarProps
       <DropdownMenuTrigger asChild>
         <Button
           variant='ghost'
-          className='relative h-8 w-8 rounded-full'
+          className='relative size-8 rounded-full'
         >
-          <Avatar className='h-8 w-8'>
+          <Avatar className='size-8'>
             <AvatarImage
               src={avatar_url}
               alt={`Picture of ${full_name}`}

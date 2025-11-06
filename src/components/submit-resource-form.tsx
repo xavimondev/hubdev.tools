@@ -4,6 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
+import { inter } from '@/fonts'
+
+import { cn } from '@/utils/styles'
 import { isDomainInvalid } from '@/utils/isDomainInvalid'
 import { submitResource } from '@/services/request'
 import { Button } from '@/components/ui/button'
@@ -85,7 +88,7 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-4'
+        className={cn('space-y-4', inter.className)}
       >
         <FormField
           control={form.control}

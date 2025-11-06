@@ -8,6 +8,8 @@ import { toast } from 'sonner'
 
 import { Resource } from '@/types/resource'
 
+import { inter, plusJakartaSans } from '@/fonts'
+
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { cn } from '@/utils/styles'
 import { createSupabaseBrowserClient } from '@/utils/supabase-client'
@@ -109,8 +111,10 @@ export function ResourceItem({
           />
         </div>
         <div className='flex flex-col gap-1.5'>
-          <h2 className='font-semibold text-balance'>{title}</h2>
-          <p className='text-sm text-gray-700 dark:text-link text-pretty'>{brief ?? summary}</p>
+          <h2 className={cn(plusJakartaSans.className, 'font-semibold text-balance')}>{title}</h2>
+          <p className={cn(inter.className, 'text-sm text-gray-700 dark:text-link text-pretty')}>
+            {brief ?? summary}
+          </p>
         </div>
       </div>
       <div className='flex justify-between'>
@@ -120,7 +124,7 @@ export function ResourceItem({
           target='_blank'
           rel='noopener noreferrer'
         >
-          <span>Go to resource</span>
+          <span className={inter.className}>Go to resource</span>
           <ArrowUpRight className='size-4 duration-200 group-hover:translate-x-[1.5px] group-hover:opacity-100' />
         </a>
         <div className='flex gap-1.5'>

@@ -40,6 +40,8 @@ import { usePathname } from 'next/navigation'
 
 import { cn } from '@/utils/styles'
 
+import { plusJakartaSans } from '@/fonts'
+
 const categories = [
   { id: 'ai', icon: Sparkles },
   { id: 'apis', icon: Plug },
@@ -95,6 +97,7 @@ export function CategoryPill({ name, slug, href }: CategoryProps) {
     <Link
       href={href}
       className={cn(
+        plusJakartaSans.className,
         'flex items-center gap-3 px-4 py-2 rounded-xl backdrop-filter text-sm whitespace-nowrap text-foreground backdrop-blur-sm',
         isActive
           ? 'bg-light-700/50 dark:bg-white/5 text-purple-300 border dark:border-purple-300/20'
