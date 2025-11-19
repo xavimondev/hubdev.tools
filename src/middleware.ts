@@ -14,7 +14,6 @@ export async function middleware(request: NextRequest) {
 
   if (!resourceLink) {
     const requestHeaders = new Headers(request.headers)
-    requestHeaders.set('X-Pathname', request.nextUrl.pathname)
 
     return NextResponse.next({
       request: {

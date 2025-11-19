@@ -3,7 +3,6 @@ import { createServerClient } from '@supabase/ssr'
 
 export async function updateSession(request: NextRequest) {
   const requestHeaders = new Headers(request.headers)
-  requestHeaders.set('X-Pathname', request.nextUrl.pathname)
 
   let supabaseResponse = NextResponse.next({
     request: {

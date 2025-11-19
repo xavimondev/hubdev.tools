@@ -15,12 +15,11 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { MapPinOffIcon } from '@/components/animated-icons/map-pin-off'
-import { SparklesIcon } from '@/components/animated-icons/sparkles'
 import { NoPinsAdded } from '@/components/empty-state'
 import { SectionHeader } from '@/components/section-header'
 
 function PinCardActions({ id }: { id: string }) {
-  const { deletePin, updatePinStatus } = usePin()
+  const { deletePin } = usePin()
 
   return (
     <DropdownMenu modal={false}>
@@ -35,19 +34,6 @@ function PinCardActions({ id }: { id: string }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
-        <DropdownMenuItem
-          className='group'
-          onClick={() =>
-            updatePinStatus({
-              id,
-              action: 'add'
-            })
-          }
-        >
-          <SparklesIcon>
-            <span>Add to Highlights</span>
-          </SparklesIcon>
-        </DropdownMenuItem>
         <DropdownMenuItem
           className='group'
           onClick={() =>

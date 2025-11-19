@@ -10,4 +10,3 @@ export const DEFAULT_BLUR_DATA_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOsa2yqBwAFCAICLICSyQAAAABJRU5ErkJggg=='
 
 export const MAX_PINS = 40
-export const MAX_TOP_PINS = 10
