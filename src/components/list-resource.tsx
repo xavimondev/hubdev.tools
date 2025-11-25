@@ -1,10 +1,8 @@
 'use client'
 
-import { startTransition, useOptimistic, useState } from 'react'
+import { useOptimistic, useState } from 'react'
 import Image from 'next/image'
-import { revalidate } from '@/actions/revalidate'
 import { ArrowUpRight, HeartIcon } from 'lucide-react'
-import { toast } from 'sonner'
 
 import { Resource } from '@/types/resource'
 
@@ -12,8 +10,6 @@ import { inter, plusJakartaSans } from '@/fonts'
 
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { cn } from '@/utils/styles'
-import { createSupabaseBrowserClient } from '@/utils/supabase-client'
-import { addPin, removePinByResourceAndUser } from '@/services/pins'
 import { NoResultsSearch } from '@/components/empty-state'
 
 type ResourceItemProps = {
@@ -41,56 +37,7 @@ export function ResourceItem({
   const [optimisticState, setOptimisticState] = useOptimistic(isPinned)
 
   const pinResource = async ({ resourceId }: { resourceId: string }) => {
-    const supabase = await createSupabaseBrowserClient()
-    const {
-      data: { user }
-    } = await supabase.auth.getUser()
-    if (!user) {
-      toast.warning('You need to be logged in to pin a resource.')
-      return
-    }
-
-    const { id } = user
-
-    const pin = {
-      resource_id: resourceId,
-      user_id: id
-    }
-
-    const originalState = isPinned
-
-    const isPinnedResult = !optimisticState
-
-    // Optimistic update
-    startTransition(async () => {
-      setOptimisticState(isPinnedResult)
-
-      try {
-        const { resource_id, user_id } = pin
-        let response: string = ''
-        if (isPinnedResult) {
-          response = await addPin(pin)
-        } else {
-          response = await removePinByResourceAndUser({
-            resourceId: resource_id,
-            userId: user_id
-          })
-        }
-
-        if (response === 'ok') {
-          setIsPinned(isPinnedResult)
-          revalidate({
-            key: 'user_pins',
-            type: 'tag'
-          })
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message)
-        }
-        setOptimisticState(originalState)
-      }
-    })
+    console.log(`Setting favorite ${resourceId}`)
   }
 
   return (

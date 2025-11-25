@@ -1,6 +1,5 @@
 import Link from 'next/link'
 
-import { AuthMenu } from '@/components/auth-menu'
 import { GitHubIc } from '@/components/icons'
 import { Logo } from '@/components/logo'
 import { ModeToggle } from '@/components/mode-toggle'
@@ -32,7 +31,6 @@ export function Header() {
               <GitHubIc className='size-5' />
             </a>
             <SubmitDialog />
-            <AuthMenu />
           </div>
         </div>
       </div>

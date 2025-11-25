@@ -1,14 +1,7 @@
-import { getUser } from '@/auth/server'
-
 import { Resource } from '@/types/resource'
 
 import { getEmbeddings } from '@/services/embeddings'
-import {
-  getData,
-  getResourcesBasedOnUser,
-  getResourcesByCategorySlug,
-  getResourcesByCategorySlugBasedOnUser
-} from '@/services/list'
+import { getData, getResourcesByCategorySlug } from '@/services/list'
 import { getCache, saveCache } from '@/services/redis-cache'
 
 export type QueryData = {
@@ -52,71 +45,40 @@ export async function search({ q, slug }: { q?: string; slug?: string }): Promis
     }
 > {
   const query = q ?? 'all'
-  const user = await getUser()
 
   if (query === 'all') {
     let data: Resource[] = []
 
     if (!slug || slug === 'all') {
-      if (!user) {
-        const result = await getData({
-          from: 0,
-          to: 11
-        })
+      const result = await getData({
+        from: 0,
+        to: 11
+      })
 
-        if (!result) {
-          return {
-            error: 'An error occured. Please try again later.'
-          }
+      if (!result) {
+        return {
+          error: 'An error occured. Please try again later.'
         }
-
-        data = formatDataWithCategories({
-          resources: result
-        })
-      } else {
-        const result = await getResourcesBasedOnUser({
-          page_number: 1,
-          user_id: user.id
-        })
-
-        if (!result) {
-          return {
-            error: 'An error occured. Please try again later.'
-          }
-        }
-
-        data = result
       }
+
+      data = formatDataWithCategories({
+        resources: result
+      })
     } else {
-      if (!user) {
-        const result = await getResourcesByCategorySlug({
-          from: 0,
-          to: 11,
-          slug
-        })
-        if (!result) {
-          return {
-            error: 'An error occured. Please try again later.'
-          }
+      const result = await getResourcesByCategorySlug({
+        from: 0,
+        to: 11,
+        slug
+      })
+      if (!result) {
+        return {
+          error: 'An error occured. Please try again later.'
         }
-
-        data = formatDataWithCategories({
-          resources: result
-        })
-      } else {
-        const result = await getResourcesByCategorySlugBasedOnUser({
-          page_number: 1,
-          slug,
-          user_id: user.id
-        })
-        if (!result) {
-          return {
-            error: 'An error occured. Please try again later.'
-          }
-        }
-
-        data = result
       }
+
+      data = formatDataWithCategories({
+        resources: result
+      })
     }
     return {
       resources: data

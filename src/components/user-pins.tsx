@@ -27,7 +27,7 @@ function PinCardActions({ id }: { id: string }) {
         <Button
           size='icon'
           variant='outline'
-          className='h-8 w-8'
+          className='size-8'
         >
           <MoreVertical className='size-3.5' />
           <span className='sr-only'>More</span>

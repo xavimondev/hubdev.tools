@@ -1,5 +1,3 @@
-import { getUser } from '@/auth/server'
-
 import { ListCategories } from './list-categories'
 import { CategoryPill } from './category-pill'
 
@@ -22,18 +20,12 @@ function Discover() {
 }
 
 async function Favorites() {
-  const user = await getUser()
-
-  if (!user) return null
-
   return (
-    <>
-      <CategoryPill
-        name='Favorites'
-        slug='favorites'
-        href='/favorites'
-      />
-    </>
+    <CategoryPill
+      name='Favorites'
+      slug='favorites'
+      href='/favorites'
+    />
   )
 }
 
