@@ -40,6 +40,21 @@ export function LoadingCards() {
   )
 }
 
+export function LoadingResources() {
+  return (
+    <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 py-6'>
+      <div className='h-[350px] w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
+      <div className='h-[350px] w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
+      <div className='h-[350px] w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
+      <div className='h-[350px] w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
+      <div className='h-[350px] w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
+      <div className='h-[350px] w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
+      <div className='h-[350px] w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
+      <div className='h-[350px] w-full animate-pulse rounded-md bg-neutral-200 dark:bg-neutral-900' />
+    </div>
+  )
+}
+
 export function LoadingBentoGrid() {
   return (
     <div className='mt-4 grid grid-cols-1 lg:grid-cols-[350px_repeat(2,1fr)] xl:grid-cols-[450px_repeat(2,1fr)] gap-4'>

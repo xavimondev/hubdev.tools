@@ -20,8 +20,9 @@ export const getFeaturedResources = async () => {
     title, 
     url, 
     image, 
-    summary, 
-    placeholder, 
+    brief, 
+    clicks,
+    placeholder,
     categories!inner(
       slug,
       name
@@ -31,7 +32,7 @@ export const getFeaturedResources = async () => {
     .order('clicks', {
       ascending: false
     })
-    .limit(6)
+    .limit(8)
 
   if (error) {
     console.error(error)
@@ -76,7 +77,7 @@ export const getAISuggestions = async () => {
 
   const { data, error } = await getEmbeddings({
     input: query,
-    count: 6
+    count: 8
   })
 
   if (error || !data || data.length === 0) {

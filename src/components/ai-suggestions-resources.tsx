@@ -2,12 +2,12 @@ import { Suspense } from 'react'
 
 import { getAISuggestions } from '@/services/dashboard'
 import { ErrorState } from '@/components/error-state'
-import { ListResource } from '@/components/list-resource'
-import { LoadingCards } from '@/components/loading'
+import { LoadingResources } from '@/components/loading'
+import { SpecialCard } from '@/components/special-card'
 
 async function ListAISuggestions() {
   const aiSuggestions = await getAISuggestions()
-
+  console.log(aiSuggestions)
   const { data, error } = aiSuggestions
 
   if (error || !data) {
@@ -20,22 +20,38 @@ async function ListAISuggestions() {
 
   return (
     <section>
-      <div className='flex flex-col gap-4 mt-8'>
-        <h2 className='text-2xl md:text-4xl text-balance mb-2 text-yellow-800 dark:text-yellow-50 font-bold'>
+      <div className='flex flex-col gap-2 mt-8'>
+        <h2 className='text-2xl text-balance font-semibold text-light-800 dark:text-primary'>
           AI Suggestions
         </h2>
-        <p className='text-base md:text-lg text-transparent bg-clip-text bg-linear-to-t from-gray-600 to-gray-800 dark:from-cyan-100 dark:to-cyan-400'>
+        <p className='text-sm text-pretty max-w-lg text-muted-foreground'>
           Tailored recommendations powered by AI.
         </p>
       </div>
-      <ListResource data={data} />
+      <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 py-6'>
+        {data.map(({ id, title, url, image, brief, placeholder, category, summary }, index) => (
+          <SpecialCard
+            key={id}
+            resource={{
+              name: title,
+              category,
+              brief: brief ?? summary,
+              url,
+              image,
+              placeholder: placeholder ?? '',
+              order: index,
+              clicks: 0
+            }}
+          />
+        ))}
+      </div>
     </section>
   )
 }
 
 export function AISuggestionsResources() {
   return (
-    <Suspense fallback={<LoadingCards />}>
+    <Suspense fallback={<LoadingResources />}>
       <ListAISuggestions />
     </Suspense>
   )

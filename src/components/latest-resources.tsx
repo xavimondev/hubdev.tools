@@ -4,8 +4,8 @@ import { Link } from 'next-view-transitions'
 
 import { getLatestResources } from '@/services/dashboard'
 import { ErrorState } from '@/components/error-state'
-import { ListResource } from '@/components/list-resource'
 import { LoadingCards } from '@/components/loading'
+import { SpecialCard } from '@/components/special-card'
 
 async function ListLatestResources() {
   const data = await getLatestResources()
@@ -14,7 +14,25 @@ async function ListLatestResources() {
     return <ErrorState error='Something went wrong' />
   }
 
-  return <ListResource data={data} />
+  return (
+    <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 py-6'>
+      {data.map(({ id, title, url, image, brief, placeholder, category, summary }, index) => (
+        <SpecialCard
+          key={id}
+          resource={{
+            name: title,
+            category,
+            brief: brief ?? summary,
+            url,
+            image,
+            placeholder: placeholder ?? '',
+            order: index,
+            clicks: 0
+          }}
+        />
+      ))}
+    </div>
+  )
 }
 
 export function LatestResources() {
