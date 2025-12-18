@@ -7,7 +7,6 @@ import { SpecialCard } from '@/components/special-card'
 
 async function ListAISuggestions() {
   const aiSuggestions = await getAISuggestions()
-  console.log(aiSuggestions)
   const { data, error } = aiSuggestions
 
   if (error || !data) {
