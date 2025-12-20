@@ -130,3 +130,44 @@ export const getLatestResources = async () => {
 
   return formattedData
 }
+
+export const getFavoritesResources = async (ids: string[]) => {
+  if (!ids || ids.length === 0) {
+    return []
+  }
+
+  const { data, error } = await supabase
+    .from('resources')
+    .select(
+      `
+    id, 
+    title, 
+    url, 
+    image, 
+    summary, 
+    brief, 
+    placeholder, 
+    categories!inner(
+      slug,
+      name
+    )
+  `
+    )
+    .in('id', ids)
+
+  if (error) {
+    console.error(error)
+    return []
+  }
+
+  const formattedData = data.map((item) => {
+    const { categories, ...resource } = item
+    const { name } = categories ?? {}
+    return {
+      ...resource,
+      category: name ?? ''
+    }
+  })
+
+  return formattedData
+}

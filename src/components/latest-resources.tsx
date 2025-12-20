@@ -3,12 +3,14 @@ import { ArrowRightCircleIcon } from 'lucide-react'
 import { Link } from 'next-view-transitions'
 
 import { getLatestResources } from '@/services/dashboard'
+import { listFavorites } from '@/actions/favorites'
 import { ErrorState } from '@/components/error-state'
 import { LoadingCards } from '@/components/loading'
 import { SpecialCard } from '@/components/special-card'
 
 async function ListLatestResources() {
   const data = await getLatestResources()
+  const favoriteIds = await listFavorites()
 
   if (!data) {
     return <ErrorState error='Something went wrong' />
@@ -20,6 +22,7 @@ async function ListLatestResources() {
         <SpecialCard
           key={id}
           resource={{
+            id,
             name: title,
             category,
             brief: brief ?? summary,
@@ -29,6 +32,7 @@ async function ListLatestResources() {
             order: index,
             clicks: 0
           }}
+          isFavorite={favoriteIds.includes(id)}
         />
       ))}
     </div>

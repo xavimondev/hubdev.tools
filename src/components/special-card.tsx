@@ -1,13 +1,18 @@
 'use client'
 import Image from 'next/image'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 import { ArrowUpRightIcon, HeartIcon } from 'lucide-react'
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { cn } from '@/utils/styles'
 import { inter, plusJakartaSans } from '@/fonts'
+import { addFavorite, removeFavorite } from '@/actions/favorites'
 
 type SpecialCardProps = {
   resource: {
+    id: string
     name: string
     url: string
     brief: string
@@ -17,13 +22,39 @@ type SpecialCardProps = {
     placeholder: string
     order: number
   }
+  isFavorite: boolean
 }
 
-export function SpecialCard({ resource }: SpecialCardProps) {
-  const { name, url, brief, category, image, placeholder, order } = resource
+export function SpecialCard({ resource, isFavorite }: SpecialCardProps) {
+  const { id, name, url, brief, category, image, placeholder, order } = resource
+  const [isFav, setIsFav] = useState(isFavorite)
+  const router = useRouter()
+
+  async function handleToggleFavorite() {
+    if (isFav) {
+      const result = await removeFavorite(id)
+      if (result.error) {
+        toast.error(result.error)
+        return
+      }
+
+      setIsFav(false)
+      router.refresh()
+    } else {
+      const result = await addFavorite(id)
+      if (result.error) {
+        toast.error(result.error)
+        return
+      }
+
+      setIsFav(true)
+      router.refresh()
+    }
+  }
 
   return (
-    <article className='rounded-lg 
+    <article
+      className='rounded-lg 
         shadow-xs 
         transition-colors 
         duration-300 
@@ -35,7 +66,8 @@ export function SpecialCard({ resource }: SpecialCardProps) {
         border 
         border-light-600/70 
         dark:border-orange-300/10 
-        dark:hover:border-orange-300/50 p-2.5 grid grid-rows-subgrid row-span-2 gap-3'>
+        dark:hover:border-orange-300/50 p-2.5 grid grid-rows-subgrid row-span-2 gap-3'
+    >
       <div className='flex flex-col gap-3'>
         <div className='relative w-full h-[190px] rounded-md overflow-hidden border'>
           <Image
@@ -54,7 +86,7 @@ export function SpecialCard({ resource }: SpecialCardProps) {
         <div className='flex flex-col gap-1.5'>
           <div className='flex justify-between items-center'>
             <h2 className={cn(plusJakartaSans.className, 'font-semibold text-balance')}>{name}</h2>
-          <span className='text-[10px] font-medium uppercase tracking-widest text-muted-foreground'>
+            <span className='text-[10px] font-medium uppercase tracking-widest text-muted-foreground'>
               {category}
             </span>
           </div>
@@ -76,21 +108,17 @@ export function SpecialCard({ resource }: SpecialCardProps) {
         <div className='flex gap-1.5'>
           <div
             className='cursor-pointer'
-            onClick={() =>
-              console.log('pin resource')
-            }
+            onClick={handleToggleFavorite}
           >
             <HeartIcon
               className={cn(
-                'size-4 mr-2 hover:scale-110 text-light-800 dark:text-red-400',
-                // optimisticState && 'fill-light-800 dark:fill-red-400'
+                'size-4 mr-2 hover:scale-110 text-light-800 dark:text-red-400 transition-all duration-200',
+                isFav && 'fill-light-800 dark:fill-red-400'
               )}
             />
           </div>
         </div>
       </div>
     </article>
-  
   )
-
 }

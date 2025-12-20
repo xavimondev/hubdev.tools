@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 
 import { getAISuggestions } from '@/services/dashboard'
+import { listFavorites } from '@/actions/favorites'
 import { ErrorState } from '@/components/error-state'
 import { LoadingResources } from '@/components/loading'
 import { SpecialCard } from '@/components/special-card'
@@ -8,6 +9,7 @@ import { SpecialCard } from '@/components/special-card'
 async function ListAISuggestions() {
   const aiSuggestions = await getAISuggestions()
   const { data, error } = aiSuggestions
+  const favoriteIds = await listFavorites()
 
   if (error || !data) {
     return <ErrorState error='Something went wrong' />
@@ -32,6 +34,7 @@ async function ListAISuggestions() {
           <SpecialCard
             key={id}
             resource={{
+              id,
               name: title,
               category,
               brief: brief ?? summary,
@@ -41,6 +44,7 @@ async function ListAISuggestions() {
               order: index,
               clicks: 0
             }}
+            isFavorite={favoriteIds.includes(id)}
           />
         ))}
       </div>
