@@ -1,4 +1,5 @@
 import { search } from '@/services/search'
+import { listFavorites } from '@/actions/favorites'
 import { ErrorState } from '@/components/error-state'
 import { PanelResources } from '@/components/panel-resources'
 
@@ -17,6 +18,12 @@ export async function Home({ query, slug }: HomeProps) {
   if (error) {
     return <ErrorState error={error ?? 'An error occured. Please try again later.'} />
   }
+  const favoritesIds = await listFavorites()
 
-  return <PanelResources resources={resources} />
+  return (
+    <PanelResources
+      resources={resources}
+      favoritesIds={favoritesIds}
+    />
+  )
 }

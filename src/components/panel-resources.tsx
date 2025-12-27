@@ -10,7 +10,12 @@ import { NUMBER_OF_GENERATIONS_TO_FETCH } from '@/constants'
 import { ListResource } from '@/components/list-resource'
 import { LoadMore } from '@/components/load-more'
 
-export function PanelResources({ resources }: { resources: Resource[] }) {
+type PanelResourcesProps = {
+  resources: Resource[]
+  favoritesIds: string[]
+}
+
+export function PanelResources({ resources, favoritesIds }: PanelResourcesProps) {
   const isLastRequest = useRef(false)
   const [data, setData] = useState<Resource[]>(resources)
   const [hasResources, setHasResources] = useState(
@@ -61,7 +66,10 @@ export function PanelResources({ resources }: { resources: Resource[] }) {
 
   return (
     <>
-      <ListResource data={data} />
+      <ListResource
+        data={data}
+        favoritesIds={favoritesIds}
+      />
       {hasResources && (
         <LoadMore
           loadMoreResources={loadMoreResources}

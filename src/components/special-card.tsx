@@ -1,14 +1,11 @@
 'use client'
 import Image from 'next/image'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
 
 import { ArrowUpRightIcon, HeartIcon } from 'lucide-react'
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { cn } from '@/utils/styles'
 import { inter, plusJakartaSans } from '@/fonts'
-import { addFavorite, removeFavorite } from '@/actions/favorites'
+import { useFavorite } from '@/hooks/useFavorite'
 
 type SpecialCardProps = {
   resource: {
@@ -27,30 +24,7 @@ type SpecialCardProps = {
 
 export function SpecialCard({ resource, isFavorite }: SpecialCardProps) {
   const { id, name, url, brief, category, image, placeholder, order } = resource
-  const [isFav, setIsFav] = useState(isFavorite)
-  const router = useRouter()
-
-  async function handleToggleFavorite() {
-    if (isFav) {
-      const result = await removeFavorite(id)
-      if (result.error) {
-        toast.error(result.error)
-        return
-      }
-
-      setIsFav(false)
-      router.refresh()
-    } else {
-      const result = await addFavorite(id)
-      if (result.error) {
-        toast.error(result.error)
-        return
-      }
-
-      setIsFav(true)
-      router.refresh()
-    }
-  }
+  const { handleToggleFavorite, isFav } = useFavorite(isFavorite, id)
 
   return (
     <article

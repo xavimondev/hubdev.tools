@@ -1,6 +1,5 @@
 'use client'
 
-import { useOptimistic, useState } from 'react'
 import Image from 'next/image'
 import { ArrowUpRight, HeartIcon } from 'lucide-react'
 
@@ -10,6 +9,7 @@ import { inter, plusJakartaSans } from '@/fonts'
 
 import { DEFAULT_BLUR_DATA_URL, HREF_PREFIX } from '@/constants'
 import { cn } from '@/utils/styles'
+import { useFavorite } from '@/hooks/useFavorite'
 import { NoResultsSearch } from '@/components/empty-state'
 
 type ResourceItemProps = {
@@ -21,6 +21,7 @@ type ResourceItemProps = {
   image: string
   order: number
   placeholder: string | null
+  isFavorite: boolean
 }
 
 export function ResourceItem({
@@ -31,14 +32,10 @@ export function ResourceItem({
   brief,
   image,
   order,
-  placeholder
+  placeholder,
+  isFavorite
 }: ResourceItemProps) {
-  const [isPinned, setIsPinned] = useState(false)
-  const [optimisticState, setOptimisticState] = useOptimistic(isPinned)
-
-  const pinResource = async ({ resourceId }: { resourceId: string }) => {
-    console.log(`Setting favorite ${resourceId}`)
-  }
+  const { handleToggleFavorite, isFav } = useFavorite(isFavorite, id)
 
   return (
     <article className='rounded-lg shadow-xs border transition-colors duration-300 ease-in-out resource-item grid grid-rows-subgrid row-span-2 gap-3 p-2.5 border-light-600/70 bg-light-600/20 hover:bg-light-600/70 dark:border-neutral-800/70 dark:bg-[#101010] dark:hover:bg-[#191919]'>
@@ -77,16 +74,12 @@ export function ResourceItem({
         <div className='flex gap-1.5'>
           <div
             className='cursor-pointer'
-            onClick={() =>
-              pinResource({
-                resourceId: id
-              })
-            }
+            onClick={handleToggleFavorite}
           >
             <HeartIcon
               className={cn(
                 'size-4 mr-2 hover:scale-110 text-light-800 dark:text-red-400',
-                optimisticState && 'fill-light-800 dark:fill-red-400'
+                isFav && 'fill-light-800 dark:fill-red-400'
               )}
             />
           </div>
@@ -98,9 +91,10 @@ export function ResourceItem({
 
 type ListResourceProps = {
   data: Resource[]
+  favoritesIds: string[]
 }
 
-export function ListResource({ data }: ListResourceProps) {
+export function ListResource({ data, favoritesIds }: ListResourceProps) {
   return (
     <>
       {data && data.length > 0 ? (
@@ -117,6 +111,7 @@ export function ListResource({ data }: ListResourceProps) {
                 image={image}
                 placeholder={placeholder}
                 id={id}
+                isFavorite={favoritesIds.includes(id)}
               />
             )
           })}

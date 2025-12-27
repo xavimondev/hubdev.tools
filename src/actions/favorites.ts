@@ -1,9 +1,10 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 
 const FAVORITES_COOKIE_NAME = 'favorites'
-const MAX_FAVORITES = 100
+const MAX_FAVORITES = 50
 
 export async function listFavorites(): Promise<string[]> {
   try {
@@ -21,7 +22,10 @@ export async function listFavorites(): Promise<string[]> {
   }
 }
 
-export async function addFavorite(id: string): Promise<{ success: boolean; error?: string }> {
+export async function addFavorite(
+  id: string,
+  pathname: string
+): Promise<{ success: boolean; error?: string }> {
   try {
     const cookieStore = await cookies()
     const favorites = cookieStore.get(FAVORITES_COOKIE_NAME)
@@ -32,6 +36,13 @@ export async function addFavorite(id: string): Promise<{ success: boolean; error
       favoriteIds = JSON.parse(favorites.value) as string[]
       if (!Array.isArray(favoriteIds)) {
         favoriteIds = []
+      }
+    }
+
+    // check if the favorite is already in the list
+    if (favoriteIds.includes(id)) {
+      return {
+        success: true
       }
     }
 
@@ -50,6 +61,8 @@ export async function addFavorite(id: string): Promise<{ success: boolean; error
       secure: true
     })
 
+    revalidatePath(pathname)
+
     return {
       success: true
     }
@@ -61,7 +74,10 @@ export async function addFavorite(id: string): Promise<{ success: boolean; error
   }
 }
 
-export async function removeFavorite(id: string): Promise<{ success: boolean; error?: string }> {
+export async function removeFavorite(
+  id: string,
+  pathname: string
+): Promise<{ success: boolean; error?: string }> {
   try {
     const cookieStore = await cookies()
     const favorites = cookieStore.get(FAVORITES_COOKIE_NAME)
@@ -78,6 +94,8 @@ export async function removeFavorite(id: string): Promise<{ success: boolean; er
     cookieStore.set(FAVORITES_COOKIE_NAME, JSON.stringify(newFavorites), {
       secure: true
     })
+
+    revalidatePath(pathname)
 
     return {
       success: true
