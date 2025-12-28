@@ -100,7 +100,7 @@ export function CategoryPill({ name, slug, href }: CategoryProps) {
         plusJakartaSans.className,
         'flex items-center gap-3 px-4 py-2 rounded-xl backdrop-filter text-sm whitespace-nowrap text-foreground backdrop-blur-sm',
         isActive
-          ? 'bg-light-700/50 dark:bg-white/5 text-purple-300 border dark:border-purple-300/20'
+          ? 'bg-light-700/50 dark:bg-white/5 text-light-900 border-light-600 dark:text-purple-300 border dark:border-purple-300/20'
           : 'hover:bg-light-600/40 dark:hover:bg-purple-300/10 dark:hover:text-purple-300 dark:hover:border-purple-300/20'
       )}
     >

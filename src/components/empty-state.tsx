@@ -109,7 +109,7 @@ export function NoFavorites() {
       </div>
       <Link
         href='/'
-        className={`mt-2 inline-block bg-secondary text-white px-4 py-2 rounded-md hover:bg-neutral-900 transition-colors duration-150 text-sm ${inter.className}`}
+        className={`mt-2 inline-block bg-primary text-white dark:text-black px-4 py-2 rounded-md dark:hover:bg-neutral-900 transition-colors duration-150 text-sm ${inter.className}`}
       >
         Start exploring
       </Link>

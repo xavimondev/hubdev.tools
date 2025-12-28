@@ -79,11 +79,8 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
          rounded-xl 
          h-[50px] 
          w-[min(450px,calc(100%-90px))] 
-         bg-linear-to-br 
-         dark:from-stone-800 
-         dark:to-neutral-900 
-         from-stone-50
-         to-light-400
+         dark:bg-neutral-900 
+         bg-stone-50
          translate-y-[8px] 
          transition-multiple 
          duration-300 
@@ -108,11 +105,6 @@ export function Toolbar({ searchHistory, searchSuggestionsAI }: ToolbarProps) {
         searchHistory={searchHistory}
         searchSuggestionsAI={searchSuggestionsAI}
       />
-      {/* {Boolean(promptEvaluationResult) && (
-        <span className='my-2 w-full text-red-700 dark:text-red-400 text-sm'>
-          {promptEvaluationResult}
-        </span>
-      )} */}
     </div>
   )
 }

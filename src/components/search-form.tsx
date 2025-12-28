@@ -124,7 +124,7 @@ export function FormSearch({
         dark:focus-within:text-white 
         dark:text-neutral-400 
         focus-within:text-black 
-        text-neutral-900'
+        text-neutral-900 shadow-none'
           id='prompt'
           spellCheck='false'
           aria-label='Search'
