@@ -63,7 +63,7 @@ export const getAISuggestions = async () => {
   const historyValue = JSON.parse(history.value)
 
   const { text: query } = await generateText({
-    model: groq('llama-3.1-8b-instant'),
+    model: groq('meta-llama/llama-4-maverick-17b-128e-instruct'),
     prompt: `You are a helpful assistant that summarizes the user's search history.
   Based on the following search history:
   ${historyValue.join('\n')}

@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const result = await generateObject({
-      model: groq('llama-3.1-8b-instant'),
+      model: groq('meta-llama/llama-4-maverick-17b-128e-instruct'),
       schema: z.object({
         category: z.enum(['technical', 'non-technical'])
       }),

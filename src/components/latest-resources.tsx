@@ -5,7 +5,7 @@ import { Link } from 'next-view-transitions'
 import { getLatestResources } from '@/services/dashboard'
 import { listFavorites } from '@/actions/favorites'
 import { ErrorState } from '@/components/error-state'
-import { LoadingCards } from '@/components/loading'
+import { LoadingResources } from '@/components/loading'
 import { SpecialCard } from '@/components/special-card'
 
 async function ListLatestResources() {
@@ -59,7 +59,7 @@ export function LatestResources() {
           </Link>
         </div>
       </div>
-      <Suspense fallback={<LoadingCards />}>
+      <Suspense fallback={<LoadingResources />}>
         <ListLatestResources />
       </Suspense>
     </section>

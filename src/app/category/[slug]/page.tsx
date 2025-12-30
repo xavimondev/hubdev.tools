@@ -6,7 +6,7 @@ import { Container } from '@/components/container'
 import { ErrorState } from '@/components/error-state'
 import { Hero } from '@/components/hero'
 import { Home } from '@/components/home'
-import Loading from '@/components/loading'
+import { LoadingResources } from '@/components/loading'
 
 export const maxDuration = 60
 
@@ -87,7 +87,7 @@ export default async function Page({
         description={heroDescription!}
       />
       <Suspense
-        fallback={<Loading />}
+        fallback={<LoadingResources />}
         key={query}
       >
         <Home

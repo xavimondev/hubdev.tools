@@ -4,7 +4,7 @@ import { Metadata, ResolvingMetadata } from 'next'
 import { Container } from '@/components/container'
 import { Dashboard } from '@/components/dashboard'
 import { Home } from '@/components/home'
-import Loading from '@/components/loading'
+import { LoadingResources } from '@/components/loading'
 
 export const maxDuration = 60
 
@@ -51,20 +51,18 @@ export default async function MainPage({
       <Container>
         {query ? (
           <>
-            <div className='flex flex-col gap-4'>
-              <h1 className='text-2xl md:text-4xl text-balance font-bold bg-linear-to-br from-light-800 to-light-900 dark:from-white dark:to-white/50 bg-clip-text text-transparent'>
+            <div className='flex flex-col gap-2'>
+              <h1 className='text-2xl text-balance font-semibold text-light-800 dark:text-primary'>
                 Results
               </h1>
-              <div className='flex items-center justify-between'>
-                <p className='text-sm md:text-base text-gray-600 dark:text-muted-foreground'>
-                  Based on your input, there are found several relevant resources tailored to your
-                  needs.
-                </p>
-              </div>
+              <p className='text-sm text-pretty max-w-lg text-muted-foreground'>
+                Based on your input, there are found several relevant resources tailored to your
+                needs.
+              </p>
             </div>
             <Suspense
               key={query}
-              fallback={<Loading />}
+              fallback={<LoadingResources />}
             >
               <Home query={query} />
             </Suspense>
