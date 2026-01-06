@@ -2,23 +2,16 @@ import { ImageResponse } from 'next/og'
 
 import { APP_URL } from '@/constants'
 
-export const runtime = 'edge'
-
 export async function GET(request: Request) {
   const size = {
     width: 1200,
     height: 630
   }
-  const contentType = 'image/png'
 
   const { searchParams } = new URL(request.url)
   const hasQuery = searchParams.has('query')
 
   if (!hasQuery) {
-    const ogSrc = await fetch(new URL(`${APP_URL}/assets/banner.jpg`, import.meta.url)).then(
-      (res) => res.arrayBuffer()
-    )
-
     return new ImageResponse(
       <div
         style={{
@@ -29,8 +22,7 @@ export async function GET(request: Request) {
         }}
       >
         <img
-          // @ts-ignore
-          src={ogSrc}
+          src={`${APP_URL}/assets/banner.jpg`}
           style={{
             width: '100%',
             height: '100%',
@@ -44,31 +36,16 @@ export async function GET(request: Request) {
 
   const query = searchParams.get('query')
 
-  const iconSrc = await fetch(new URL(`${APP_URL}/assets/icon.png`, import.meta.url)).then((res) =>
-    res.arrayBuffer()
-  )
-
   return new ImageResponse(
     <div
       style={{
-        background: '#151313',
+        background: '#171717',
         width: '100%',
         height: '100%',
         display: 'flex',
         alignItems: 'center'
       }}
     >
-      <div
-        style={{
-          backgroundSize: '70px 70px',
-          backgroundImage: `linear-gradient(to right,#242424 1px,transparent 1px),linear-gradient(to bottom,#242424 1px,transparent 1px)`,
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          top: 0,
-          left: 0
-        }}
-      ></div>
       <div
         style={{
           display: 'flex',
@@ -85,9 +62,8 @@ export async function GET(request: Request) {
             margin: '35px'
           }}
         >
-          {/* @ts-ignore */}
           <img
-            src={iconSrc}
+            src={`${APP_URL}/assets/icon.png`}
             style={{
               width: '40px',
               height: '40px'

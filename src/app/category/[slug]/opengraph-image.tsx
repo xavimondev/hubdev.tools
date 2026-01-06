@@ -3,8 +3,6 @@ import { ImageResponse } from 'next/og'
 import { APP_URL } from '@/constants'
 import { getCategoryDetails } from '@/services/list'
 
-export const runtime = 'edge'
-
 export default async function Image({
   params
 }: {
@@ -17,15 +15,15 @@ export default async function Image({
     height: 630
   }
 
-  const contentType = 'image/png'
   const details = await getCategoryDetails({
     slug: params.slug
   })
+
   if (!details) {
     return new ImageResponse(
       <div
         style={{
-          background: '#100E0E',
+          background: '#171717',
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -41,14 +39,10 @@ export default async function Image({
 
   const { name, description } = details[0]
 
-  const iconSrc = await fetch(new URL(`${APP_URL}/assets/icon.png`, import.meta.url)).then((res) =>
-    res.arrayBuffer()
-  )
-
   return new ImageResponse(
     <div
       style={{
-        background: '#151313',
+        background: '#171717',
         width: '100%',
         height: '100%',
         display: 'flex',
@@ -58,7 +52,6 @@ export default async function Image({
       <div
         style={{
           backgroundSize: '70px 70px',
-          backgroundImage: `linear-gradient(to right,#242424 1px,transparent 1px),linear-gradient(to bottom,#242424 1px,transparent 1px)`,
           width: '100%',
           height: '100%',
           position: 'absolute',
@@ -82,9 +75,8 @@ export default async function Image({
             margin: '35px'
           }}
         >
-          {/* @ts-ignore */}
           <img
-            src={iconSrc}
+            src={`${APP_URL}/assets/icon.png`}
             style={{
               width: '40px',
               height: '40px'
@@ -101,16 +93,6 @@ export default async function Image({
           </p>
         </div>
       </div>
-      <div
-        style={{
-          backgroundColor: 'transparent',
-          backgroundImage: `radial-gradient(ellipse 80% 35% at 65% -25%, rgba(70,100,180,0.2), rgba(255, 255, 255, 0))`,
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          top: '0'
-        }}
-      ></div>
       <div
         style={{
           display: 'flex',
