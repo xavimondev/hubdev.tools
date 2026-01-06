@@ -1,11 +1,9 @@
-import { AsteriskIcon, HistoryIcon, SparklesIcon } from 'lucide-react'
+import { ClockIcon, HistoryIcon, SparklesIcon } from 'lucide-react'
 
 const SUGGESTIONS_SEARCH = [
   'books for learning TypeScript',
-  'librerías para autenticación',
   'how to build a blog using Next.js, Tailwind and markdown',
-  'platforms for sending emails',
-  'plataformas open source para analíticas'
+  'platforms for sending emails'
 ]
 
 function SearchSuggestionsAI({
@@ -16,11 +14,9 @@ function SearchSuggestionsAI({
   handleSearch: (term: string) => void
 }) {
   return (
-    <div className='flex flex-col gap-2'>
-      <span className='text-xs font-semibold text-light-900 dark:text-white uppercase'>
-        ai Suggestions
-      </span>
-      <div className='flex flex-wrap gap-2 items-center w-full'>
+    <div className='flex flex-col gap-2 mt-3'>
+      <span className='text-xs font-semibold text-neutral-400'>AI Suggestions</span>
+      <div className='flex flex-col gap-0.5 w-full'>
         {searchSuggestionsAI.map((suggestion) => (
           <button
             aria-label={`Search for ${suggestion}`}
@@ -28,12 +24,10 @@ function SearchSuggestionsAI({
             onClick={() => {
               handleSearch(suggestion)
             }}
-            className='group flex items-center border border-neutral-600/30 dark:border-neutral-600/50 bg-light-300 dark:bg-neutral-800 hover:bg-light-600/40 dark:hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
+            className='flex items-center p-2 rounded-md cursor-pointer transition-colors duration-300 hover:bg-light-600/40 text-light-900 dark:hover:bg-neutral-800 dark:text-white'
           >
-            <SparklesIcon className='mr-2 text-yellow-700 dark:text-yellow-300 size-4' />
-            <span className='text-gray-900 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white text-sm text-left'>
-              {suggestion}
-            </span>
+            <SparklesIcon className='mr-2 size-3' />
+            <span>{suggestion}</span>
           </button>
         ))}
       </div>
@@ -49,11 +43,9 @@ function SearchHistory({
   handleSearch: (term: string) => void
 }) {
   return (
-    <div className='flex flex-col gap-2 mt-4'>
-      <span className='text-xs font-semibold text-light-900 dark:text-white uppercase'>
-        search history
-      </span>
-      <div className='flex flex-wrap gap-2 items-center w-full'>
+    <div className='flex flex-col gap-2'>
+      <span className='text-xs font-semibold text-neutral-400'>Recent Searches</span>
+      <div className='flex flex-col gap-0.5 w-full'>
         {searchHistory.map((suggestion) => (
           <button
             aria-label={`Search for ${suggestion}`}
@@ -61,12 +53,33 @@ function SearchHistory({
             onClick={() => {
               handleSearch(suggestion)
             }}
-            className='group flex items-center border border-neutral-600/30 dark:border-neutral-600/50 bg-light-300 dark:bg-neutral-800 hover:bg-light-600/40 dark:hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
+            className='flex items-center p-2 rounded-md cursor-pointer transition-colors duration-300 hover:bg-light-600/40 text-light-900 dark:hover:bg-neutral-800 dark:text-white'
           >
-            <HistoryIcon className='mr-2 text-yellow-700 dark:text-yellow-300 size-4' />
-            <span className='text-gray-900 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white text-sm text-left'>
-              {suggestion}
-            </span>
+            <HistoryIcon className='mr-2 size-3' />
+            <span>{suggestion}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function DefaultSuggestions({ handleSearch }: { handleSearch: (term: string) => void }) {
+  return (
+    <div className='flex flex-col gap-2'>
+      <span className='text-xs font-semibold text-neutral-400'>Suggestions</span>
+      <div className='flex flex-col gap-1 w-full'>
+        {SUGGESTIONS_SEARCH.map((suggestion) => (
+          <button
+            aria-label={`Search for ${suggestion}`}
+            key={suggestion}
+            onClick={() => {
+              handleSearch(suggestion)
+            }}
+            className='flex items-center p-2 rounded-md cursor-pointer transition-colors duration-300 hover:bg-light-600/40 text-light-900 dark:hover:bg-neutral-800 dark:text-white'
+          >
+            <ClockIcon className='mr-2 size-3' />
+            <span>{suggestion}</span>
           </button>
         ))}
       </div>
@@ -86,33 +99,20 @@ export function SearchSuggestions({
   searchSuggestionsAI
 }: SearchSuggestionsProps) {
   return (
-    <div className='size-full border-t border-light-700 dark:border-t-neutral-700/40 overflow-y-auto scrollbar-hide p-3.5 hidden group-focus-within:block'>
+    <div className='size-full border-t border-light-700 dark:border-t-neutral-700/40 overflow-y-auto p-3.5 hidden group-focus-within:block'>
       <>
         {searchHistory.length === 0 && searchSuggestionsAI.length === 0 ? (
-          <div className='flex flex-wrap gap-2 items-center w-full'>
-            {SUGGESTIONS_SEARCH.map((suggestion) => (
-              <button
-                aria-label={`Search for ${suggestion}`}
-                key={suggestion}
-                onClick={() => {
-                  handleSearch(suggestion)
-                }}
-                className='group flex items-center border border-neutral-600/30 dark:border-neutral-600/50 bg-light-300 dark:bg-neutral-800 hover:bg-light-600/40 dark:hover:bg-neutral-900 p-2 rounded-md cursor-pointer transition-colors duration-300'
-              >
-                <AsteriskIcon className='mr-2 text-yellow-700 dark:text-yellow-300 size-4' />
-                <span className='text-gray-900 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white text-sm text-left'>
-                  {suggestion}
-                </span>
-              </button>
-            ))}
-          </div>
+          <DefaultSuggestions handleSearch={handleSearch} />
         ) : (
           <>
+            <SearchHistory
+              searchHistory={searchHistory}
+              handleSearch={handleSearch}
+            />
             <SearchSuggestionsAI
               searchSuggestionsAI={searchSuggestionsAI}
               handleSearch={handleSearch}
             />
-            <SearchHistory searchHistory={searchHistory} handleSearch={handleSearch} />
           </>
         )}
       </>

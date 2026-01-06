@@ -5,6 +5,7 @@ export type Pin = {
   url: string
   image?: string
   summary: string
+  brief: string | null
   placeholder?: string
   category: string
   categoryColor: string

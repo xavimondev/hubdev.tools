@@ -38,7 +38,10 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
           gradientUnits='objectBoundingBox'
         >
           <stop stopColor='#4d4d4d'></stop>
-          <stop offset='1' stopColor='#000000'></stop>
+          <stop
+            offset='1'
+            stopColor='#000000'
+          ></stop>
         </radialGradient>
         <radialGradient
           id='rb'
@@ -49,7 +52,11 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
           gradientTransform='translate(256) rotate(90) scale(512)'
         >
           <stop stopColor='white'></stop>
-          <stop offset='1' stopColor='white' stopOpacity='0'></stop>
+          <stop
+            offset='1'
+            stopColor='white'
+            stopOpacity='0'
+          ></stop>
         </radialGradient>
       </defs>
       <svg
@@ -61,7 +68,9 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
         x='80'
         y='80'
         alignmentBaseline='middle'
-        style={{ color: 'rgb(230, 230, 230)' }}
+        style={{
+          color: 'rgb(230, 230, 230)'
+        }}
       >
         <path
           stroke='currentColor'

@@ -1,10 +1,18 @@
+import { inter, plusJakartaSans } from '@/fonts'
+import { cn } from '@/utils/styles'
+
 export function SectionHeader({ title, description }: { title: string; description: string }) {
   return (
-    <div className='flex flex-col gap-3'>
-      <h2 className='text-2xl md:text-3xl text-balance font-bold bg-gradient-to-br from-light-800 to-light-900 dark:from-white dark:to-white/70 bg-clip-text text-transparent'>
+    <div className='flex flex-col gap-2'>
+      <h2
+        className={cn(
+          plusJakartaSans.className,
+          'text-2xl text-balance font-semibold text-light-800 dark:text-primary'
+        )}
+      >
         {title}
       </h2>
-      <p className='text-sm md:text-base text-pretty max-w-lg text-muted-foreground'>
+      <p className={cn(inter.className, 'text-sm text-pretty max-w-lg text-muted-foreground')}>
         {description}
       </p>
     </div>

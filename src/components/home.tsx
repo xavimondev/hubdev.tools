@@ -1,4 +1,5 @@
 import { search } from '@/services/search'
+import { listFavorites } from '@/actions/favorites'
 import { ErrorState } from '@/components/error-state'
 import { PanelResources } from '@/components/panel-resources'
 
@@ -8,12 +9,21 @@ type HomeProps = {
 }
 
 export async function Home({ query, slug }: HomeProps) {
-  const data = await search({ q: query, slug })
+  const data = await search({
+    q: query,
+    slug
+  })
   // @ts-ignore
   const { resources, error } = data
   if (error) {
     return <ErrorState error={error ?? 'An error occured. Please try again later.'} />
   }
+  const favoritesIds = await listFavorites()
 
-  return <PanelResources resources={resources} />
+  return (
+    <PanelResources
+      resources={resources}
+      favoritesIds={favoritesIds}
+    />
+  )
 }

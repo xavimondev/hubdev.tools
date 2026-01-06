@@ -93,9 +93,15 @@ export function FormSearch({
   }
 
   return (
-    <form className='flex w-full items-center px-2 py-1' onSubmit={handleSubmit}>
+    <form
+      className='flex w-full items-center px-2 py-1'
+      onSubmit={handleSubmit}
+    >
       <div className='relative w-full'>
-        <label className='sr-only' htmlFor='prompt'>
+        <label
+          className='sr-only'
+          htmlFor='prompt'
+        >
           Prompt
         </label>
         <Input
@@ -106,10 +112,7 @@ export function FormSearch({
           w-full 
           p-2 
           border-none 
-          bg-transparent 
-          border 
-          border-input 
-          focus-visible:outline-none 
+          focus-visible:outline-hidden 
           focus-visible:ring-0 
           focus-visible:ring-offset-0 
           whitespace-nowrap 
@@ -121,7 +124,7 @@ export function FormSearch({
         dark:focus-within:text-white 
         dark:text-neutral-400 
         focus-within:text-black 
-        text-neutral-900'
+        text-neutral-900 shadow-none'
           id='prompt'
           spellCheck='false'
           aria-label='Search'
@@ -145,7 +148,7 @@ export function FormSearch({
           </div>
           {isClassifying && <LoaderCircleIcon className='size-5 animate-spin' />}
           {!isMobile && !isClassifying && !promptEvaluationResult && (
-            <kbd className='bg-light-600 dark:bg-neutral-700 text-light-900 dark:text-white rounded-sm px-2 py-1 text-xs'>
+            <kbd className='bg-light-600 dark:bg-neutral-700 text-light-900 dark:text-white rounded-md px-2 py-1 text-xs'>
               S
             </kbd>
           )}
@@ -170,7 +173,10 @@ function ToolTipError({ promptEvaluationResult }: { promptEvaluationResult: stri
             </Button>
           </div>
         </TooltipTrigger>
-        <TooltipContent side='right' className='border-light-600 dark:border-neutral-800/70'>
+        <TooltipContent
+          side='right'
+          className='border-light-600 dark:border-neutral-800/70'
+        >
           <p>{promptEvaluationResult}</p>
         </TooltipContent>
       </Tooltip>

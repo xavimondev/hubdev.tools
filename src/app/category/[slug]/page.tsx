@@ -6,15 +6,16 @@ import { Container } from '@/components/container'
 import { ErrorState } from '@/components/error-state'
 import { Hero } from '@/components/hero'
 import { Home } from '@/components/home'
-import Loading from '@/components/loading'
-import { ServerTopPins } from '@/components/server-top-pins'
+import { LoadingResources } from '@/components/loading'
 
 export const maxDuration = 60
 
 export async function generateMetadata({
   params
 }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{
+    slug: string
+  }>
 }): Promise<Metadata> {
   const { slug } = await params
 
@@ -24,7 +25,9 @@ export async function generateMetadata({
     }
   }
 
-  const data = await getCategoryDetails({ slug })
+  const data = await getCategoryDetails({
+    slug
+  })
 
   if (!data) {
     return {
@@ -48,8 +51,12 @@ export default async function Page({
   params,
   searchParams
 }: {
-  params: Promise<{ slug: string }>
-  searchParams: Promise<{ query: string }>
+  params: Promise<{
+    slug: string
+  }>
+  searchParams: Promise<{
+    query: string
+  }>
 }) {
   const { slug } = await params
   let heroTitle = ''
@@ -59,7 +66,9 @@ export default async function Page({
     heroTitle = 'Resources'
     heroDescription = 'Discover an awesome list of resources for developers.'
   } else {
-    const data = await getCategoryDetails({ slug })
+    const data = await getCategoryDetails({
+      slug
+    })
     if (!data) return <ErrorState error='An error occurred. Please try again later.' />
 
     const category = data[0]
@@ -73,10 +82,18 @@ export default async function Page({
 
   return (
     <Container>
-      <ServerTopPins />
-      <Hero title={heroTitle} description={heroDescription!} />
-      <Suspense fallback={<Loading />} key={query}>
-        <Home query={query} slug={slug} />
+      <Hero
+        title={heroTitle}
+        description={heroDescription!}
+      />
+      <Suspense
+        fallback={<LoadingResources />}
+        key={query}
+      >
+        <Home
+          query={query}
+          slug={slug}
+        />
       </Suspense>
     </Container>
   )

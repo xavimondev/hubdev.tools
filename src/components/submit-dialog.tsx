@@ -18,7 +18,10 @@ export function SubmitDialog() {
   const [open, setOpen] = useState(false)
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+    >
       <DialogTrigger asChild>
         <Button variant='outline'>
           <SendIcon className='size-4 mr-2' />

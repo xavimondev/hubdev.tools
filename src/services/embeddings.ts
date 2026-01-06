@@ -18,13 +18,19 @@ export async function getEmbeddings({ input, count }: { input: string; count?: n
 
         const { success } = await ratelimit.limit(ip)
         if (!success) {
-          return { error: 'You have reached your request limit for the day.' }
+          return {
+            error: 'You have reached your request limit for the day.'
+          }
         }
       }
     }
 
     const { data, error } = await supabase.functions.invoke('query-embedding', {
-      body: { prompt: input, limit: count ?? 11, threshold: 0.7 }
+      body: {
+        prompt: input,
+        limit: count ?? 11,
+        threshold: 0.7
+      }
     })
 
     if (error) {
@@ -32,8 +38,12 @@ export async function getEmbeddings({ input, count }: { input: string; count?: n
     }
 
     const result = data.result as Resource[]
-    return { data: result }
+    return {
+      data: result
+    }
   } catch (error) {
-    return { error: 'An error occurred while searching for resources.' }
+    return {
+      error: 'An error occurred while searching for resources.'
+    }
   }
 }

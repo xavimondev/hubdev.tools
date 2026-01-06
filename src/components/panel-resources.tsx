@@ -10,14 +10,21 @@ import { NUMBER_OF_GENERATIONS_TO_FETCH } from '@/constants'
 import { ListResource } from '@/components/list-resource'
 import { LoadMore } from '@/components/load-more'
 
-export function PanelResources({ resources }: { resources: Resource[] }) {
+type PanelResourcesProps = {
+  resources: Resource[]
+  favoritesIds: string[]
+}
+
+export function PanelResources({ resources, favoritesIds }: PanelResourcesProps) {
   const isLastRequest = useRef(false)
   const [data, setData] = useState<Resource[]>(resources)
   const [hasResources, setHasResources] = useState(
     resources.length > NUMBER_OF_GENERATIONS_TO_FETCH
   )
   const [isLoading, setIsLoading] = useState(false)
-  const params = useParams<{ slug: string }>()
+  const params = useParams<{
+    slug: string
+  }>()
 
   const loadMoreResources = async () => {
     if (isLastRequest.current || !data) return
@@ -59,8 +66,16 @@ export function PanelResources({ resources }: { resources: Resource[] }) {
 
   return (
     <>
-      <ListResource data={data} />
-      {hasResources && <LoadMore loadMoreResources={loadMoreResources} isLoading={isLoading} />}
+      <ListResource
+        data={data}
+        favoritesIds={favoritesIds}
+      />
+      {hasResources && (
+        <LoadMore
+          loadMoreResources={loadMoreResources}
+          isLoading={isLoading}
+        />
+      )}
     </>
   )
 }

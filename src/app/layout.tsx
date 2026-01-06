@@ -1,4 +1,3 @@
-import { GeistSans } from 'geist/font/sans'
 import { ViewTransitions } from 'next-view-transitions'
 
 import './globals.css'
@@ -70,7 +69,10 @@ export default function RootLayout({
 }>) {
   return (
     <ViewTransitions>
-      <html lang='en' className={`${GeistSans.variable}`} suppressHydrationWarning>
+      <html
+        lang='en'
+        suppressHydrationWarning
+      >
         <body className={`flex flex-col min-h-screen px-1 !sm:px-2`}>
           <ThemeProvider
             attribute='class'
@@ -79,7 +81,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Header />
-            <div className='px-4 py-8 md:px-6 md:py-10 container'>
+            <div className='px-4 py-6 md:px-6 md:py-8 max-w-full md:max-w-8xl'>
               <Sidebar />
               {children}
               <AISearch />

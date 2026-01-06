@@ -1,8 +1,10 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { AsteriskIcon, FrownIcon } from 'lucide-react'
+import { AsteriskIcon, FrownIcon, HeartIcon } from 'lucide-react'
+import Link from 'next/link'
+
+import { inter, plusJakartaSans } from '@/fonts'
 
 export function NoResultsSearch() {
   const searchParams = useSearchParams()
@@ -87,39 +89,30 @@ export function NoResultsSearch() {
   )
 }
 
-export function NoPinsAdded() {
+export function NoFavorites() {
   return (
-    <div className='flex items-center justify-center w-full h-full bg-background mt-[190px]'>
-      <div className='flex flex-col items-center justify-center p-8 max-w-md w-full text-center'>
-        <div className='size-48 mb-8 text-muted-foreground'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-            className='size-full'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth={1}
-              d='M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z'
-            />
-            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1} d='M9 10h6m-3-3v6' />
-          </svg>
+    <div className='flex flex-col items-center justify-center max-w-md mx-auto text-center space-y-6 mt-[250px]'>
+      <div className='relative'>
+        <div className='size-24 rounded-full bg-muted flex items-center justify-center'>
+          <HeartIcon
+            className='size-12 text-muted-foreground'
+            strokeWidth={1.5}
+          />
         </div>
-        <h2 className='text-2xl sm:text-4xl font-semibold text-foreground mb-2'>No pins yet</h2>
-        <p className='text-muted-foreground mb-6'>
-          Start pinning important resources to keep them easily accessible. Pinned items will appear
-          here for quick reference.
-        </p>
-        <Link
-          href='/category/ai'
-          className='rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2'
-        >
-          Pin a Resource
-        </Link>
       </div>
+      <div className='space-y-3'>
+        <h1 className='text-2xl font-medium tracking-tight text-foreground'>No favorites found</h1>
+        <p className='text-muted-foreground leading-relaxed text-balance text-sm'>
+          Resource you favorite will appear here. Start exploring and save your favorite items to
+          access them quickly.
+        </p>
+      </div>
+      <Link
+        href='/'
+        className={`mt-2 inline-block bg-primary text-white dark:text-black px-4 py-2 rounded-md dark:hover:bg-neutral-900 transition-colors duration-150 text-sm ${inter.className}`}
+      >
+        Start exploring
+      </Link>
     </div>
   )
 }

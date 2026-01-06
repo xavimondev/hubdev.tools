@@ -2,8 +2,11 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { extractDomain } from '@/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import * as z from 'zod'
 
+import { inter } from '@/fonts'
+
+import { cn } from '@/utils/styles'
 import { isDomainInvalid } from '@/utils/isDomainInvalid'
 import { submitResource } from '@/services/request'
 import { Button } from '@/components/ui/button'
@@ -18,7 +21,7 @@ import {
 import { Input } from '@/components/ui/input'
 
 const formSchema = z.object({
-  url: z.string().url({
+  url: z.url({
     message: 'Invalid URL.'
   })
 })
@@ -40,7 +43,11 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const domain = extractDomain(values.url)
-    if (isDomainInvalid({ url: domain })) {
+    if (
+      isDomainInvalid({
+        url: domain
+      })
+    ) {
       setError('url', {
         type: 'manual',
         message: 'Invalid URL.'
@@ -52,7 +59,9 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
       const formData = new FormData()
       formData.append('url', values.url)
 
-      const { msg } = await submitResource({ formData })
+      const { msg } = await submitResource({
+        formData
+      })
       if (msg !== 'ok') {
         setError('url', {
           type: 'manual',
@@ -67,14 +76,20 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
       }, 2000)
     } catch (error) {
       if (error instanceof Error) {
-        setError('root.api', { type: 'manual', message: error.message })
+        setError('root.api', {
+          type: 'manual',
+          message: error.message
+        })
       }
     }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn('space-y-4', inter.className)}
+      >
         <FormField
           control={form.control}
           name='url'
@@ -82,7 +97,11 @@ export function SubmitResourceForm({ setOpen }: { setOpen: Dispatch<SetStateActi
             <FormItem>
               <FormLabel>Website URL</FormLabel>
               <FormControl>
-                <Input placeholder='https://example.com' {...field} autoComplete='off' />
+                <Input
+                  placeholder='https://example.com'
+                  {...field}
+                  autoComplete='off'
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

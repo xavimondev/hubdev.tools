@@ -20,16 +20,19 @@ export const getFeaturedResources = async () => {
     title, 
     url, 
     image, 
-    summary, 
-    placeholder, 
+    brief, 
+    clicks,
+    placeholder,
     categories!inner(
       slug,
       name
     )
   `
     )
-    .order('clicks', { ascending: false })
-    .limit(6)
+    .order('clicks', {
+      ascending: false
+    })
+    .limit(8)
 
   if (error) {
     console.error(error)
@@ -60,7 +63,7 @@ export const getAISuggestions = async () => {
   const historyValue = JSON.parse(history.value)
 
   const { text: query } = await generateText({
-    model: groq('llama-3.1-8b-instant'),
+    model: groq('meta-llama/llama-4-maverick-17b-128e-instruct'),
     prompt: `You are a helpful assistant that summarizes the user's search history.
   Based on the following search history:
   ${historyValue.join('\n')}
@@ -72,7 +75,10 @@ export const getAISuggestions = async () => {
   - Exclude any symbols, special characters, or unnecessary punctuation from the summary.`
   })
 
-  const { data, error } = await getEmbeddings({ input: query, count: 6 })
+  const { data, error } = await getEmbeddings({
+    input: query,
+    count: 8
+  })
 
   if (error || !data || data.length === 0) {
     return {
@@ -95,6 +101,7 @@ export const getLatestResources = async () => {
     url, 
     image, 
     summary, 
+    brief, 
     placeholder, 
     categories!inner(
       slug,
@@ -102,12 +109,55 @@ export const getLatestResources = async () => {
     )
   `
     )
-    .order('created_at', { ascending: false })
+    .order('created_at', {
+      ascending: false
+    })
     .limit(6)
 
   if (error) {
     console.error(error)
     return
+  }
+
+  const formattedData = data.map((item) => {
+    const { categories, ...resource } = item
+    const { name } = categories ?? {}
+    return {
+      ...resource,
+      category: name ?? ''
+    }
+  })
+
+  return formattedData
+}
+
+export const getFavoritesResources = async (ids: string[]) => {
+  if (!ids || ids.length === 0) {
+    return []
+  }
+
+  const { data, error } = await supabase
+    .from('resources')
+    .select(
+      `
+    id, 
+    title, 
+    url, 
+    image, 
+    summary, 
+    brief, 
+    placeholder, 
+    categories!inner(
+      slug,
+      name
+    )
+  `
+    )
+    .in('id', ids)
+
+  if (error) {
+    console.error(error)
+    return []
   }
 
   const formattedData = data.map((item) => {

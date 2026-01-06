@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { createGroq } from '@ai-sdk/groq'
 import { generateObject } from 'ai'
-import { z } from 'zod'
+import * as z from 'zod'
 
 const groq = createGroq({
   baseURL: 'https://api.groq.com/openai/v1',
@@ -29,7 +29,7 @@ export async function generateSearchSuggestionsAI() {
   const data = JSON.parse(history.value)
 
   const ai = await generateObject({
-    model: groq('llama-3.1-8b-instant'),
+    model: groq('meta-llama/llama-4-maverick-17b-128e-instruct'),
     schema: z.object({
       searchSuggestions: z.array(z.string())
     }),

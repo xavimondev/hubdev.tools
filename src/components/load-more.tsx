@@ -12,13 +12,16 @@ export function LoadMore({
   isLoading: boolean
 }) {
   return (
-    <Button className='mt-2 rounded-full mx-auto flex justify-center' onClick={loadMoreResources}>
+    <Button
+      className='mt-2 rounded-full mx-auto flex justify-center'
+      onClick={loadMoreResources}
+    >
       {isLoading ? (
-        <LoaderCircleIcon className='animate-spin size-4 md:size-5 mr-2' />
+        <LoaderCircleIcon className='animate-spin size-4 mr-2' />
       ) : (
-        <ArrowDownToLineIcon className='size-4 md:size-5 mr-2' />
+        <ArrowDownToLineIcon className='size-4 mr-2' />
       )}
-      <span className='text-sm md:text-base'>Load more resources</span>
+      <span className='text-sm'>Load more resources</span>
     </Button>
   )
 }

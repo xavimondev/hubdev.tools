@@ -20,23 +20,25 @@ export async function GET(request: Request) {
     )
 
     return new ImageResponse(
-      (
-        <div
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          height: '100%',
+          background: '#151313'
+        }}
+      >
+        <img
+          // @ts-ignore
+          src={ogSrc}
           style={{
-            display: 'flex',
             width: '100%',
             height: '100%',
-            background: '#151313'
+            objectFit: 'contain'
           }}
-        >
-          <img
-            // @ts-ignore
-            src={ogSrc}
-            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-            alt='logo'
-          />
-        </div>
-      )
+          alt='logo'
+        />
+      </div>
     )
   }
 
@@ -47,88 +49,107 @@ export async function GET(request: Request) {
   )
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        background: '#151313',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center'
+      }}
+    >
       <div
         style={{
-          background: '#151313',
+          backgroundSize: '70px 70px',
+          backgroundImage: `linear-gradient(to right,#242424 1px,transparent 1px),linear-gradient(to bottom,#242424 1px,transparent 1px)`,
           width: '100%',
           height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0
+        }}
+      ></div>
+      <div
+        style={{
           display: 'flex',
-          alignItems: 'center'
+          position: 'absolute',
+          top: '0'
         }}
       >
         <div
           style={{
-            backgroundSize: '70px 70px',
-            backgroundImage: `linear-gradient(to right,#242424 1px,transparent 1px),linear-gradient(to bottom,#242424 1px,transparent 1px)`,
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            top: 0,
-            left: 0
-          }}
-        ></div>
-        <div
-          style={{
             display: 'flex',
-            position: 'absolute',
-            top: '0'
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '10px',
+            margin: '35px'
           }}
         >
-          <div
+          {/* @ts-ignore */}
+          <img
+            src={iconSrc}
             style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: '10px',
-              margin: '35px'
+              width: '40px',
+              height: '40px'
+            }}
+            alt='Icon'
+          />
+          <p
+            style={{
+              color: '#B9B9B9',
+              fontSize: '2rem'
             }}
           >
-            {/* @ts-ignore */}
-            <img src={iconSrc} style={{ width: '40px', height: '40px' }} alt='Icon' />
-            <p style={{ color: '#B9B9B9', fontSize: '2rem' }}>hubdev</p>
-          </div>
+            hubdev
+          </p>
         </div>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          margin: '35px'
+        }}
+      >
+        <p
+          style={{
+            color: '#fde047',
+            fontSize: '3rem',
+            display: 'block',
+            lineClamp: 4
+          }}
+        >
+          [🔍] {query}
+        </p>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          position: 'absolute',
+          bottom: '0'
+        }}
+      >
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'row',
+            alignItems: 'center',
             gap: '10px',
             margin: '35px'
           }}
         >
           <p
             style={{
-              color: '#fde047',
-              fontSize: '3rem',
-              display: 'block',
-              lineClamp: 4
+              color: '#c5c5c5',
+              fontSize: '1.2rem'
             }}
           >
-            [🔍] {query}
+            Learn more at 👉 {APP_URL}
           </p>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            position: 'absolute',
-            bottom: '0'
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: '10px',
-              margin: '35px'
-            }}
-          >
-            <p style={{ color: '#c5c5c5', fontSize: '1.2rem' }}>Learn more at 👉 {APP_URL}</p>
-          </div>
-        </div>
       </div>
-    ),
+    </div>,
     {
       ...size
     }

@@ -9,3 +9,10 @@ export const uptash = new Ratelimit({
   analytics: true,
   prefix: '@ratelimit/hubtools.dev'
 })
+
+export const favoritesRateLimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(20, '1 m'), // 20 per minute
+  analytics: true,
+  prefix: '@ratelimit/hubtools.dev-favorites'
+})

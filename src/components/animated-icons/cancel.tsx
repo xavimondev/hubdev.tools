@@ -36,9 +36,15 @@ export function CancelIcon({ children }: PropsWithChildren) {
           strokeLinejoin='round'
           className='size-4 mr-[9px]'
         >
-          <motion.path variants={pathVariants} animate={controls} d='M18 6 6 18' />
           <motion.path
-            transition={{ delay: 0.2 }}
+            variants={pathVariants}
+            animate={controls}
+            d='M18 6 6 18'
+          />
+          <motion.path
+            transition={{
+              delay: 0.2
+            }}
             variants={pathVariants}
             animate={controls}
             d='m6 6 12 12'
