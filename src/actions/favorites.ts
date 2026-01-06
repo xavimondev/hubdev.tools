@@ -10,7 +10,7 @@ const MAX_FAVORITES = 50
 
 async function checkRateLimit(): Promise<boolean> {
   try {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV === 'production') {
       if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
         const ip = (await headers()).get('x-forwarded-for') ?? 'local'
         const { success } = await favoritesRateLimit.limit(ip)
