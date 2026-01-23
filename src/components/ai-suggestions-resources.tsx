@@ -7,9 +7,11 @@ import { LoadingResources } from '@/components/loading'
 import { SpecialCard } from '@/components/special-card'
 
 async function ListAISuggestions() {
-  const aiSuggestions = await getAISuggestions()
+  const [aiSuggestions, favoriteIds] = await Promise.all([
+    getAISuggestions(),
+    listFavorites()
+  ])
   const { data, error } = aiSuggestions
-  const favoriteIds = await listFavorites()
 
   if (error || !data) {
     return <ErrorState error='Something went wrong' />
@@ -18,6 +20,9 @@ async function ListAISuggestions() {
   if (data.length === 0) {
     return null
   }
+
+  // Convert to Set for O(1) lookups instead of O(n) includes()
+  const favoriteIdsSet = new Set(favoriteIds)
 
   return (
     <section>
@@ -44,7 +49,7 @@ async function ListAISuggestions() {
               order: index,
               clicks: 0
             }}
-            isFavorite={favoriteIds.includes(id)}
+            isFavorite={favoriteIdsSet.has(id)}
           />
         ))}
       </div>

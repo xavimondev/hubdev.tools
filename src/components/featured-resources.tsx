@@ -9,12 +9,17 @@ import { ErrorState } from '@/components/error-state'
 import { SpecialCard } from '@/components/special-card'
 
 export async function ListFeaturedResources() {
-  const data = await getFeaturedResourcesCached()
-  const favoriteIds = await listFavorites()
+  const [data, favoriteIds] = await Promise.all([
+    getFeaturedResourcesCached(),
+    listFavorites()
+  ])
 
   if (!data) {
     return <ErrorState error='Something went wrong' />
   }
+
+  // Convert to Set for O(1) lookups instead of O(n) includes()
+  const favoriteIdsSet = new Set(favoriteIds)
 
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 py-6'>
@@ -32,7 +37,7 @@ export async function ListFeaturedResources() {
             order: index,
             clicks
           }}
-          isFavorite={favoriteIds.includes(id)}
+          isFavorite={favoriteIdsSet.has(id)}
         />
       ))}
     </div>

@@ -11,6 +11,9 @@ const nextConfig = {
     ],
     minimumCacheTTL: 2678400, // 31 days
     qualities: [50, 75]
+  },
+  experimental: {
+    optimizePackageImports: ['lucide-react']
   }
 }
 

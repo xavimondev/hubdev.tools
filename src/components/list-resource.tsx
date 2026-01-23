@@ -95,6 +95,9 @@ type ListResourceProps = {
 }
 
 export function ListResource({ data, favoritesIds }: ListResourceProps) {
+  // Convert to Set for O(1) lookups instead of O(n) includes()
+  const favoritesIdsSet = new Set(favoritesIds)
+
   return (
     <>
       {data && data.length > 0 ? (
@@ -111,7 +114,7 @@ export function ListResource({ data, favoritesIds }: ListResourceProps) {
                 image={image}
                 placeholder={placeholder}
                 id={id}
-                isFavorite={favoritesIds.includes(id)}
+                isFavorite={favoritesIdsSet.has(id)}
               />
             )
           })}
