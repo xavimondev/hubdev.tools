@@ -112,7 +112,7 @@ export const getLatestResources = async () => {
     .order('created_at', {
       ascending: false
     })
-    .limit(6)
+    .limit(8)
 
   if (error) {
     console.error(error)
