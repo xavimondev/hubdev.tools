@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const result = await generateObject({
-      model: groq('meta-llama/llama-4-maverick-17b-128e-instruct'),
+      model: groq('openai/gpt-oss-120b'),
       schema: z.object({
         category: z.enum(['technical', 'non-technical'])
       }),
