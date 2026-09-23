@@ -1,4 +1,5 @@
 
+
 <div align="center">
 
 <a href=https://github.com/xavimondev/hubdev.tools target="_blank">
@@ -84,7 +85,7 @@ git clone https://github.com/xavimondev/hubdev.tools
 2.Rename the `.env.example` to `.env`:
 
 ```bash
-mv .example.env .env
+mv .env.example .env
 ```
 
 3.Install dependencies:
